@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">NeWork</string>
+    <string name="descriptionPostAuthorAvatar">Post author avatar</string>
+    <string name="menu_description">Post menu</string>
+    <string name="remove">Remove</string>
+    <string name="post_text">Post text</string>
+    <string name="empty_content">Text is empty.</string>
+    <string name="editInMenu">Edit</string>
+    <string name="editBarTitle">Editing...</string>
+    <string name="cancell_button_description">Cancell button</string>
+    <string name="save_button_description">Save button</string>
+    <string name="share_post">Share post</string>
+    <string name="chooser_share_post">Where to share?</string>
+    <string name="empty_text_error">Empty text</string>
+    <string name="video_play_error">There is not youtube-app</string>
+    <string name="cancel_post_text">Cancel post</string>
+    <string name="retry">Retry</string>
+    <string name="no_posts">No posts</string>
+    <string name="new_post">New post</string>
+    <string name="error_bar_start_text">"Action was NOT performed. Swipe from top to bottom to try to refresh the page. Error code - "</string>
+    <string name="upload_failed">Post upload failed.</string>
+    <string name="action_saved">Action result was saved.</string>
+    <string name="fresh_posts">Fresh posts (%1$s)</string>
+    <string name="loading">Loading...</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="password">password</string>
+    <string name="login_toast_empty">Login must not be empty.</string>
+    <string name="login_toast_request">Request for login...</string>
+    <string name="login_toast_success">Login successes as user with id=%1$s.</string>
+    <string name="login_toast_unsuccess">Login and password didn`t match. Error log - %1$s</string>
+    <string name="regi_toast_empty">Login and name must not be empty.</string>
+    <string name="regi_toast_request">Request for registration...</string>
+    <string name="regi_toast_success">Registration successes (id=%1$s).</string>
+    <string name="regi_toast_unsuccess">Registration unsuccessful. Error log - %1$s</string>
+    <string name="regi_toast_unmatch">Password not match with Confirm password.</string>
+    <string name="newAndEdit_toast_empty">Text must not be empty.</string>
+    <string name="newAndEdit_toast_request">Request for add/edit post...</string>
+    <string name="posts">Posts</string>
+    <string name="events">Events</string>
+    <string name="users">Users</string>
+    <string name="my_profile">My profile</string>
+    <string name="my_profile_access_error">My profile page available only with authentication.</string>
+    <string name="like_post">Like post</string>
+    <string name="map_point_pick">Map point pick</string>
+    <string name="new_in_nework">New in NeWork?</string>
+    <string name="register_here">Register here</string>
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>

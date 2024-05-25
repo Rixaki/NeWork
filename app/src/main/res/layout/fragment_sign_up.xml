@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/hedderTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:text="Registration"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/newAttachmentMedia"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/defaultMargin"
+                    android:visibility="gone"
+                    tools:srcCompat="@tools:sample/avatars[8]" />
+            </FrameLayout>
+
+            <EditText
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/defaultMargin"
+                android:ems="10"
+                android:hint="Name" />
+
+            <EditText
+                android:id="@+id/txtLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ems="10"
+                android:hint="Login" />
+
+
+            <EditText
+                android:id="@+id/txtPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ems="10"
+                android:hint="Password"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/txtCnfPwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ems="10"
+                android:hint="Confirm password"
+                android:inputType="textPassword" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/defaultMargin"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/clearPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/defaultMargin"
+                    android:lines="1"
+                    android:maxWidth="200dp"
+                    android:text="Clear avatar"
+                    android:textColor="?colorOnPrimary"
+                    android:visibility="gone"
+                    app:iconTint="?colorOnPrimary"
+                    app:layout_anchor="@id/newAttachmentMedia" />
+
+                <Button
+                    android:id="@+id/takePhoto"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/defaultMargin"
+                    android:layout_marginEnd="@dimen/defaultMargin"
+                    android:backgroundTint="?colorPrimary"
+                    android:contentDescription="Take photo"
+                    app:icon="@drawable/baseline_photo_camera_48"
+                    app:iconGravity="textStart"
+                    app:iconTint="?colorOnPrimary" />
+
+                <Button
+                    android:id="@+id/gallery"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/defaultMargin"
+                    android:backgroundTint="?colorPrimary"
+                    android:contentDescription="Take picture from gallery"
+                    app:icon="@drawable/baseline_gallery_48"
+                    app:iconGravity="textStart"
+                    app:iconTint="?colorOnPrimary" />
+
+                <Button
+                    android:id="@+id/signUpButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/defaultMargin"
+                    android:lines="1"
+                    android:text="Sign Up" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/signInHintButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/defaultMargin"
+                android:layout_marginBottom="@dimen/defaultMargin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:text="Already Registered?"
+                    android:textColor="@color/design_default_color_primary"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="Login here"
+                    android:textColor="@color/design_default_color_primary"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

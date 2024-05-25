@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/postsFeedFragment">
+    <action
+        android:id="@+id/action_global_to_signInFragment"
+        app:destination="@id/signInFragment" />
+    <action
+        android:id="@+id/action_global_to_signUpFragment"
+        app:destination="@id/signUpFragment" />
+    <action
+        android:id="@+id/action_global_to_postsFeedFragment"
+        app:destination="@id/postsFeedFragment" />
+    <action
+        android:id="@+id/action_global_to_eventsFeedFragment"
+        app:destination="@id/eventsFeedFragment" />
+    <action
+        android:id="@+id/action_global_to_userFeedFragment"
+        app:destination="@id/userFeedFragment" />
+    <action
+        android:id="@+id/action_global_to_myProfileFragment"
+        app:destination="@id/myProfileFragment" />
+    <fragment
+        android:id="@+id/postsFeedFragment"
+        android:name="com.example.nework.ui.PostsFeedFragment"
+        android:label="PostsFeedFragment" >
+        <action
+            android:id="@+id/action_postsFeedFragment_to_postFragment"
+            app:destination="@id/postFragment" />
+        <action
+            android:id="@+id/action_postsFeedFragment_to_newOrEditPostFragment"
+            app:destination="@id/newOrEditPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventsFeedFragment"
+        android:name="com.example.nework.ui.EventsFeedFragment"
+        android:label="EventsFeedFragment" >
+        <action
+            android:id="@+id/action_eventsFeedFragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
+        <action
+            android:id="@+id/action_eventsFeedFragment_to_newOrEditEventFragment"
+            app:destination="@id/newOrEditEventFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.example.nework.ui.PostFragment"
+        android:label="PostFragment" >
+        <action
+            android:id="@+id/action_postFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.example.nework.ui.EventFragment"
+        android:label="EventFragment" >
+        <action
+            android:id="@+id/action_eventFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newOrEditEventFragment"
+        android:name="com.example.nework.ui.NewOrEditEventFragment"
+        android:label="NewOrEditEventFragment" >
+        <action
+            android:id="@+id/action_newOrEditEventFragment_to_mapSelectorFragment"
+            app:destination="@id/mapSelectorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newOrEditPostFragment"
+        android:name="com.example.nework.ui.NewOrEditPostFragment"
+        android:label="NewOrEditPostFragment" >
+        <action
+            android:id="@+id/action_newOrEditPostFragment_to_mapSelectorFragment"
+            app:destination="@id/mapSelectorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.nework.ui.SignUpFragment"
+        android:label="SignUpFragment" />
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.nework.ui.SignInFragment"
+        android:label="SignInFragment" />
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.example.nework.ui.MyProfileFragment"
+        android:label="MyProfileFragment" >
+        <action
+            android:id="@+id/action_myProfileFragment_to_newOrEditJobFragment"
+            app:destination="@id/newOrEditJobFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newOrEditJobFragment"
+        android:name="com.example.nework.ui.NewOrEditJobFragment"
+        android:label="NewOrEditJobFragment" />
+    <fragment
+        android:id="@+id/userFeedFragment"
+        android:name="com.example.nework.ui.UserFeedFragment"
+        android:label="UserFeedFragment" >
+        <action
+            android:id="@+id/action_userFeedFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.nework.ui.UserFragment"
+        android:label="UserFragment" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.nework.ui.MapWatchFragment"
+        android:label="MapFragment" />
+    <fragment
+        android:id="@+id/mapSelectorFragment"
+        android:name="com.example.nework.ui.MapSelectorFragment"
+        android:label="MapSelectorFragment" />
+</navigation>
