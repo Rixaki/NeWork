@@ -28,4 +28,12 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>>
     </style>
+    <style name="list_post">
+        <value name="visibility_post">true</value>
+        <value name="visibility_job">false</value>
+    </style>
+    <style name="list_job">
+        <value name="visibility_post">false</value>
+        <value name="visibility_job">job</value>
+    </style>
 </resources>

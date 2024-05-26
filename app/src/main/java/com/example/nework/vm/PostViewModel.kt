@@ -18,7 +18,6 @@ import com.example.nework.dto.MediaUpload
 import com.example.nework.dto.Post
 import com.example.nework.model.FeedModelState
 import com.example.nework.model.PhotoModel
-import com.example.nework.model.PostModel
 import com.example.nework.repo.PostRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +38,7 @@ private val empty = Post(
     content = "",
     published = "",
     coords = null,
-    link = null,
+    videoLink = null,
     likedByMe = false,
     attachment = null,
     mentionedMe = false

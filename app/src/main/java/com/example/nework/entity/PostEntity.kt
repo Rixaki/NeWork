@@ -8,7 +8,6 @@ import com.example.nework.dto.Attachment
 import com.example.nework.dto.AttachmentType
 import com.example.nework.dto.Coords
 import com.example.nework.dto.Post
-import com.example.nework.dto.UserPreview
 
 @Entity
 @TypeConverters(BaseTypeConverter::class, EventTypeConverter::class)
@@ -42,7 +41,7 @@ data class PostEntity (
         content = content,
         published = published,
         coords = coords,
-        link = link,
+        videoLink = link,
         mentionIds = mentionIds,
         mentionedMe = mentionedMe,
         likeOwnerIds = likeOwnerIds,
@@ -66,7 +65,7 @@ data class PostEntity (
                 content = content,
                 published = published,
                 coords = coords,
-                link = link,
+                link = videoLink,
                 mentionIds = mentionIds,
                 mentionedMe = mentionedMe,
                 likeOwnerIds = likeOwnerIds,

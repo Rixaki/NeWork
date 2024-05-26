@@ -2,6 +2,7 @@ package com.example.nework.dto
 
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 sealed interface FeedItem {
@@ -28,7 +29,7 @@ data class Post(
     @SerializedName("coords")
     val coords: Coords?,
     @SerializedName("link")
-    val link: String?,
+    val videoLink: String?,
     @SerializedName("mentionIds")
     val mentionIds: List<Int> = emptyList(),
     @SerializedName("mentionedMe")
@@ -49,6 +50,19 @@ data class Post(
 ) : FeedItem {
     fun toEpoch(): Long =
         (DATE_FORMAT.parse(this.published)!!.time) / 1000L
+
+    companion object {
+        //https://stackoverflow.com/questions/47250263/kotlin-convert-timestamp-to-datetime
+        fun fromEpoch(epoch: Long): String {
+            try {
+                val sdf = DATE_FORMAT
+                val netDate = Date(epoch * 1000L)
+                return sdf.format(netDate)
+            } catch (e: Exception) {
+                return e.toString()
+            }
+        }
+    }
 }
 
 data class Attachment(

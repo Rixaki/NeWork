@@ -24,19 +24,47 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/author"
+            android:id="@+id/companyName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/defaultMargin"
             android:layout_marginEnd="@dimen/defaultMargin"
             android:ellipsize="end"
             android:singleLine="true"
-            app:layout_constraintBottom_toBottomOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/menu"
             app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toTopOf="@id/avatar"
+            app:layout_constraintBottom_toTopOf="@id/companyPosition"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="@tools:sample/full_names" />
+        <TextView
+            android:id="@+id/companyPosition"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/defaultMargin"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:ellipsize="end"
+            android:singleLine="true"
+            app:layout_constraintEnd_toStartOf="@id/menu"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/companyName"
+            app:layout_constraintBottom_toTopOf="@id/eventTime"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="published 25.05.2024 15:00" />
+        <TextView
+            android:id="@+id/eventTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/defaultMargin"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:ellipsize="end"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
+            app:layout_constraintEnd_toStartOf="@id/menu"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/companyPosition"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="event at 01.06.2024 10:00" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/menu"
@@ -56,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autoLink="web"
-            app:layout_constraintTop_toBottomOf="@id/barrierPostTimeBottom"
+            app:layout_constraintTop_toBottomOf="@id/barrierPostHeadBottom"
             tools:layout_editor_absoluteX="56dp"
             tools:text="@tools:sample/lorem/random" />
 
@@ -67,60 +95,9 @@
             android:paddingBottom="@dimen/defaultMargin"
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/defaultMargin"
-            app:constraint_referenced_ids="menu, avatar, author" />
+            app:constraint_referenced_ids="menu, avatar, companyName, companyPosition, eventTime" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/mapPoint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/Widget.Material3.Button.IconButton"
-            android:layout_marginVertical="@dimen/defaultMargin"
-            android:backgroundTint="?colorPrimary"
-            app:iconTint="?colorOnPrimary"
-            app:iconGravity="textStart"
-            app:layout_constraintTop_toTopOf="@id/barrierPostHeadBottom"
-            app:icon="@drawable/baseline_location_pin_48"/>
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppTheme.LikeButton"
-            android:id="@+id/publishedTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/defaultMargin"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            app:icon="@drawable/baseline_create_24"
-            app:iconTint="@color/black"
-            android:focusable="false"
-            android:clickable="false"
-            app:layout_constraintTop_toTopOf="@id/barrierPostHeadBottom"
-            app:layout_constraintStart_toEndOf="@id/mapPoint"
-            tools:text="25.05.2024 15:00" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppTheme.LikeButton"
-            android:id="@+id/eventTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColor="@color/black"
-            android:layout_marginVertical="@dimen/defaultMargin"
-            app:icon="@drawable/baseline_event_48"
-            app:iconTint="@color/black"
-            android:focusable="false"
-            android:clickable="false"
-            app:layout_constraintTop_toTopOf="@id/barrierPostHeadBottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="01.06.2024 10:00" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrierPostTimeBottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/defaultMargin"
-            app:barrierDirection="bottom"
-            app:barrierMargin="@dimen/defaultMargin"
-            app:constraint_referenced_ids="publishedTime, barrierPostTimeBottom" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierPostContentBottom"
@@ -146,6 +123,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrierPostContentBottom" />
 
+        <Button
+            android:id="@+id/mapPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/defaultMargin"
+            style="@style/Widget.Material3.Button.IconButton"
+            app:backgroundTint="@android:color/black"
+            android:layout_marginVertical="@dimen/defaultMargin"
+            android:backgroundTint="?colorPrimary"
+            app:iconTint="?colorOnPrimary"
+            app:iconGravity="textStart"
+            app:layout_constraintStart_toEndOf="@id/likeIv"
+            app:layout_constraintTop_toTopOf="@id/likeIv"
+            app:layout_constraintBottom_toBottomOf="@id/likeIv"
+            app:icon="@drawable/baseline_location_pin_48"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/list2Iv"
@@ -200,7 +192,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/attachmentIv"
-            app:srcCompat="@drawable/baseline_videocam_off_48" />
+            android:background="@android:color/black" />
 
         <ImageView
             android:id="@+id/playVideo"
@@ -220,6 +212,15 @@
             android:focusable="true"
             android:visibility="visible"
             app:constraint_referenced_ids="videoWallpaper, playVideo" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/eventGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="visible"
+            app:constraint_referenced_ids="eventTime, list2Iv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -33,6 +33,9 @@ class JobViewModel @Inject constructor(
     private val _job = MutableStateFlow(oldJob ?: empty)
     val job = _job.asStateFlow()
 
+    private val _date = MutableStateFlow<String?>(null)
+    val date = _date.asStateFlow()
+
     private val noState = ResponceState()
     private val _state = MutableLiveData(noState)
     val state: LiveData<ResponceState>
@@ -40,6 +43,14 @@ class JobViewModel @Inject constructor(
 
     fun changeJob(newJob: Job) {
         _job.value = newJob
+    }
+
+    fun changeStartDate(str: String){
+        _job.value = _job.value.copy(start = str)
+    }
+
+    fun changeFinishDate(str: String){
+        _job.value = _job.value.copy(finish = str)
     }
 
     fun save() {
@@ -101,5 +112,6 @@ class JobViewModel @Inject constructor(
     fun clearModels() {
         _job.value = empty
         _state.value = noState
+        _date.value = null
     }
 }

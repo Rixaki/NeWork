@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.NewOrEditPostFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="?attr/actionBarSize">
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.AppTheme.LikeButton"
+                android:id="@+id/position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:layout_marginTop="@dimen/defaultMargin"
+                android:layout_marginHorizontal="@dimen/defaultMargin"
+                app:icon="@drawable/baseline_location_pin_48"
+                app:iconTint="@color/black"
+                android:focusable="false"
+                android:clickable="false"
+                tools:text="Map point: 100.0000 / 200.0000" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.AppTheme.LikeButton"
+                android:id="@+id/eventTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="@dimen/defaultMargin"
+                app:icon="@drawable/baseline_event_48"
+                app:iconTint="@color/black"
+                android:focusable="false"
+                android:clickable="false"
+                app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
+                app:layout_constraintEnd_toStartOf="@id/menu"
+                app:layout_constraintStart_toEndOf="@id/avatar"
+                app:layout_constraintTop_toBottomOf="@id/companyPosition"
+                tools:text="01.06.2024 10:00" />
+
+            <Button
+                android:id="@+id/pickStartDate"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:backgroundTint="@color/black"
+                android:contentDescription="@string/take_date_for_event_time"
+                app:icon="@drawable/baseline_edit_calendar_48"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white" />
+
+            <Button
+                android:id="@+id/pickClock"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:backgroundTint="@color/black"
+                android:contentDescription="@string/take_time_in_day_for_event"
+                app:icon="@drawable/baseline_watch_later_48"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white" />
+        </LinearLayout>>
+
+            <EditText
+                android:id="@+id/videoLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/defaultMargin"
+                android:layout_marginHorizontal="@dimen/defaultMargin"
+                android:ems="10"
+                android:hint="@string/video_link_hint" />
+
+            <com.yandex.mapkit.mapview.MapView
+                android:id="@+id/mapview"
+                android:layout_marginVertical="@dimen/defaultMargin"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layout_constraintTop_toBottomOf="@id/videoLink"/>
+
+            <EditText
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:scrollbars="vertical"
+                android:layout_marginBottom="@dimen/defaultMargin"
+                android:scrollbarSize="@dimen/buttonDefaultMarginDim"
+                android:isScrollContainer="true"
+                android:scrollbarStyle="insideInset"
+                android:verticalScrollbarPosition="left"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@tools:sample/lorem[275]"
+                android:hint="@string/content_text_hint"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/newAttachmentMedia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:visibility="visible"
+                    android:layout_marginBottom="@dimen/defaultMargin"
+                    tools:srcCompat="@tools:sample/avatars[2]" />
+
+                <Button
+                    android:id="@+id/clearPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+                    android:text="Clear image"
+                    android:textColor="?colorOnPrimary"
+                    android:visibility="visible"
+                    app:icon="@drawable/baseline_cross_48"
+                    app:iconTint="?colorOnPrimary"
+                    app:layout_anchor="@id/newAttachmentMedia" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/videoWallpaper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/defaultMargin"
+                android:minWidth="300dp"
+                android:minHeight="100dp"
+                android:layout_gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/attachmentIv"
+                android:background="@android:color/black" />
+
+            <ImageView
+                android:id="@+id/playVideo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:tint="@color/white"
+                android:layout_gravity="center"
+                app:layout_anchor="@id/videoWallpaper"
+                app:srcCompat="@drawable/baseline_play_circle_outline_48" />
+            </FrameLayout>>
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        android:background="?colorPrimary"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/save"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="@string/save_button_description"
+            app:icon="@drawable/baseline_check_48"
+            app:iconGravity="textStart"
+            app:iconTint="?colorOnPrimary" />
+
+        <Button
+            android:id="@+id/cancel_button"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:backgroundTint="?colorOnPrimary"
+            android:contentDescription="@string/cancel_post_text"
+            android:insetLeft="10dp"
+            android:insetTop="10dp"
+            android:insetRight="10dp"
+            android:insetBottom="10dp"
+            app:icon="@drawable/baseline_cross_48"
+            app:iconGravity="textStart"
+            app:iconTint="?colorPrimary"
+            app:layout_anchor="@id/bottomAppBar" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_weight="101" />
+
+        <Button
+            android:id="@+id/takeMap"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:insetLeft="10dp"
+            android:insetTop="10dp"
+            android:insetRight="10dp"
+            android:insetBottom="10dp"
+            android:contentDescription="Take photo"
+            app:icon="@drawable/baseline_location_pin_48"
+            app:iconGravity="textStart"
+            android:backgroundTint="?colorOnPrimary"
+            app:iconTint="?colorPrimary"
+            app:layout_anchor="@id/bottomAppBar"/>
+
+        <Button
+            android:id="@+id/takePhoto"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="Take photo"
+            app:icon="@drawable/baseline_photo_camera_48"
+            app:iconGravity="textStart"
+            app:iconTint="?colorOnPrimary"
+            app:layout_anchor="@id/bottomAppBar" />
+
+        <Button
+            android:id="@+id/gallery"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="Take picture from gallery"
+            app:icon="@drawable/baseline_gallery_48"
+            app:iconGravity="textStart"
+            app:iconTint="?colorOnPrimary"
+            app:layout_anchor="@id/bottomAppBar" />
+    </LinearLayout>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/videoGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:constraint_referenced_ids="videoWallpaper, playVideo" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/attachmentGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:constraint_referenced_ids="newAttachmentMedia, clearPhoto" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/eventGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:constraint_referenced_ids="eventTime, pickStartDate, pickClock" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

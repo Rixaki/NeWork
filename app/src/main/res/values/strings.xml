@@ -46,5 +46,18 @@
     <string name="map_point_pick">Map point pick</string>
     <string name="new_in_nework">New in NeWork?</string>
     <string name="register_here">Register here</string>
+    <string name="take_date_for_event_time">Take date for event time.</string>
+    <string name="take_time_in_day_for_event">Take time in day for event.</string>
+    <string name="video_link_hint">Video link</string>
+    <string name="content_text_hint">Content text</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="new_post_button">New post button</string>
+    <string name="user_wall">User`s wall</string>
+    <string name="wall">Wall</string>
+    <string name="jobs">Jobs</string>
+    <string name="link_in_work_card">Link in work card</string>
+    <string name="company_name">Company name</string>
+    <string name="company_position">Company position</string>
+    <string name="company_link">Company link</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

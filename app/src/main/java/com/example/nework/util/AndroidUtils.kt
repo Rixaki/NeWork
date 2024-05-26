@@ -19,11 +19,15 @@ fun View.hideKeyBoard() {
     //imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.RESULT_UNCHANGED_HIDDEN);
 }
 
-fun Fragment.toast(messageId: Int) {
+fun Fragment.toast(
+    messageId: Int,
+    context: Context = requireContext(),
+    period: Int = Toast.LENGTH_LONG
+    ) {
     Toast.makeText(
-        requireContext(),
+        context,
         getString(messageId),
-        Toast.LENGTH_LONG
+        period
     ).show()
 }
 
