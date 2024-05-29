@@ -35,8 +35,15 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     @Inject
     lateinit var appAuth: AppAuth
 
+    override fun onStart() {
+        super.onStart()
+        MapKitFactory.getInstance().onStart()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        MapKitFactory.initialize(this)
         MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
@@ -149,5 +156,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navBottomView.setupWithNavController(navController)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        MapKitFactory.getInstance().onStop()
     }
 }

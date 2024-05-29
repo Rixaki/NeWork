@@ -79,9 +79,9 @@ enum class AttachmentType {
 
 data class Coords(
     @SerializedName("lat")
-    val lat: Int,
+    val lat: Double,
     @SerializedName("long")
-    val long: Int
+    val long: Double
 )
 
 data class Ad(

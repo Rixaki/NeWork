@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/companyName"
+            android:id="@+id/authorName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/defaultMargin"
@@ -34,11 +34,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/menu"
             app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintBottom_toTopOf="@id/companyPosition"
+            app:layout_constraintBottom_toTopOf="@id/published"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="@tools:sample/full_names" />
         <TextView
-            android:id="@+id/companyPosition"
+            android:id="@+id/published"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/defaultMargin"
@@ -47,7 +47,7 @@
             android:singleLine="true"
             app:layout_constraintEnd_toStartOf="@id/menu"
             app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/companyName"
+            app:layout_constraintTop_toBottomOf="@id/authorName"
             app:layout_constraintBottom_toTopOf="@id/eventTime"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="published 25.05.2024 15:00" />
@@ -62,7 +62,7 @@
             app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
             app:layout_constraintEnd_toStartOf="@id/menu"
             app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/companyPosition"
+            app:layout_constraintTop_toBottomOf="@id/published"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="event at 01.06.2024 10:00" />
 
@@ -83,10 +83,28 @@
             android:id="@+id/cardContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/defaultMargin"
             android:autoLink="web"
-            app:layout_constraintTop_toBottomOf="@id/barrierPostHeadBottom"
+            app:layout_constraintTop_toBottomOf="@id/participantStatus"
             tools:layout_editor_absoluteX="56dp"
             tools:text="@tools:sample/lorem/random" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/participantStatus"
+            style="@style/Widget.AppTheme.ViewCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/defaultMargin"
+            android:checkable="false"
+            android:clickable="false"
+            android:insetTop="0dp"
+            android:minHeight="0dp"
+            app:icon="@drawable/baseline_check_48"
+            android:text="@string/you_participants_in_this_event"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrierPostHeadBottom"/>
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierPostHeadBottom"
@@ -95,7 +113,7 @@
             android:paddingBottom="@dimen/defaultMargin"
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/defaultMargin"
-            app:constraint_referenced_ids="menu, avatar, companyName, companyPosition, eventTime" />
+            app:constraint_referenced_ids="menu, avatar, authorName, published, eventTime" />
 
 
 
@@ -220,7 +238,7 @@
             android:clickable="true"
             android:focusable="true"
             android:visibility="visible"
-            app:constraint_referenced_ids="eventTime, list2Iv" />
+            app:constraint_referenced_ids="eventTime, list2Iv, participantStatus" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

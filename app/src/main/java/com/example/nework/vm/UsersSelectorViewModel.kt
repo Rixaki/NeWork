@@ -34,7 +34,6 @@ class UsersSelectorViewModel @Inject constructor(
 
     val users : LiveData<List<User>> = userRepo.data.asLiveData()
 
-    //user have not repo
     fun getUsers() {
         _usersState.postValue(
             ResponceState(

@@ -50,8 +50,8 @@
                 android:clickable="false"
                 app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
                 app:layout_constraintEnd_toStartOf="@id/menu"
-                app:layout_constraintStart_toEndOf="@id/avatar"
-                app:layout_constraintTop_toBottomOf="@id/companyPosition"
+                app:layout_constraintStart_toEndOf="@id/jobIv"
+                app:layout_constraintTop_toBottomOf="@id/name"
                 tools:text="01.06.2024 10:00" />
 
             <Button

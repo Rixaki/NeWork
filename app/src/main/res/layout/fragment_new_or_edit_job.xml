@@ -10,7 +10,7 @@
     tools:context=".ui.MainActivity">
 
     <ImageView
-        android:id="@+id/avatar"
+        android:id="@+id/jobIv"
         android:layout_width="@dimen/avatarDimen"
         android:layout_height="@dimen/avatarDimen"
         android:layout_margin="@dimen/defaultMargin"
@@ -28,15 +28,15 @@
         android:textSize="@dimen/defaultMargin"
         android:ellipsize="end"
         android:singleLine="true"
-        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintTop_toTopOf="@id/jobIv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
-        app:layout_constraintBottom_toTopOf="@id/companyPosition"
+        app:layout_constraintStart_toEndOf="@id/jobIv"
+        app:layout_constraintBottom_toTopOf="@id/position"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="@tools:sample/cities"
         android:hint="@string/company_name"/>
     <EditText
-        android:id="@+id/companyPosition"
+        android:id="@+id/position"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/defaultMargin"
@@ -45,7 +45,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/jobIv"
         app:layout_constraintTop_toBottomOf="@id/companyName"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="@tools:sample/full_names"
@@ -61,8 +61,8 @@
         android:ellipsize="end"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
-        app:layout_constraintTop_toBottomOf="@id/companyPosition"
+        app:layout_constraintStart_toEndOf="@id/jobIv"
+        app:layout_constraintTop_toBottomOf="@id/position"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="www.example.com"
         android:hint="@string/company_link"/>

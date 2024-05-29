@@ -16,8 +16,8 @@ import com.example.nework.R
 fun ImageView.load(
     url: String,
     timeOut: Int = 30_000,
-    placeholderIndex: Int = R.drawable.baseline_downloading_48,
-    errorIndex: Int = R.drawable.baseline_error_outline_48,
+    placeholderIndex: Int = R.drawable.baseline_image_search_48,
+    errorIndex: Int = R.drawable.baseline_image_not_supported_48,
     options: RequestOptions = RequestOptions(),
     toFullWidth: Boolean = false
 ) {
@@ -57,70 +57,10 @@ fun ImageView.load(
         .into(this)
 }
 
-fun ImageView.loadThrowable(
-    url: String,
-    timeOut: Int = 30_000,
-    placeholderIndex: Int = R.drawable.baseline_downloading_48,
-    errorIndex: Int = R.drawable.baseline_error_outline_48,
-    options: RequestOptions = RequestOptions(),
-    toFullWidth: Boolean = false
-) {
-    Glide.with(this)
-        .load(url)
-        .timeout(timeOut)
-        .placeholder(placeholderIndex)
-        .error(errorIndex)
-        .apply(options)
-        .apply {
-            if (toFullWidth)
-                this.into(object : CustomTarget<Drawable>() {
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        transition: Transition<in Drawable>?
-                    ) {
-                        this@loadThrowable.setImageDrawable(resource)
-                        val layoutParams = this@loadThrowable.layoutParams
-                        val widthOriginal = resource.intrinsicWidth
-                        val heightOriginal = resource.intrinsicHeight
-
-                        val displayMetrics = context.resources.displayMetrics
-                        val screenWidth = displayMetrics.widthPixels
-                        layoutParams.width = screenWidth
-
-                        val calculatedHeight =
-                            (screenWidth.toFloat() / widthOriginal.toFloat() * heightOriginal).toInt()
-                        layoutParams.height = calculatedHeight
-                        this@loadThrowable.layoutParams = layoutParams
-                    }
-
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        this@loadThrowable.setImageDrawable(placeholder)
-                    }
-                })
-        }
-        .listener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>,// = ImageViewTarget(this@loadByApiThenFile)
-                isFirstResource: Boolean
-            ): Boolean {
-                throw e ?: GlideException("load failed")
-            }
-
-            override fun onResourceReady(
-                resource: Drawable,
-                model: Any,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                dataSource: DataSource,
-                isFirstResource: Boolean
-            ): Boolean {
-                return false
-            }
-
-
-        })
-        .into(this)
+fun ImageView.loadAvatar(url: String) =
+    load(url = url,
+        placeholderIndex = R.drawable.baseline_account_circle_48,
+        options = RequestOptions().circleCrop())
 
     //method from lesson
     fun ImageView.simpleLoad(
@@ -138,4 +78,3 @@ fun ImageView.loadThrowable(
         url: String,
         vararg transforms: BitmapTransformation = emptyArray()
     ) = simpleLoad(url, CircleCrop(), *transforms)//this method not used
-}

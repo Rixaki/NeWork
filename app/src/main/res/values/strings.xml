@@ -59,5 +59,10 @@
     <string name="company_name">Company name</string>
     <string name="company_position">Company position</string>
     <string name="company_link">Company link</string>
+    <string name="error_with_creating_map">Error with creating map.</string>
+    <string name="error_with_list_user_display">Error with list user display.</string>
+    <string name="position">position: %1$s / %2$s</string>
+    <string name="you_participants_in_this_event">You participants in this event.</string>
+    <string name="job_menu">Job menu</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

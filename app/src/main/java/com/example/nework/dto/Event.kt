@@ -36,7 +36,7 @@ data class Event (
     @SerializedName("attachment")
     val attachment: Attachment?,
     @SerializedName("link")
-    val link: String?,
+    val videoLink: String?,
     //TODO: WHAT USERS? SPEAKERS? PARTS? ALL?
     @SerializedName("users")
     val users: List<UserPreview> = emptyList(),

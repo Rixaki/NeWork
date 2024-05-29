@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class UserFeedFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: UserFeedFragment? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.

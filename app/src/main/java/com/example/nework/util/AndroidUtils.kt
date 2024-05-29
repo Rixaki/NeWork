@@ -20,13 +20,13 @@ fun View.hideKeyBoard() {
 }
 
 fun Fragment.toast(
-    messageId: Int,
+    message: String,
     context: Context = requireContext(),
     period: Int = Toast.LENGTH_LONG
     ) {
     Toast.makeText(
         context,
-        getString(messageId),
+        message,
         period
     ).show()
 }

@@ -2,6 +2,11 @@ package com.example.nework.dto
 
 
 import com.google.gson.annotations.SerializedName
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
+val DATE_FORMAT_JOB = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT)
 
 data class Job(
     @SerializedName("id")
@@ -15,5 +20,33 @@ data class Job(
     @SerializedName("finish")
     val finish: String,
     @SerializedName("link")
-    val link: String?
-)
+    val link: String?,
+
+    val ownedByMe: Boolean = false,
+) {
+    fun toEpoch(str: String): Long =
+        (DATE_FORMAT.parse(str)!!.time) / 1000L
+
+    companion object {
+        //https://stackoverflow.com/questions/47250263/kotlin-convert-timestamp-to-datetime
+        fun fromEpochFull(epoch: Long): String {
+            try {
+                val sdf = DATE_FORMAT
+                val netDate = Date(epoch * 1000L)
+                return sdf.format(netDate)
+            } catch (e: Exception) {
+                return e.toString()
+            }
+        }
+
+        fun fromEpochDate(epoch: Long): String {
+            try {
+                val sdf = DATE_FORMAT_JOB
+                val netDate = Date(epoch * 1000L)
+                return sdf.format(netDate)
+            } catch (e: Exception) {
+                return e.toString()
+            }
+        }
+    }
+}

@@ -5,15 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.compose.ui.window.Dialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.nework.R
+import com.example.nework.databinding.FragmentFeedPostOrEventBinding
 import com.example.nework.databinding.FragmentNotificationsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class EventsFeedFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentFeedPostOrEventBinding? = null
+
+    val dialog = Dialog(break, content = R.layout.fragment_feed_user)
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -38,7 +43,7 @@ class EventsFeedFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 }

@@ -10,7 +10,7 @@
     tools:context=".ui.MainActivity">
 
     <ImageView
-        android:id="@+id/avatar"
+        android:id="@+id/jobIv"
         android:layout_width="@dimen/avatarDimen"
         android:layout_height="@dimen/avatarDimen"
         android:layout_margin="@dimen/defaultMargin"
@@ -28,14 +28,14 @@
         android:textSize="@dimen/defaultMargin"
         android:ellipsize="end"
         android:singleLine="true"
-        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintTop_toTopOf="@id/jobIv"
         app:layout_constraintEnd_toStartOf="@id/link"
-        app:layout_constraintStart_toEndOf="@id/avatar"
-        app:layout_constraintBottom_toTopOf="@id/companyPosition"
+        app:layout_constraintStart_toEndOf="@id/jobIv"
+        app:layout_constraintBottom_toTopOf="@id/position"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="@tools:sample/cities" />
     <TextView
-        android:id="@+id/companyPosition"
+        android:id="@+id/position"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/defaultMargin"
@@ -44,7 +44,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         app:layout_constraintEnd_toStartOf="@id/link"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintStart_toEndOf="@id/jobIv"
         app:layout_constraintTop_toBottomOf="@id/companyName"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="@tools:sample/full_names" />
@@ -54,27 +54,43 @@
         style="@style/Widget.Material3.Button.IconButton"
         android:layout_width="@dimen/avatarDimen"
         android:layout_height="@dimen/avatarDimen"
+        android:layout_marginEnd="@dimen/defaultMargin"
         android:backgroundTint="@color/black"
         android:contentDescription="@string/take_date_for_event_time"
         app:icon="@drawable/baseline_link_48"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/avatar"
+        app:layout_constraintTop_toTopOf="@id/jobIv"
         app:iconGravity="textStart"
         app:iconTint="@color/white" />
+
+    <Button
+        android:id="@+id/menu"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="@dimen/avatarDimen"
+        android:layout_height="@dimen/avatarDimen"
+        android:backgroundTint="#cfc"
+        android:layout_marginEnd="@dimen/defaultMargin"
+        android:contentDescription="@string/job_menu"
+        app:icon="@drawable/ic_baseline_more_vert_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/startTime"
+        app:iconGravity="textStart"
+        app:iconTint="@color/black" />
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.AppTheme.LikeButton"
         android:id="@+id/startTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/buttonDefaultMarginDim"
         android:singleLine="true"
         android:textColor="@color/black"
         app:icon="@drawable/baseline_start_48"
         app:iconTint="@color/black"
         android:focusable="false"
         android:clickable="false"
-        app:layout_constraintTop_toBottomOf="@id/avatar"
-        app:layout_constraintStart_toStartOf="@id/avatar"
+        app:layout_constraintTop_toBottomOf="@id/jobIv"
+        app:layout_constraintStart_toStartOf="@id/jobIv"
         app:layout_constraintEnd_toStartOf="@id/finishTime"
         tools:text="01.06.2024" />
 
@@ -93,7 +109,7 @@
         app:layout_constraintStart_toEndOf="@id/startTime"
         app:layout_constraintTop_toTopOf="@id/startTime"
         app:layout_constraintBottom_toBottomOf="@id/startTime"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/menu"
         tools:text="05.07.2029" />
 
     <TextView

@@ -19,7 +19,7 @@
             app:layout_constraintBottom_toTopOf="@id/barrierUserBottom" />
 
         <TextView
-            android:id="@+id/companyName"
+            android:id="@+id/login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/defaultMargin"
@@ -29,11 +29,11 @@
             android:singleLine="true"
             app:layout_constraintTop_toTopOf="@id/avatar"
             app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintBottom_toTopOf="@id/companyPosition"
+            app:layout_constraintBottom_toTopOf="@id/name"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Nickname" />
         <TextView
-            android:id="@+id/companyPosition"
+            android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/defaultMargin"
@@ -42,12 +42,13 @@
             android:ellipsize="end"
             android:singleLine="true"
             app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/companyName"
+            app:layout_constraintTop_toBottomOf="@id/login"
             app:layout_constraintBottom_toBottomOf="@id/avatar"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="@tools:sample/full_names" />
 
         <CheckBox
+            android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/defaultMargin"
@@ -60,7 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="avatar, companyName, companyPosition" />
+        app:constraint_referenced_ids="avatar, login, name, checkbox" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
