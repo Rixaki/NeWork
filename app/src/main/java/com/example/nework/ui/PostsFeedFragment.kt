@@ -1,20 +1,53 @@
 package com.example.nework.ui
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.nework.databinding.FragmentHomeBinding
-import com.example.nework.vm.HomeViewModel
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
+import com.example.nework.R
+import com.example.nework.adapter.ItemLoadingStateAdapter
+import com.example.nework.adapter.OnIterationPostListener
+import com.example.nework.adapter.PostAdapter
+import com.example.nework.auth.AppAuth
+import com.example.nework.databinding.FragmentFeedPostOrEventBinding
+import com.example.nework.dto.Post
+import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
+import com.example.nework.ui.PostFragment.Companion.intArg
+import com.example.nework.vm.AuthViewModel
+import com.example.nework.vm.PostViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import ru.netology.nmedia.util.toast
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class PostsFeedFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private val viewModel: PostViewModel by activityViewModels()
+
+    private val authModel : AuthViewModel by viewModels()
+
+    /*
+    @Inject
+    lateinit var appAuth: AppAuth
+     */
+
+    private var _binding: FragmentFeedPostOrEventBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,17 +58,115 @@ class PostsFeedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentFeedPostOrEventBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val adapter = PostAdapter(object : OnIterationPostListener {
+            override fun onLikeLtn(post: Post) {
+                if (authModel.authenticated) {
+                    viewModel.likeById(post.id)
+                } else {
+                    MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(getString(R.string.action_not_yet_available))
+                        .setMessage(getString(R.string.do_you_want_to_sign_in_for_like_add_posts_etc))
+                        .setIcon(R.drawable.baseline_login_48)
+                        .setNegativeButton(getString(R.string.cancel), null)
+                        .setPositiveButton(getString(R.string.sign_in)) { _,_ ->
+                            findNavController().navigate(R.id.action_global_to_signInFragment)
+                        }
+                        .show()
+                }
+            }
+
+            override fun onEditLtn(post: Post) {
+                viewModel.edit(post)
+                findNavController().navigate(
+                    R.id.action_postsFeedFragment_to_newOrEditPostFragment,
+                    Bundle().apply {
+                        textArg = post.content
+                    })
+            }
+
+            override fun onRemoveLtn(post: Post) {
+                viewModel.removeById(post.id)
+            }
+
+            override fun onPlayVideoLtn(post: Post) {
+                if (!post.videoLink.isNullOrBlank()) {
+                    val url = post.videoLink
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    try {
+                        startActivity(intent)
+                    } catch (ex: ActivityNotFoundException) {
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.video_play_error),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        onPlayVideoLtn@ return
+                    }
+                }
+            }
+
+            override fun onRootLtn(post: Post) {
+                findNavController().navigate(
+                    R.id.action_postsFeedFragment_to_postFragment,
+                    Bundle().apply {
+                        intArg = post.id
+                    })
+            }
+
+            override fun onListMentLtn(post: Post) {
+                val dialog = GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
+                dialog.show(activity!!.supportFragmentManager, "List mention dialog.")
+            }
+
+            override fun onMapLtn(post: Post) {
+                if (post.coords != null) {
+                    val dialog = MapDialogFragment(post.coords.lat, post.coords.long)
+                    dialog.show(activity!!.supportFragmentManager, "Map dialog.")
+                } else {
+                    toast("Map display error.")
+                }
+            }
+        })
+
+        binding.newPostButton.setOnClickListener {
+            if (authModel.authenticated) {
+                findNavController().navigate(R.id.action_postsFeedFragment_to_newOrEditPostFragment)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.sign_in_for_sending_post),
+                    Toast.LENGTH_LONG
+                ).show()
+                findNavController().navigate(R.id.action_global_to_signInFragment)
+            }
         }
-        return root
+
+        binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = ItemLoadingStateAdapter(adapter::refresh),
+            footer = ItemLoadingStateAdapter(adapter::refresh)
+        )
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.data.collectLatest(adapter::submitData)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collectLatest { state ->
+                    binding.swiperefresh.isRefreshing =
+                        state.refresh is LoadState.Loading
+                }
+            }
+        }
+
+        binding.swiperefresh.setOnRefreshListener(adapter::refresh)
+
+        return binding.root
     }
 
     override fun onDestroyView() {

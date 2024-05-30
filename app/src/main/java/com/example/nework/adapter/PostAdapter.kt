@@ -8,13 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
+import com.example.nework.BuildConfig
 import com.example.nework.BuildConfig.BASE_URL
 import com.example.nework.R
+import com.example.nework.databinding.CardAdBinding
+import com.example.nework.databinding.CardTimeHeaderBinding
 import com.example.nework.databinding.ItemInFeedPostOrEventBinding
+import com.example.nework.dto.Ad
+import com.example.nework.dto.FeedItem
+import com.example.nework.dto.TimeHeader
+import com.example.nework.dto.TimeType
 import com.example.nework.ui.MapDialogFragment
 import com.example.nework.util.countToString
 import ru.netology.nmedia.util.load
@@ -28,16 +36,55 @@ interface OnIterationPostListener {
     fun onPlayVideoLtn(post: Post) {}
     fun onRootLtn(post: Post) {}
     fun onListMentLtn(post: Post) {}
+    fun onMapLtn(post: Post) {}
 }
 
 class PostAdapter(
     private val onIterationPostListener: OnIterationPostListener
-) : ListAdapter<Post, PostViewHolder>(PostDiffCallBack) {
+) : PagingDataAdapter<FeedItem, RecyclerView.ViewHolder>(ItemDiffCallBack) {
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is Ad -> R.layout.card_ad
+            is TimeHeader -> R.layout.card_time_header
+            is Post -> R.layout.item_in_feed_post_or_event
+            null -> error("unknown item type")
+            else -> error("unknown item type")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (val item = getItem(position)) {
+            is Ad -> (holder as? AdViewHolder)?.bind(item)
+            is TimeHeader -> (holder as? TimeHeaderViewHolder)?.bind(item)
+            is Post -> (holder as? PostViewHolder)?.bind(item)
+            else -> error("unknown item type")
+        }
+    }
+
     override fun onBindViewHolder(
-        holder: PostViewHolder,
+        holder: RecyclerView.ViewHolder,
         position: Int,
         payloads: MutableList<Any>
     ) {
+        when (val item = getItem(position)) {
+            is Ad -> (holder as? AdViewHolder)?.bind(item)
+            is TimeHeader -> (holder as? TimeHeaderViewHolder)?.bind(item)
+            is Post -> {
+                //(holder as? PostViewHolder)?.bind(item)
+                if (payloads.isEmpty()) {
+                        onBindViewHolder(holder as PostViewHolder, position)
+                } else {
+                    val post = getItem(position) as Post
+                    payloads.forEach {
+                        (it as? PayloadPost)?.let { payload ->
+                            (holder as? PostViewHolder)?.bind(payload, post.likes)
+                        }
+                    }
+                }
+            }
+            else -> error("unknown item type")
+        }
+        /*
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position)
         } else {
@@ -47,6 +94,31 @@ class PostAdapter(
                     holder.bind(payload, post.likes)
                 }
             }
+        }
+         */
+    }
+
+    class AdViewHolder(
+        private val binding: CardAdBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(ad: Ad) {
+            binding.apply {
+                image.load("${BuildConfig.BASE_URL}/media/${ad.image}")
+            }
+        }
+    }
+
+    class TimeHeaderViewHolder(
+        private val binding: CardTimeHeaderBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind (timeHeader: TimeHeader) {
+            binding.title.setText(
+                when (timeHeader.type) {
+                    TimeType.TODAY -> R.string.today
+                    TimeType.YESTERDAY -> R.string.yesterday
+                    TimeType.LAST_WEEK -> R.string.last_week
+                }
+            )
         }
     }
 
@@ -63,12 +135,9 @@ class PostAdapter(
     }
 
 
-    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = getItem(position)
-        holder.bind(post)
-    }
 
     /*
+
     override fun onBindViewHolder(
         holder: PostViewHolder,
         position: Int,
@@ -117,7 +186,8 @@ class PostViewHolder(
 
             mapPoint.visibility = if (post.coords == null) View.GONE else View.VISIBLE
             mapPoint.setOnClickListener {
-                MapDialogFragment(post.coords?.lat, post.coords?.long)
+                //MapDialogFragment(post.coords?.lat, post.coords?.long)
+                onIterationPostListener.onMapLtn(post)
             }
 
             list1Iv.text = countToString(post.mentionIds.size)
@@ -154,7 +224,6 @@ class PostViewHolder(
                 onIterationPostListener.onRootLtn(post)
             }
 
-            //TODO: REALISATION
             list1Iv.setOnClickListener{
                 onIterationPostListener.onListMentLtn(post)
             }
@@ -229,18 +298,20 @@ data class PayloadPost(
     val content: String? = null
 )
 
-object PostDiffCallBack :
-    DiffUtil.ItemCallback<Post>() { //object without data better that class without data
-    override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean =
+object ItemDiffCallBack :
+    DiffUtil.ItemCallback<FeedItem>() { //object without data better that class without data
+    override fun areItemsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean =
         (oldItem.id == newItem.id)
 
-    override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean =
+    override fun areContentsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean =
         (oldItem == newItem)
 
     //for anti-flick
-    override fun getChangePayload(oldItem: Post, newItem: Post): PayloadPost? =
-        PayloadPost(
-            likedByMe = newItem.likedByMe.takeIf { it != oldItem.likedByMe },
-            content = newItem.content.takeIf { it != oldItem.content },
-        )
+    override fun getChangePayload(oldItem: FeedItem, newItem: FeedItem): PayloadPost? =
+        if ((oldItem is Post) && (newItem is Post)) {
+            PayloadPost(
+                likedByMe = newItem.likedByMe.takeIf { it != oldItem.likedByMe },
+                content = newItem.content.takeIf { it != oldItem.content },
+            )
+        } else null
 }

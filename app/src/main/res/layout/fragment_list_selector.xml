@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/defaultMargin"
+    android:layout_margin="@dimen/buttonDefaultMarginDim"
+    android:background="#ccc">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/list"
+            app:layout_constraintStart_toStartOf="@id/list"
+            app:layout_constraintEnd_toEndOf="@id/list"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="TITLE"
+            android:gravity="center"
+            android:textSize="30dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_alignParentTop="true"
+            android:forceHasOverlappingRendering="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/white"
+            tools:listitem="@layout/item_in_feed_user" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/okButton"
+            style="@style/Widget.AppTheme.LikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/defaultMargin"
+            android:clickable="true"
+            android:focusable="true"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            app:icon="@drawable/baseline_check_circle_48"
+            android:backgroundTint="@color/white"
+            app:iconTint="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/list"
+            app:layout_constraintEnd_toEndOf="@id/list"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="OK" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancellButton"
+            style="@style/Widget.AppTheme.LikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/defaultMargin"
+            android:clickable="true"
+            android:focusable="true"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            app:icon="@drawable/baseline_cross_48"
+            android:backgroundTint="@color/white"
+            app:iconTint="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/list"
+            app:layout_constraintStart_toStartOf="@id/list"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="CANCEL" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

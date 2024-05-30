@@ -22,6 +22,7 @@ import com.example.nework.dto.TimeHeader
 import com.example.nework.dto.TimeType
 import com.example.nework.entity.PostEntity
 import com.example.nework.error.*
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -68,7 +69,7 @@ class PostRepoImpl @Inject constructor(
                         id = 0, type = TimeType.TODAY
                     )
                 }
-                val curTime = System.currentTimeMillis()/1000
+                val curTime = System.currentTimeMillis() / 1000
                 // old analog of Instant.now().epochSecond
                 try {
                     val firstTime = before!!.toEpoch()//NPE throwable
@@ -77,15 +78,21 @@ class PostRepoImpl @Inject constructor(
                     // cur: " + "$curTime")
                     if ((curTime - firstTime < TODAY_COUNT)
                         &&
-                        (curTime - secondTime >= TODAY_COUNT)) {
-                        return@insertSeparators TimeHeader(id = 0, type =
-                        TimeType.YESTERDAY)
+                        (curTime - secondTime >= TODAY_COUNT)
+                    ) {
+                        return@insertSeparators TimeHeader(
+                            id = 0, type =
+                            TimeType.YESTERDAY
+                        )
                     } else {
                         if ((curTime - firstTime < WEEK_COUNT)
                             &&
-                            (curTime - secondTime >= WEEK_COUNT)) {
-                            return@insertSeparators TimeHeader(id = 0, type =
-                            TimeType.LAST_WEEK)
+                            (curTime - secondTime >= WEEK_COUNT)
+                        ) {
+                            return@insertSeparators TimeHeader(
+                                id = 0, type =
+                                TimeType.LAST_WEEK
+                            )
                         } else {
                             return@insertSeparators null
                         }

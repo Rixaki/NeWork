@@ -1,10 +1,13 @@
 package com.example.nework.vm
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.nework.api.AppApi
 import com.example.nework.dto.User
 import com.example.nework.model.ResponceState
+import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,11 +15,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 //ONLY SHOWING USER LIST
 @HiltViewModel
 class UsersViewModel @Inject constructor(
     private val appApi: AppApi,
-    private val userIds: List<Int>,
+    @Assisted private val userIds: List<Int>,
 ) : ViewModel() {
     private val _state = MutableStateFlow(ResponceState())
     val state = _state.asStateFlow()

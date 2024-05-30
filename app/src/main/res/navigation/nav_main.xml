@@ -51,7 +51,11 @@
     <fragment
         android:id="@+id/eventFragment"
         android:name="com.example.nework.ui.EventFragment"
-        android:label="EventFragment" />
+        android:label="EventFragment" >
+        <action
+            android:id="@+id/action_eventFragment_to_selectUserListFragment"
+            app:destination="@id/selectUserListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newOrEditEventFragment"
         android:name="com.example.nework.ui.NewOrEditEventFragment"
@@ -92,4 +96,8 @@
         android:id="@+id/userFragment"
         android:name="com.example.nework.ui.UserFragment"
         android:label="UserFragment" />
+    <fragment
+        android:id="@+id/selectUserListFragment"
+        android:name="com.example.nework.ui.SelectUserListFragment"
+        android:label="SelectUserListFragment" />
 </navigation>

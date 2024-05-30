@@ -6,9 +6,11 @@ import androidx.core.net.toFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import com.example.nework.auth.AppAuth
 import com.example.nework.dao.PostRemoteKeyDao
@@ -71,6 +73,14 @@ class PostViewModel @Inject constructor(
             }
         }
 
+    fun getPostById(id: Int): Post {
+        var result = empty
+        cached.map { pagingData ->
+            result = pagingData.filter { it is Post }.filter { post -> post.id == id } as Post
+        }
+        return result
+    }
+
     private val _state = MutableLiveData<FeedModelState>()
     val state : LiveData<FeedModelState>
         get() = _state
@@ -124,6 +134,10 @@ class PostViewModel @Inject constructor(
         } catch (e: Exception) {
             _state.value = FeedModelState(error = true)
         }
+    }
+
+    fun edit(post: Post) {
+        edited.value = post
     }
 
     fun save() {
@@ -233,6 +247,8 @@ class PostViewModel @Inject constructor(
             }
         }
     }
+
+
 
     /*
     fun refresh() = viewModelScope.launch {

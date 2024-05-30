@@ -14,6 +14,7 @@ import androidx.activity.addCallback
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentSignInBinding
@@ -46,7 +47,7 @@ class SignInFragment : Fragment() {
             .onBackPressedDispatcher
             .addCallback(this){
                 this.isEnabled = true
-                findNavController().navigate(R.id.action_global_to_feedFragment)
+                findNavController().navigate(R.id.action_global_to_postsFeedFragment)
             }
     }
 

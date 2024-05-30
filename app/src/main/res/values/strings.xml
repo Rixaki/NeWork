@@ -64,5 +64,13 @@
     <string name="position">position: %1$s / %2$s</string>
     <string name="you_participants_in_this_event">You participants in this event.</string>
     <string name="job_menu">Job menu</string>
+    <string name="sign_in_for_sending_post">Sign In for sending post.</string>
+    <string name="action_not_yet_available">Action not yet available</string>
+    <string name="do_you_want_to_sign_in_for_like_add_posts_etc">Do you want to sign in? ... for like/add posts etc.</string>
+    <string name="cancel">Cancel</string>
+    <string name="list_of_mentioned_users">List of mentioned users</string>
+    <string name="today">TODAY</string>
+    <string name="yesterday">YESTERDAY</string>
+    <string name="last_week">LAST WEEK</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
