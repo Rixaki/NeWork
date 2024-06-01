@@ -79,7 +79,7 @@ class PostsFeedFragment : Fragment() {
             }
 
             override fun onEditLtn(post: Post) {
-                viewModel.edit(post)
+                viewModel.edited.value = post
                 findNavController().navigate(
                     R.id.action_postsFeedFragment_to_newOrEditPostFragment,
                     Bundle().apply {
@@ -127,6 +127,7 @@ class PostsFeedFragment : Fragment() {
                     dialog.show(activity!!.supportFragmentManager, "Map dialog.")
                 } else {
                     toast("Map display error.")
+                    onMapLtn@ return
                 }
             }
         })

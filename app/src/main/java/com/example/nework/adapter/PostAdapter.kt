@@ -10,7 +10,6 @@ import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.example.nework.BuildConfig
@@ -18,13 +17,15 @@ import com.example.nework.BuildConfig.BASE_URL
 import com.example.nework.R
 import com.example.nework.databinding.CardAdBinding
 import com.example.nework.databinding.CardTimeHeaderBinding
+import com.example.nework.databinding.FragmentPostOrEventBinding
 import com.example.nework.databinding.ItemInFeedPostOrEventBinding
 import com.example.nework.dto.Ad
 import com.example.nework.dto.FeedItem
 import com.example.nework.dto.TimeHeader
 import com.example.nework.dto.TimeType
-import com.example.nework.ui.MapDialogFragment
 import com.example.nework.util.countToString
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
 import ru.netology.nmedia.util.load
 import ru.netology.nmedia.util.loadAvatar
 
@@ -56,7 +57,7 @@ class PostAdapter(
         when (val item = getItem(position)) {
             is Ad -> (holder as? AdViewHolder)?.bind(item)
             is TimeHeader -> (holder as? TimeHeaderViewHolder)?.bind(item)
-            is Post -> (holder as? PostViewHolder)?.bind(item)
+            is Post -> (holder as? PostInFeedViewHolder)?.bind(item)
             else -> error("unknown item type")
         }
     }
@@ -72,12 +73,12 @@ class PostAdapter(
             is Post -> {
                 //(holder as? PostViewHolder)?.bind(item)
                 if (payloads.isEmpty()) {
-                        onBindViewHolder(holder as PostViewHolder, position)
+                        onBindViewHolder(holder as PostInFeedViewHolder, position)
                 } else {
                     val post = getItem(position) as Post
                     payloads.forEach {
                         (it as? PayloadPost)?.let { payload ->
-                            (holder as? PostViewHolder)?.bind(payload, post.likes)
+                            (holder as? PostInFeedViewHolder)?.bind(payload, post.likes)
                         }
                     }
                 }
@@ -125,13 +126,13 @@ class PostAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PostViewHolder {
+    ): PostInFeedViewHolder {
         val view = ItemInFeedPostOrEventBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return PostViewHolder(view, onIterationPostListener)
+        return PostInFeedViewHolder(view, onIterationPostListener)
     }
 
 
@@ -159,7 +160,7 @@ class PostAdapter(
      */
 }
 
-class PostViewHolder(
+class PostInFeedViewHolder(
     private val binding: ItemInFeedPostOrEventBinding,
     private val onIterationPostListener: OnIterationPostListener
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -189,8 +190,6 @@ class PostViewHolder(
                 //MapDialogFragment(post.coords?.lat, post.coords?.long)
                 onIterationPostListener.onMapLtn(post)
             }
-
-            list1Iv.text = countToString(post.mentionIds.size)
 
             if (post.attachment != null) {
                 val baseAttUrl = "$BASE_URL/media"
@@ -224,6 +223,7 @@ class PostViewHolder(
                 onIterationPostListener.onRootLtn(post)
             }
 
+            list1Iv.text = countToString(post.mentionIds.size)
             list1Iv.setOnClickListener{
                 onIterationPostListener.onListMentLtn(post)
             }
@@ -290,7 +290,106 @@ class PostViewHolder(
         }
     }
     */
-}
+}//postinfeedviewholder
+
+class PostInCardViewHolder(
+    private val binding: FragmentPostOrEventBinding,
+    private val onIterationPostListener: OnIterationPostListener
+) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(post: Post) {
+        with(binding) {
+            eventGroup.visibility=View.GONE
+
+            val baseUrl = "$BASE_URL/"
+            avatar.loadAvatar(url = baseUrl + post.authorAvatar)
+
+            author.text = post.author
+            publishedTime.setText(post.published)
+            cardContent.text = post.content
+
+            likeIv.isChecked = post.likedByMe
+            likeIv.text = countToString(post.likes)
+
+            likeIv.setOnClickListener {
+                //likeIv.isChecked = !post.likedByMe
+                likeIv.text =
+                    countToString(post.likes + (if (post.likedByMe) -1 else 1))
+                onIterationPostListener.onLikeLtn(post)
+            }
+
+            mapGroup.visibility = if (post.coords == null) View.GONE else View.VISIBLE
+            if (post.coords != null) {
+                mapView.mapWindow.map.move(
+                    CameraPosition(
+                        Point(post.coords.lat, post.coords.long),
+                        17.0f, 150.0f, 30.0f
+                    )
+                )
+            }
+
+            if (post.attachment != null) {
+                val baseAttUrl = "$BASE_URL/media"
+
+                with(post.attachment) {
+                    attachmentIv.load(
+                        url = baseAttUrl + this.url,
+                        options = RequestOptions().fitCenter(),
+                        toFullWidth = true
+                    )
+                }
+            } else {
+                attachmentIv.visibility = View.GONE
+            }
+
+            videoWallpaper.setOnClickListener {
+                onIterationPostListener.onPlayVideoLtn(post)
+            }
+
+            playVideo.setOnClickListener {
+                onIterationPostListener.onPlayVideoLtn(post)
+            }
+
+            if (!post.videoLink.isNullOrBlank()) {
+                videoGroup.visibility = View.VISIBLE
+            } else {
+                videoGroup.visibility = View.GONE
+            }
+
+            postConstrainLayout.setOnClickListener {
+                onIterationPostListener.onRootLtn(post)
+            }
+
+            list1Iv.text = countToString(post.mentionIds.size)
+            list1Iv.setOnClickListener{
+                onIterationPostListener.onListMentLtn(post)
+            }
+
+            menu.isVisible = post.ownedByMe
+
+            menu.setOnClickListener {
+                PopupMenu(it.context, it).apply {
+                    inflate(R.menu.options_item)
+                    menu.setGroupVisible(R.id.owned, post.ownedByMe)
+                    setOnMenuItemClickListener { menuItem ->
+                        when (menuItem.itemId) {
+                            R.id.edit -> {
+                                onIterationPostListener.onEditLtn(post)
+                                true
+                            }
+
+                            R.id.remove -> {
+                                onIterationPostListener.onRemoveLtn(post)
+                                true
+                            }
+
+                            else -> false
+                        }
+                    }
+                }.show()
+            }
+        }//with binding
+    }
+}//postincardviewholder
 
 //for anti-flinking from updating
 data class PayloadPost(

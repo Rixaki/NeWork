@@ -6,7 +6,6 @@ import androidx.core.net.toFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -29,6 +28,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.SingleLiveEvent
+import java.io.File
 import javax.inject.Inject
 
 private val empty = Post(
@@ -93,7 +93,7 @@ class PostViewModel @Inject constructor(
     val list : LiveData<List<Int>>
         get() = _list
 
-    private val edited = MutableLiveData(empty)
+    val edited = MutableLiveData(empty)
 
     private val _postCreated = SingleLiveEvent<Unit>()
     val postCreated : LiveData<Unit>
@@ -136,9 +136,22 @@ class PostViewModel @Inject constructor(
         }
     }
 
+    /*
     fun edit(post: Post) {
         edited.value = post
     }
+     */
+
+
+
+    fun cancelEdit() {
+        edited.value = empty
+        _postCancelled.postValue(Unit)
+    }
+
+
+
+
 
     fun save() {
         edited.value?.let {
@@ -208,9 +221,12 @@ class PostViewModel @Inject constructor(
         clearModels()
     }
 
-    fun changePhoto(uri: Uri?) = _photo.postValue(PhotoModel(uri))
+    fun changePhoto(uri: Uri?, toFile: File?) = _photo.postValue(PhotoModel(uri))
     fun changeCoords(coords: Coords? = null) = _coords.postValue(coords)
     fun changeMentionList(list: List<Int>) = _list.postValue(list)
+    fun clearCoords() = _coords.postValue(null)
+    fun clearPhoto() = _photo.postValue(noPhoto)
+    fun clearMentionList() = _list.postValue(noList)
 
     fun likeById(id: Int) {
         viewModelScope.launch {

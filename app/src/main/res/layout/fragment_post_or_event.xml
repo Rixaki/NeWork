@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/postConstrainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:padding="@dimen/defaultMargin"
+        tools:context=".activity.AppActivity">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatarDimen"
+            android:layout_height="@dimen/avatarDimen"
+            android:contentDescription="@string/descriptionPostAuthorAvatar"
+            android:src="@tools:sample/avatars"
+            app:layout_constraintBottom_toTopOf="@id/mapView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/defaultMargin"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:ellipsize="end"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="@id/avatar"
+            app:layout_constraintEnd_toStartOf="@id/menu"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="@id/avatar"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="@tools:sample/full_names" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/menu"
+            style="@style/Widget.AppTheme.Menu"
+            android:layout_width="@dimen/avatarDimen"
+            android:layout_height="@dimen/avatarDimen"
+            android:contentDescription="@string/menu_description"
+            android:insetTop="0dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            app:icon="@drawable/ic_baseline_more_vert_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/avatar" />
+
+        <TextView
+            android:id="@+id/cardContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            app:layout_constraintTop_toBottomOf="@id/barrierPostTimeBottom"
+            tools:layout_editor_absoluteX="56dp"
+            tools:text="@tools:sample/lorem/random" />
+
+        <com.yandex.mapkit.mapview.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_marginVertical="@dimen/defaultMargin"
+            android:backgroundTint="?colorPrimary"
+            app:iconTint="?colorOnPrimary"
+            app:iconGravity="textStart"
+            app:layout_constraintTop_toBottomOf="@id/avatar"
+            app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
+            app:icon="@drawable/baseline_location_pin_48"/>
+
+        <TextView
+            android:id="@+id/pointBoard"
+            style="@style/Widget.AppTheme.LikeButton"
+            android:layout_marginTop="@dimen/defaultMargin"
+            android:layout_margin="@dimen/buttonDefaultMarginDim"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:textSize="@dimen/defaultMargin"
+            android:clickable="false"
+            android:focusable="false"
+            android:textColor="@color/black"
+            android:background="@color/white"
+            android:text="point: 100.0000 / 200.0000"
+            app:layout_constraintTop_toTopOf="@id/mapView"
+            app:layout_constraintEnd_toEndOf="@id/mapView"/>
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierPostHeadBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/defaultMargin"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/defaultMargin"
+            app:constraint_referenced_ids="menu, avatar, author, mapView" />
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.AppTheme.LikeButton"
+            android:id="@+id/publishedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/defaultMargin"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            app:icon="@drawable/baseline_create_24"
+            app:iconTint="@color/black"
+            android:focusable="false"
+            android:clickable="false"
+            app:layout_constraintTop_toTopOf="@id/barrierPostHeadBottom"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="25.05.2024 15:00" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/participantStatus"
+            style="@style/Widget.AppTheme.ViewCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
+            android:checkable="false"
+            android:clickable="false"
+            android:insetTop="0dp"
+            android:minHeight="0dp"
+            app:icon="@drawable/baseline_check_48"
+            android:text="@string/you_participants_in_this_event"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/publishedTime"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.AppTheme.LikeButton"
+            android:id="@+id/eventTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:layout_marginVertical="@dimen/defaultMargin"
+            app:icon="@drawable/baseline_event_48"
+            app:iconTint="@color/black"
+            android:focusable="false"
+            android:clickable="false"
+            app:layout_constraintTop_toTopOf="@id/barrierPostHeadBottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="01.06.2024 10:00" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierPostTimeBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/defaultMargin"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/defaultMargin"
+            app:constraint_referenced_ids="publishedTime, participantStatus, barrierPostTimeBottom" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrierPostContentBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/defaultMargin"
+            app:barrierDirection="bottom"
+            app:barrierMargin="@dimen/defaultMargin"
+            app:constraint_referenced_ids="cardContent, videoWallpaper" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/likeIv"
+            style="@style/Widget.AppTheme.LikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/buttonDefaultMarginDim"
+            android:checkable="true"
+            android:contentDescription="@string/like_post"
+            android:insetTop="0dp"
+            android:minHeight="0dp"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            app:icon="@drawable/ic_like_selector"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrierPostContentBottom" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/list2Iv"
+            style="@style/Widget.AppTheme.ViewCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="false"
+            android:clickable="false"
+            android:insetTop="0dp"
+            android:minHeight="0dp"
+            app:icon="@drawable/baseline_mic_48"
+            android:text="7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/barrierPostContentBottom" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/list1Iv"
+            style="@style/Widget.AppTheme.ViewCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/defaultMargin"
+            android:checkable="false"
+            android:clickable="false"
+            android:insetTop="0dp"
+            android:minHeight="0dp"
+            app:icon="@drawable/baseline_person_pin_48"
+            android:text="20"
+            app:layout_constraintEnd_toStartOf="@id/list2Iv"
+            app:layout_constraintTop_toBottomOf="@id/barrierPostContentBottom" />
+
+        <ImageView
+            android:id="@+id/attachmentIv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/defaultMargin"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardContent"
+            app:srcCompat="@drawable/baseline_visibility_off_48" />
+
+        <ImageView
+            android:id="@+id/videoWallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/defaultMargin"
+            android:minWidth="300dp"
+            android:minHeight="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attachmentIv"
+            app:srcCompat="@drawable/baseline_videocam_off_48" />
+
+        <ImageView
+            android:id="@+id/playVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/videoWallpaper"
+            app:layout_constraintEnd_toEndOf="@id/videoWallpaper"
+            app:layout_constraintStart_toStartOf="@id/videoWallpaper"
+            app:layout_constraintTop_toTopOf="@id/videoWallpaper"
+            app:srcCompat="@drawable/baseline_play_circle_outline_48" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/videoGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="visible"
+            app:constraint_referenced_ids="videoWallpaper, playVideo" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/mapGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="visible"
+            app:constraint_referenced_ids="mapView, pointBoard" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/eventGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="visible"
+            app:constraint_referenced_ids="eventTime, list2Iv, participantStatus" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

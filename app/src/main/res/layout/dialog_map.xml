@@ -10,7 +10,7 @@
     android:padding="@dimen/buttonDefaultMarginDim">
 
     <com.yandex.mapkit.mapview.MapView
-        android:id="@+id/mapview"
+        android:id="@+id/mapView"
         android:layout_marginVertical="@dimen/defaultMargin"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -31,8 +31,8 @@
         app:iconTint="@color/black"
         android:focusable="false"
         android:clickable="false"
-        app:layout_constraintTop_toTopOf="@id/mapview"
-        app:layout_constraintEnd_toEndOf="@id/mapview"
+        app:layout_constraintTop_toTopOf="@id/mapView"
+        app:layout_constraintEnd_toEndOf="@id/mapView"
         tools:text="100.0000 / 200.0000" />
 
     <com.google.android.material.button.MaterialButton
@@ -47,8 +47,8 @@
         app:iconTint="@color/black"
         android:focusable="true"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@id/mapview"
-        app:layout_constraintEnd_toEndOf="@id/mapview"
+        app:layout_constraintBottom_toBottomOf="@id/mapView"
+        app:layout_constraintEnd_toEndOf="@id/mapView"
         tools:text="OK" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

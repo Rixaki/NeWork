@@ -45,7 +45,7 @@ class GetUserListDialogFragment(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = DialogListUserBinding.inflate(layoutInflater, container, false)
 
         val adapter = UserAdapter()

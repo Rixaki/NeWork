@@ -1,6 +1,5 @@
 package com.example.nework.ui
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -17,9 +16,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.adapter.OnIterationPostListener
-import com.example.nework.adapter.PostViewHolder
-import com.example.nework.databinding.FragmentFeedPostOrEventBinding
-import com.example.nework.databinding.ItemInFeedPostOrEventBinding
+import com.example.nework.adapter.PostInCardViewHolder
+import com.example.nework.databinding.FragmentPostOrEventBinding
 import com.example.nework.dto.Post
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.vm.AuthViewModel
@@ -45,12 +43,12 @@ class PostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding =
-            ItemInFeedPostOrEventBinding.inflate(layoutInflater, container, false)
+            FragmentPostOrEventBinding.inflate(layoutInflater, container, false)
 
         val id = requireArguments().intArg
 
         //val adapter = PostsAdapter(object : OnIterationListener {
-        val viewHolder = PostViewHolder(binding, object : OnIterationPostListener {
+        val viewHolder = PostInCardViewHolder(binding, object : OnIterationPostListener {
             override fun onLikeLtn(post: Post) {
                 if (authModel.authenticated) {
                     viewModel.likeById(post.id)
@@ -68,7 +66,7 @@ class PostFragment : Fragment() {
             }
 
             override fun onEditLtn(post: Post) {
-                viewModel.edit(post)
+                viewModel.edited.value = post
                 findNavController().navigate(
                     R.id.action_postsFeedFragment_to_newOrEditPostFragment,
                     Bundle().apply {

@@ -51,19 +51,23 @@
     <fragment
         android:id="@+id/eventFragment"
         android:name="com.example.nework.ui.EventFragment"
-        android:label="EventFragment" >
-        <action
-            android:id="@+id/action_eventFragment_to_selectUserListFragment"
-            app:destination="@id/selectUserListFragment" />
-    </fragment>
+        android:label="EventFragment" />
     <fragment
         android:id="@+id/newOrEditEventFragment"
         android:name="com.example.nework.ui.NewOrEditEventFragment"
-        android:label="NewOrEditEventFragment" />
+        android:label="NewOrEditEventFragment" >
+        <action
+            android:id="@+id/action_newOrEditEventFragment_to_selectUserListFragment"
+            app:destination="@id/selectUserListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newOrEditPostFragment"
         android:name="com.example.nework.ui.NewOrEditPostFragment"
-        android:label="NewOrEditPostFragment" />
+        android:label="NewOrEditPostFragment" >
+        <action
+            android:id="@+id/action_newOrEditPostFragment_to_selectUserListFragment"
+            app:destination="@id/selectUserListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.nework.ui.SignUpFragment"

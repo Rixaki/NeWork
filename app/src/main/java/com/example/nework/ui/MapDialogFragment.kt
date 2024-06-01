@@ -39,7 +39,7 @@ class MapDialogFragment(
          */
         dialog.setContentView(inflater.inflate(R.layout.dialog_map, null))
 
-        _mapView = dialog.findViewById<MapView>(R.id.mapview)
+        _mapView = dialog.findViewById<MapView>(R.id.mapView)
         _boardView = dialog.findViewById<Button>(R.id.positionBoard)
 
         dialog.window!!.setLayout(

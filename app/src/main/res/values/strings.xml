@@ -72,5 +72,11 @@
     <string name="today">TODAY</string>
     <string name="yesterday">YESTERDAY</string>
     <string name="last_week">LAST WEEK</string>
+    <string name="no_map_point">No map point</string>
+    <string name="erroneous_absence_of_map_display">Erroneous absence of map display.</string>
+    <string name="button_for_map_opening_in_the_bottom">Button for map opening in the bottom.</string>
+    <string name="clear_image">Clear image</string>
+    <string name="select_mention_users">SELECT MENTION USERS</string>
+    <string name="select_users">SELECT USERS</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
