@@ -16,10 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.paging.LoadStateAdapter
-import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.example.nework.R
 import com.example.nework.adapter.EventAdapter
 import com.example.nework.adapter.ItemLoadingStateAdapter
@@ -161,8 +157,7 @@ class EventsFeedFragment : Fragment() {
                 findNavController().navigate(R.id.action_global_to_signInFragment)
             }
         }
-
-        //TODO: FIX - NO FIND CONCAT_ADAPTER WITH PROVIDE LOAD_STATE_ADAPTER
+        
         binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ItemLoadingStateAdapter(adapter::refresh),
             footer = ItemLoadingStateAdapter(adapter::refresh)

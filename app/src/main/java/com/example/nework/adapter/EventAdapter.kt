@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.core.view.isVisible
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -47,7 +48,7 @@ interface OnIterationEventListener {
 
 class EventAdapter(
     private val onIterationEventListener: OnIterationEventListener
-) : ListAdapter<FeedItem, RecyclerView.ViewHolder>(ItemDiffEventCallBack) {
+) : PagingDataAdapter<FeedItem, RecyclerView.ViewHolder>(ItemDiffEventCallBack) {
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is Ad -> R.layout.card_ad
