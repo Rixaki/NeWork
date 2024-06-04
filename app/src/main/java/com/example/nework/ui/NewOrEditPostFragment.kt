@@ -8,23 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
 import com.example.nework.dto.Coords
-import com.example.nework.ui.PostFragment.Companion.intArg
-import com.example.nework.ui.SelectUserListFragment.Companion.titleArg
+import com.example.nework.ui.SelectUserListByPostFragment.Companion.titleArg
 import com.example.nework.vm.PostViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
 import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.layers.GeoObjectTapListener
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.MapObjectTapListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -148,7 +144,7 @@ class NewOrEditPostFragment : Fragment() {
 
                     Activity.RESULT_OK -> {
                         val uri: Uri? = it.data?.data
-                        viewModel.changePhoto(uri, uri?.toFile())
+                        viewModel.changePhoto(uri)
                     }
                 }
             }
@@ -201,7 +197,7 @@ class NewOrEditPostFragment : Fragment() {
             viewModel.changeMentionList(postEdited?.mentionIds ?: emptyList())
             //TODO: POTENTIAL NAVIGATE TROUBLE
             this@NewOrEditPostFragment.findNavController()
-                .navigate(R.id.action_newOrEditPostFragment_to_selectUserListFragment,
+                .navigate(R.id.action_newOrEditPostFragment_to_selectUserListByPostFragment,
                     Bundle().apply {
                         titleArg = getString(R.string.select_mention_users)
                     })

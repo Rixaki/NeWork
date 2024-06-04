@@ -20,7 +20,6 @@ import com.example.nework.R
 import com.example.nework.adapter.ItemLoadingStateAdapter
 import com.example.nework.adapter.OnIterationPostListener
 import com.example.nework.adapter.PostAdapter
-import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.FragmentFeedPostOrEventBinding
 import com.example.nework.dto.Post
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
@@ -33,13 +32,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.toast
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class PostsFeedFragment : Fragment() {
 
     private val viewModel: PostViewModel by activityViewModels()
-
     private val authModel : AuthViewModel by viewModels()
 
     /*
@@ -59,7 +56,6 @@ class PostsFeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFeedPostOrEventBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
         val adapter = PostAdapter(object : OnIterationPostListener {
             override fun onLikeLtn(post: Post) {
@@ -130,7 +126,7 @@ class PostsFeedFragment : Fragment() {
                     onMapLtn@ return
                 }
             }
-        })
+        })//adapter
 
         binding.newPostButton.setOnClickListener {
             if (authModel.authenticated) {

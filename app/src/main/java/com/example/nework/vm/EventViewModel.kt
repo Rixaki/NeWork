@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import com.example.nework.auth.AppAuth
 import com.example.nework.dao.EventRemoteKeyDao
@@ -16,6 +17,7 @@ import com.example.nework.dto.Coords
 import com.example.nework.dto.Event
 import com.example.nework.dto.FeedItem
 import com.example.nework.dto.MediaUpload
+import com.example.nework.dto.Post
 import com.example.nework.model.EventModel
 import com.example.nework.model.FeedModelState
 import com.example.nework.model.PhotoModel
@@ -49,6 +51,7 @@ private val empty = Event(
 
 private val noPhoto = PhotoModel()
 private val noList = emptyList<Int>()
+private val noTime = ""
 
 @HiltViewModel
 @SuppressLint("CheckResult")//suppression warning
@@ -74,6 +77,14 @@ class EventViewModel @Inject constructor(
             }
         }
 
+    fun getEventById(id: Int): Event {
+        var result = empty
+        cached.map { pagingData ->
+            result = pagingData.filter { it is Event }.filter { event -> event.id == id } as Event
+        }
+        return result
+    }
+
     private val _state = MutableLiveData<FeedModelState>()
     val state : LiveData<FeedModelState>
         get() = _state
@@ -86,14 +97,18 @@ class EventViewModel @Inject constructor(
     val speakers : LiveData<List<Int>>
         get() = _speakers
 
-    private val _participants = MutableLiveData<List<Int>>()
-    val participants : LiveData<List<Int>>
-        get() = _participants
+    private val _eventDate = MutableLiveData<String>()
+    val eventDate : LiveData<String>
+        get() = _eventDate
 
-    private val edited = MutableLiveData(empty)
+    private val _eventTime = MutableLiveData<String>()
+    val eventTime : LiveData<String>
+        get() = _eventTime
+
+    val edited = MutableLiveData(empty)
 
     private val _eventCreated = SingleLiveEvent<Unit>()
-    val postCreated : LiveData<Unit>
+    val eventCreated : LiveData<Unit>
         get() = _eventCreated
 
     private val _eventCancelled = SingleLiveEvent<Unit>()
@@ -106,7 +121,7 @@ class EventViewModel @Inject constructor(
             .flowOn(Dispatchers.Default)
         //!! getNewerCount catchable with flow(0)
     } as MutableLiveData<Int>
-    //mutable for "Fresh posts" GONE after refresh/load
+    //mutable for "Fresh events" GONE after refresh/load
 
     private val _photo = MutableLiveData<PhotoModel>()
     val photo : LiveData<PhotoModel>
@@ -121,7 +136,8 @@ class EventViewModel @Inject constructor(
         _photo.postValue(noPhoto)
         _coords.postValue(null)
         _speakers.postValue(noList)
-        _participants.postValue(noList)
+        _eventDate.postValue(noTime)
+        _eventTime.postValue(noTime)
     }
 
     private fun load() = viewModelScope.launch {
@@ -132,6 +148,11 @@ class EventViewModel @Inject constructor(
         } catch (e: Exception) {
             _state.value = FeedModelState(error = true)
         }
+    }
+
+    fun cancelEdit() {
+        edited.value = empty
+        _eventCancelled.postValue(Unit)
     }
 
     fun save() {
@@ -151,16 +172,22 @@ class EventViewModel @Inject constructor(
         clearModels()
     }
 
-    fun changeEventAndSave(content: String) {
+    fun changeEventAndSave(
+        content: String,
+        videoLink: String? = null
+    ) {
         val isEventModelEmpty = (coords.value==null &&
-                speakers.value==noList && participants.value==noList)
+                speakers.value==noList)
         val oldPredicated = if (isEventModelEmpty)
-            (edited.value?.content == content)
+            ((edited.value?.content == content) &&
+            (edited.value?.videoLink == videoLink))
         else
             ((edited.value?.content == content) &&
+            (edited.value?.videoLink == videoLink) &&
             (edited.value?.coords == coords.value) &&
-            (edited.value?.participantsIds == participants.value) &&
-            (edited.value?.speakerIds == speakers.value))
+            (edited.value?.speakerIds == speakers.value) &&
+            //TODO: MAYBE ANOTHER TIME FORMAT, DROP 8 ":00.000Z"
+            (edited.value?.datetime?.dropLast(8) == "${eventDate.value}T${eventTime.value}"))
 
         if (oldPredicated) {
             return
@@ -170,9 +197,10 @@ class EventViewModel @Inject constructor(
         else
             edited.value?.copy(
                 content = content,
+                videoLink = videoLink,
                 coords = coords.value,
-                participantsIds = participants.value ?: noList,
-                speakerIds = speakers.value ?: noList
+                speakerIds = speakers.value ?: noList,
+                datetime = "${eventDate.value} ${eventTime.value}"
             )
         edited.value?.let { editedEvent ->
             viewModelScope.launch {
@@ -208,7 +236,13 @@ class EventViewModel @Inject constructor(
     fun changePhoto(uri: Uri?) = _photo.postValue(PhotoModel(uri))
     fun changeCoords(coords: Coords? = null) = _coords.postValue(coords)
     fun changeSpeakersList(list: List<Int>) = _speakers.postValue(list)
-    fun changeParticipantsList(list: List<Int>) = _participants.postValue(list)
+    fun changeEventDate(date: String) = _eventDate.postValue(date)
+    fun changeEventTime(time: String) = _eventTime.postValue(time)
+    fun clearCoords() = _coords.postValue(null)
+    fun clearPhoto() = _photo.postValue(noPhoto)
+    //fun clearSpeakersList() = _speakers.postValue(noList)
+    //fun clearEventDate() = _eventDate.postValue(noTime)
+    //fun clearEventTime() = _eventTime.postValue(noTime)
 
     fun likeById(id: Int) {
         viewModelScope.launch {
@@ -226,6 +260,27 @@ class EventViewModel @Inject constructor(
                 _state.value = FeedModelState(
                     error = true,
                     lastErrorAction = "Still no response of like/unlike act."
+                )
+            }
+        }
+    }
+
+    fun takePartById(id: Int) {
+        viewModelScope.launch {
+            val event = repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
+            if (event?.isLikeLoading == false) {
+                try {
+                    repository.participateById(id)//like and unlike in 1
+                } catch (e: Exception) {
+                    _state.value = FeedModelState(
+                        error = true,
+                        lastErrorAction = "Error with taking/cancel to take part event."
+                    )
+                }
+            } else {
+                _state.value = FeedModelState(
+                    error = true,
+                    lastErrorAction = "Still no response of taking/cancel to take part act."
                 )
             }
         }

@@ -47,26 +47,34 @@
     <fragment
         android:id="@+id/postFragment"
         android:name="com.example.nework.ui.PostFragment"
-        android:label="PostFragment" />
+        android:label="PostFragment" >
+        <action
+            android:id="@+id/action_postFragment_to_newOrEditPostFragment"
+            app:destination="@id/newOrEditPostFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventFragment"
         android:name="com.example.nework.ui.EventFragment"
-        android:label="EventFragment" />
+        android:label="EventFragment" >
+        <action
+            android:id="@+id/action_eventFragment_to_newOrEditEventFragment"
+            app:destination="@id/newOrEditEventFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newOrEditEventFragment"
         android:name="com.example.nework.ui.NewOrEditEventFragment"
         android:label="NewOrEditEventFragment" >
         <action
-            android:id="@+id/action_newOrEditEventFragment_to_selectUserListFragment"
-            app:destination="@id/selectUserListFragment" />
+            android:id="@+id/action_newOrEditEventFragment_to_selectUserListByEventFragment"
+            app:destination="@id/selectUserListByEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/newOrEditPostFragment"
         android:name="com.example.nework.ui.NewOrEditPostFragment"
         android:label="NewOrEditPostFragment" >
         <action
-            android:id="@+id/action_newOrEditPostFragment_to_selectUserListFragment"
-            app:destination="@id/selectUserListFragment" />
+            android:id="@+id/action_newOrEditPostFragment_to_selectUserListByPostFragment"
+            app:destination="@id/selectUserListByPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -101,7 +109,11 @@
         android:name="com.example.nework.ui.UserFragment"
         android:label="UserFragment" />
     <fragment
-        android:id="@+id/selectUserListFragment"
-        android:name="com.example.nework.ui.SelectUserListFragment"
-        android:label="SelectUserListFragment" />
+        android:id="@+id/selectUserListByEventFragment"
+        android:name="com.example.nework.ui.SelectUserListByEventFragment"
+        android:label="SelectUserListByEventFragment" />
+    <fragment
+        android:id="@+id/selectUserListByPostFragment"
+        android:name="com.example.nework.ui.SelectUserListByPostFragment"
+        android:label="SelectUserListByPostFragment" />
 </navigation>

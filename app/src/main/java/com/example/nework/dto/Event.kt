@@ -45,8 +45,7 @@ data class Event (
     val isLikeLoading: Boolean = false,
     val likes: Int = likeOwnerIds.size,
 
-    val isTakingPartLoading: Boolean = false,
-    val participantsCount: Int = participantsIds.size
+    val isTakingPartLoading: Boolean = false
 ) : FeedItem {
     fun toEpoch(): Long =
         (DATE_FORMAT.parse(this.published)!!.time) / 1000L

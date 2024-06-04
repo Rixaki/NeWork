@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.nework.api.AppApi
+import com.example.nework.dao.UserDao
 import com.example.nework.dto.SelectableUser
 import com.example.nework.dto.User
 import com.example.nework.dto.UserPreview
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UsersSelectorViewModel @Inject constructor(
     private val appApi: AppApi,
-    private val userRepo: UserRepo
+    private val userRepo: UserRepo,
+    private val userDao: UserDao
 ) : ViewModel() {
     private val empty = emptyList<SelectableUser>()
     private val noState = ResponceState()
@@ -34,6 +36,10 @@ class UsersSelectorViewModel @Inject constructor(
 
     val users : LiveData<List<User>> = userRepo.data.asLiveData()
 
+    init {
+        getUsers()
+    }
+
     fun getUsers() {
         _usersState.postValue(
             ResponceState(
@@ -42,8 +48,9 @@ class UsersSelectorViewModel @Inject constructor(
         )
         viewModelScope.launch {
             try {
-                userRepo.getAll()
-                clearModels()
+                if (userDao.getSize() == 0) {
+                    userRepo.getAll()//users from api
+                }
             } catch (e: Exception) {
                 _usersState.postValue(
                     ResponceState(
@@ -75,8 +82,14 @@ class UsersSelectorViewModel @Inject constructor(
         }
     }
 
+    /*
     fun changeList(newUserSelectableList: List<SelectableUser>) {
         _list.value = newUserSelectableList.sortedBy { !it.isPicked }//picked first
+    }
+     */
+
+    fun sortList() {
+        _list.value = _list.value?.sortedBy { !it.isPicked }//picked first
     }
 
     //for post/event edit

@@ -54,7 +54,7 @@ data class EventEntity (
         participantsIds = participantsIds,
         participatedByMe = participatedByMe,
         attachment = attachment?.toDto(),
-        link = link,
+        videoLink = link,
         users = users,
 
         ownedByMe = ownedByMe,
@@ -62,7 +62,6 @@ data class EventEntity (
         likes = likes,
 
         isTakingPartLoading = isTakingPartLoading,
-        participantsCount = participantsCount
     )
 
     private fun toDto(entity: EventTypeEntity): EventType = EventType.valueOf(entity.name)
@@ -88,7 +87,7 @@ data class EventEntity (
                 attachment = attachment?.let {
                     AttachmentEmbeddable.fromDto(it)
                 },
-                link = link,
+                link = videoLink,
                 users = users,
 
                 ownedByMe = ownedByMe,
@@ -96,7 +95,6 @@ data class EventEntity (
                 likes = likes,
 
                 isTakingPartLoading = isTakingPartLoading,
-                participantsCount = participantsCount
             )
         }
 

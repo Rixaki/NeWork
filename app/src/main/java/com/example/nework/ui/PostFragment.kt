@@ -68,7 +68,7 @@ class PostFragment : Fragment() {
             override fun onEditLtn(post: Post) {
                 viewModel.edited.value = post
                 findNavController().navigate(
-                    R.id.action_postsFeedFragment_to_newOrEditPostFragment,
+                    R.id.action_postFragment_to_newOrEditPostFragment,
                     Bundle().apply {
                         textArg = post.content
                     })
@@ -95,17 +95,12 @@ class PostFragment : Fragment() {
                 }
             }
 
-            override fun onRootLtn(post: Post) {
-                findNavController().navigate(
-                    R.id.action_postsFeedFragment_to_postFragment,
-                    Bundle().apply {
-                        intArg = post.id
-                    })
-            }
+            override fun onRootLtn(post: Post) {}
+            override fun onMapLtn(post: Post) {}
 
             override fun onListMentLtn(post: Post) {
                 val dialog = GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
-                dialog.show(activity!!.supportFragmentManager, "List mention dialog.")
+                dialog.show(requireActivity().supportFragmentManager, "List mention dialog.")
             }
         })// val viewHolder
 
@@ -135,7 +130,7 @@ class PostFragment : Fragment() {
                 } else {
                     Snackbar.make(
                         binding.root,
-                        "Task Cancelled",
+                        "Image task Cancelled",
                         Snackbar.LENGTH_SHORT
                     ).show()
                 }

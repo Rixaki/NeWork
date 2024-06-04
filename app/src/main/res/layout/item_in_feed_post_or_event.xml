@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/postConstrainLayout"
+        android:id="@+id/constrainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:isScrollContainer="true"
@@ -91,17 +91,16 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/participantStatus"
-            style="@style/Widget.AppTheme.ViewCount"
+            style="@style/Widget.AppTheme.ParticipantButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/defaultMargin"
-            android:checkable="false"
-            android:clickable="false"
             android:insetTop="0dp"
             android:minHeight="0dp"
-            app:icon="@drawable/baseline_check_48"
+            app:icon="@drawable/ic_participant_selector"
             android:text="@string/you_participants_in_this_event"
             android:textColor="@color/black"
+            app:iconTint="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrierPostHeadBottom"/>

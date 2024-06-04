@@ -221,7 +221,7 @@ class PostViewModel @Inject constructor(
         clearModels()
     }
 
-    fun changePhoto(uri: Uri?, toFile: File?) = _photo.postValue(PhotoModel(uri))
+    fun changePhoto(uri: Uri?) = _photo.postValue(PhotoModel(uri))
     fun changeCoords(coords: Coords? = null) = _coords.postValue(coords)
     fun changeMentionList(list: List<Int>) = _list.postValue(list)
     fun clearCoords() = _coords.postValue(null)

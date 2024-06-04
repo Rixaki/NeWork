@@ -78,5 +78,13 @@
     <string name="clear_image">Clear image</string>
     <string name="select_mention_users">SELECT MENTION USERS</string>
     <string name="select_users">SELECT USERS</string>
+    <string name="list_of_participant_users">List of participant users.</string>
+    <string name="no_participant_users">No participant users.</string>
+    <string name="select_speakers">SELECT SPEAKERS</string>
+    <string name="select_event_day">SELECT EVENT DAY</string>
+    <string name="select_event_in_day_time">SELECT EVENT IN DAY TIME</string>
+    <string name="list_of_participants">LIST OF PARTICIPANTS</string>
+    <string name="list_of_speakers">LIST OF SPEAKERS</string>
+    <string name="retry_loading">Retry loading?</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

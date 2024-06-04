@@ -4,24 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
-import com.example.nework.adapter.UserAdapter
 import com.example.nework.adapter.UserSelectableAdapter
 import com.example.nework.databinding.FragmentListSelectorBinding
-import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
-import com.example.nework.dto.User
-import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.vm.PostViewModel
 import com.example.nework.vm.UsersSelectorViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.util.StringArg
 
 @AndroidEntryPoint
-class SelectUserListFragment : Fragment() {
+class SelectUserListByPostFragment : Fragment() {
     private val viewModel: PostViewModel by activityViewModels()
     private val selectorModel: UsersSelectorViewModel by viewModels()
     companion object {
@@ -42,6 +40,23 @@ class SelectUserListFragment : Fragment() {
             container,
             false
         )
+
+        selectorModel.usersState.observe(viewLifecycleOwner){ state ->
+            binding.progress.isVisible = state.loading
+            if (state.error) {
+                val snackbar = Snackbar.make(
+                    binding.root,
+                    getString(R.string.error_bar_start_text) + state.lastErrorAction,
+                    10_000//milliseconds
+                )
+                snackbar
+                    .setTextMaxLines(3)
+                    .setAction("OK") {
+                        snackbar.dismiss()
+                    }
+                    .show()
+            }
+        }
 
         binding.title.setText(arguments?.titleArg ?: getString(R.string.select_users))
 

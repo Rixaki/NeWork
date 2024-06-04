@@ -21,6 +21,7 @@ import com.example.nework.R
 import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.ActivityMainBinding
 import com.example.nework.vm.AuthViewModel
+import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +32,8 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val authModel : AuthViewModel by viewModels()
+    private val usersSelector :
+            UsersSelectorViewModel by viewModels()//for clearUserRepo()
 
     @Inject
     lateinit var appAuth: AppAuth
@@ -161,5 +164,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onStop() {
         super.onStop()
         MapKitFactory.getInstance().onStop()
+    }
+
+    override fun onDestroy() {
+        lifecycleScope.launch {
+            usersSelector.clearUserRepo()
+        }
+        super.onDestroy()
     }
 }

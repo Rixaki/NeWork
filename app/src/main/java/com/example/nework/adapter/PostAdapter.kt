@@ -42,7 +42,7 @@ interface OnIterationPostListener {
 
 class PostAdapter(
     private val onIterationPostListener: OnIterationPostListener
-) : PagingDataAdapter<FeedItem, RecyclerView.ViewHolder>(ItemDiffCallBack) {
+) : PagingDataAdapter<FeedItem, RecyclerView.ViewHolder>(ItemDiffPostCallBack) {
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is Ad -> R.layout.card_ad
@@ -53,7 +53,10 @@ class PostAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int
+    ) {
         when (val item = getItem(position)) {
             is Ad -> (holder as? AdViewHolder)?.bind(item)
             is TimeHeader -> (holder as? TimeHeaderViewHolder)?.bind(item)
@@ -219,7 +222,7 @@ class PostInFeedViewHolder(
                 videoGroup.visibility = View.GONE
             }
 
-            postConstrainLayout.setOnClickListener {
+            constrainLayout.setOnClickListener {
                 onIterationPostListener.onRootLtn(post)
             }
 
@@ -355,7 +358,7 @@ class PostInCardViewHolder(
                 videoGroup.visibility = View.GONE
             }
 
-            postConstrainLayout.setOnClickListener {
+            constrainLayout.setOnClickListener {
                 onIterationPostListener.onRootLtn(post)
             }
 
@@ -397,7 +400,7 @@ data class PayloadPost(
     val content: String? = null
 )
 
-object ItemDiffCallBack :
+object ItemDiffPostCallBack :
     DiffUtil.ItemCallback<FeedItem>() { //object without data better that class without data
     override fun areItemsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean =
         (oldItem.id == newItem.id)
