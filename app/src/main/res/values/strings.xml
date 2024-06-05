@@ -86,5 +86,8 @@
     <string name="list_of_participants">LIST OF PARTICIPANTS</string>
     <string name="list_of_speakers">LIST OF SPEAKERS</string>
     <string name="retry_loading">Retry loading?</string>
+    <string name="you_are_not_authenticated">You are NOT authenticated.</string>
+    <string name="link_does_not_lead_to_the_site">Link does not lead to the site.</string>
+    <string name="user_was_not_founded_request_id">User was NOT founded (request id=%1$s)</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

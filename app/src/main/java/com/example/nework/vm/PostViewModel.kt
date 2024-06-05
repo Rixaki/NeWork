@@ -119,7 +119,7 @@ class PostViewModel @Inject constructor(
         load()
     }
 
-    private fun clearModels() {
+    fun clearModels() {
         edited.postValue(empty)
         _photo.postValue(noPhoto)
         _coords.postValue(null)

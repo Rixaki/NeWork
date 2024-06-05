@@ -157,7 +157,7 @@ class EventsFeedFragment : Fragment() {
                 findNavController().navigate(R.id.action_global_to_signInFragment)
             }
         }
-        
+
         binding.list.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ItemLoadingStateAdapter(adapter::refresh),
             footer = ItemLoadingStateAdapter(adapter::refresh)

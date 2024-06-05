@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.findNavController
@@ -20,6 +21,7 @@ import com.example.nework.BuildConfig
 import com.example.nework.R
 import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.ActivityMainBinding
+import com.example.nework.ui.MyProfileFragment.Companion.USER_ID
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -69,7 +71,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 }
                 R.id.my_profile -> {
                     if (authModel.authenticated) {
-                        findNavController(R.id.nav_main).navigate(R.id.action_global_to_myProfileFragment)
+                        val myId = authModel.data.asLiveData().value!!.id//!=0 with authenticated
+                        findNavController(R.id.nav_main).navigate(
+                            R.id.action_global_to_myProfileFragment,
+                            Bundle().apply {
+                                USER_ID = myId
+                            })
                     } else {
                         Toast.makeText(
                             this@MainActivity,

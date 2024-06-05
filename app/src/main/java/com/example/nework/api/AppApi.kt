@@ -195,8 +195,8 @@ interface AppApi {
     @POST("my/jobs")
     suspend fun saveJob(@Body job: Job): Response<Job>
 
-    @DELETE("my/jobs")
-    suspend fun deleteJob(@Body job: Job): Response<Unit>
+    @DELETE("my/jobs/{id}")
+    suspend fun deleteJob(@Path("id") id: Int): Response<Unit>
 
     //ATTACHMENT COMMAND
     @Multipart

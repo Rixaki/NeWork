@@ -4,13 +4,19 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.paging.filter
 import com.example.nework.api.AppApi
+import com.example.nework.dto.Event
 import com.example.nework.dto.User
 import com.example.nework.model.ResponceState
+import com.example.nework.repo.UserRepo
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,8 +24,9 @@ import javax.inject.Inject
 
 //ONLY SHOWING USER LIST
 @HiltViewModel
-class UsersViewModel @Inject constructor(
+class UsersViewModel @AssistedInject constructor(
     private val appApi: AppApi,
+    private val userRepo: UserRepo,
     @Assisted private val userIds: List<Int>,
 ) : ViewModel() {
     private val _state = MutableStateFlow(ResponceState())
@@ -53,4 +60,21 @@ class UsersViewModel @Inject constructor(
             }
         }
     }
+
+    fun getUserById(id: Int): User {
+        var result = User(id = 0, login = "", name = "", avatar = null)
+        viewModelScope.launch {
+            result = userRepo.getUserById(id)
+        }
+        return result
+    }
+
+    fun clearModel() {
+        _list.value = emptyList()
+    }
+}
+
+@AssistedFactory
+interface UsersViewModelFactory {
+    fun create(date: List<Int>): UsersViewModel
 }

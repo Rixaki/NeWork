@@ -43,6 +43,10 @@ class UserRepoImpl @Inject constructor(
         )
     }
 
+    override suspend fun getUserById(id: Int): User {
+        return userDao.getUserById(id).toDto()
+    }
+
     override suspend fun clear() {
         userDao.clear()
     }

@@ -10,5 +10,6 @@ interface UserRepo {
 
     suspend fun getAll()
     suspend fun getUserPreviewById(id: Int): UserPreview
+    suspend fun getUserById(id: Int): User
     suspend fun clear()
 }
