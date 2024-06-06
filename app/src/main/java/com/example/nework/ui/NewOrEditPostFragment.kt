@@ -216,11 +216,6 @@ class NewOrEditPostFragment : Fragment() {
             }
             findNavController().navigateUp()
         }
-
-        binding.cancelButton.setOnClickListener {
-            viewModel.cancelEdit()
-        }
-
         viewModel.postCreated.observe(viewLifecycleOwner) {
             //viewModel.load()
             AndroidUtils.hideKeyBoard(requireView())
@@ -228,6 +223,9 @@ class NewOrEditPostFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        binding.cancelButton.setOnClickListener {
+            viewModel.cancelEdit()
+        }
         viewModel.postCancelled.observe(viewLifecycleOwner) {
             AndroidUtils.hideKeyBoard(requireView())
             findNavController().navigateUp()

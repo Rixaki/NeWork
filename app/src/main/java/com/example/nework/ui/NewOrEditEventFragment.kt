@@ -194,11 +194,6 @@ class NewOrEditEventFragment : Fragment() {
             viewModel.clearCoords()
         }
 
-
-        binding.cancelButton.setOnClickListener {
-            viewModel.clearCoords()
-        }
-
         //eventTime and time change buttons no show in post editor
         binding.content.setText(arguments?.textArg.orEmpty())
         if (arguments?.textArg.isNullOrEmpty()) {
@@ -307,6 +302,10 @@ class NewOrEditEventFragment : Fragment() {
         binding.cancelButton.setOnClickListener {
             viewModel.cancelEdit()
         }
+        viewModel.eventCancelled.observe(viewLifecycleOwner) {
+            AndroidUtils.hideKeyBoard(requireView())
+            findNavController().navigateUp()
+        }
 
         viewModel.eventCreated.observe(viewLifecycleOwner) {
             //viewModel.load()
@@ -315,10 +314,7 @@ class NewOrEditEventFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        viewModel.eventCancelled.observe(viewLifecycleOwner) {
-            AndroidUtils.hideKeyBoard(requireView())
-            findNavController().navigateUp()
-        }
+
 
         return binding.root
     }

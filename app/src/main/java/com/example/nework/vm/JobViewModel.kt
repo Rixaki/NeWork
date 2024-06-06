@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import ru.netology.nmedia.util.SingleLiveEvent
 import javax.inject.Inject
 
 private val empty = Job(
@@ -64,6 +65,14 @@ class JobViewModel @AssistedInject constructor(
     private val _link = MutableLiveData(noStr)
     val link: LiveData<String>
         get() = _link
+
+    private val privateJobCanceled = SingleLiveEvent<Unit>()
+    val JobCanceled: LiveData<Unit>
+        get() = privateJobCanceled
+
+    private val privateJobCreated = SingleLiveEvent<Unit>()
+    val JobCreated: LiveData<Unit>
+        get() = privateJobCreated
 
     init {loadJobsById(userId)}
 
@@ -147,8 +156,10 @@ class JobViewModel @AssistedInject constructor(
                             //responce is ok
                             clearModels()
                         }
+                        privateJobCreated.postValue(Unit)
                     } catch (e: Exception) {
                         e.printStackTrace()
+                        privateJobCanceled.postValue(Unit)
                     }
                 }
             }
@@ -179,6 +190,11 @@ class JobViewModel @AssistedInject constructor(
                 e.printStackTrace()
             }
         }
+    }
+
+    fun cancel() {
+        clearModels()
+        privateJobCanceled.postValue(Unit)
     }
 
     fun clearModels() {

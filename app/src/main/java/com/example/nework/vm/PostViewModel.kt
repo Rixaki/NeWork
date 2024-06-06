@@ -142,16 +142,10 @@ class PostViewModel @Inject constructor(
     }
      */
 
-
-
     fun cancelEdit() {
         edited.value = empty
         _postCancelled.postValue(Unit)
     }
-
-
-
-
 
     fun save() {
         edited.value?.let {

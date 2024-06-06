@@ -155,6 +155,7 @@ class EventViewModel @Inject constructor(
 
     fun cancelEdit() {
         edited.value = empty
+        clearModels()
         _eventCancelled.postValue(Unit)
     }
 

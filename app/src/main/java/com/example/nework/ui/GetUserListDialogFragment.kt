@@ -75,6 +75,13 @@ class GetUserListDialogFragment(
             }
         }
 
+        /*
+        //default?
+        binding.okButton.setOnClickListener {
+            dismiss()
+        }
+         */
+
         return binding.root
     }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditJobBinding
 import com.example.nework.dto.DATE_FORMAT
@@ -19,6 +20,8 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
+import ru.netology.nmedia.util.AndroidUtils
+import ru.netology.nmedia.util.toast
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -104,6 +107,25 @@ class NewOrEditJobFragment : Fragment() {
         }
         //END TIME SETTING ZONE
 
+        binding.save.setOnClickListener {
+            viewModel.changeName(binding.companyName.text.toString())
+            viewModel.changePosition(binding.position.text.toString())
+            viewModel.changeLink(binding.link.text.toString())
+            viewModel.save()
+        }
+        viewModel.JobCreated.observe(viewLifecycleOwner){
+            AndroidUtils.hideKeyBoard(requireView())
+            toast(getString(R.string.job_changed_was_saved))
+            findNavController().navigateUp()
+        }
+
+        binding.cancel.setOnClickListener {
+            viewModel.cancel()
+        }
+        viewModel.JobCanceled.observe(viewLifecycleOwner){
+            AndroidUtils.hideKeyBoard(requireView())
+            findNavController().navigateUp()
+        }
 
         return binding.root
     }
