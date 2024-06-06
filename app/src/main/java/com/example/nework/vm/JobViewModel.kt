@@ -119,6 +119,7 @@ class JobViewModel @AssistedInject constructor(
             return
         } else {
             _state.value = ResponceState(loading = true)
+            //NO CRITICAL FEATURE WITH TIME DISPLAY ON BOARDS
             changeJob( job.value.copy(
                 name = if (name.value.isNullOrBlank()) job.value.name else name.value!!,
                 position = if (position.value.isNullOrBlank()) job.value.position else position.value!!,

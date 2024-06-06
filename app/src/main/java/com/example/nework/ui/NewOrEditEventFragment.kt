@@ -1,5 +1,6 @@
 package com.example.nework.ui
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
 import com.example.nework.dto.Coords
 import com.example.nework.dto.DATE_FORMAT
 import com.example.nework.ui.SelectUserListByPostFragment.Companion.titleArg
+import com.example.nework.util.countToString
 import com.example.nework.vm.EventViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
@@ -55,6 +57,7 @@ class NewOrEditEventFragment : Fragment() {
         viewModel.changeCoords(Coords(point.latitude, point.longitude))
         true
     }
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -67,7 +70,12 @@ class NewOrEditEventFragment : Fragment() {
             container,
             false
         )
+
         binding.eventGroup.visibility = View.VISIBLE
+        binding.eventTime.setText(eventEdited?.datetime ?: "no time")
+        binding.videoLink.setText(eventEdited?.videoLink ?: "")
+        binding.list1Iv.setText((countToString(eventEdited?.participantsIds?.size ?: 0)))
+        binding.list2Iv.setText(getString(R.string.select_speakers))
 
         //TIME SETTING ZONE
         //default listener in MaterialDatePicker, MaterialTimePicker = dismiss()
@@ -102,6 +110,7 @@ class NewOrEditEventFragment : Fragment() {
                 val formatter = SimpleDateFormat("dd-MM-yyyy")
                 val formattedStr = formatter.format(utc.time)
                 viewModel.changeEventDate(formattedStr)
+                binding.eventTime.setText("${viewModel.eventDate}T${viewModel.eventTime}"+":00.000Z")
             }
         }
         val timePicker =
@@ -115,6 +124,7 @@ class NewOrEditEventFragment : Fragment() {
             val hh = timePicker.hour
             val mm = timePicker.minute
             viewModel.changeEventTime("$hh:$mm")
+            binding.eventTime.setText("${viewModel.eventDate}T${viewModel.eventTime}"+":00.000Z")
         }
         binding.pickStartDate.setOnClickListener {
             datePicker
@@ -197,7 +207,7 @@ class NewOrEditEventFragment : Fragment() {
         binding.content.requestFocus()
 
 
-        binding.videoLink.setText(eventEdited?.videoLink)
+
 
         val pickPhotoLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {

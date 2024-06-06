@@ -29,12 +29,14 @@ class GetUserListDialogFragment(
 ) : DialogFragment() {
     private var _listView: View? = null
 
+    /*
     companion object {
         private const val DATE_EXTRA = "DATE_EXTRA"
 
         fun createArgs(ids: List<Int>): Bundle =
             bundleOf(DATE_EXTRA to ids)
     }
+     */
 
     //for DI in userListModel
     @Inject
@@ -59,7 +61,7 @@ class GetUserListDialogFragment(
             extrasProducer = {
                 defaultViewModelCreationExtras.withCreationCallback<UsersViewModelFactory> { factory ->
                     @Suppress("DEPRECATION")
-                    factory.create(requireArguments().getSerializable(DATE_EXTRA) as List<Int>)
+                    factory.create(listIds)
                 }
             }
         )

@@ -52,7 +52,7 @@ class JobViewHolder(
             position.text = job.position
 
             startTime.text = job.start
-            finishTime.text = job.finish
+            finishTime.text = job.finish ?: "No finish"
 
             link.setOnClickListener {
                 onIterationJobListener.onLinkLtn(job)

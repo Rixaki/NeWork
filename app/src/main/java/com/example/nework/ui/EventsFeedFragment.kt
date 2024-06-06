@@ -135,13 +135,30 @@ class EventsFeedFragment : Fragment() {
             }
 
             override fun onListPartLtn(event: Event) {
-                val dialog = GetUserListDialogFragment(event.participantsIds, R.string.list_of_participants)
-                dialog.show(requireActivity().supportFragmentManager, "List participants dialog.")
+                if (event.participantsIds.isNotEmpty()) {
+                    val dialog = GetUserListDialogFragment(
+                        event.participantsIds,
+                        R.string.list_of_participants
+                    )
+                    dialog.show(
+                        requireActivity().supportFragmentManager,
+                        "List participants dialog."
+                    )
+                } else {
+                    toast(getString(R.string.no_participants_for_this_event))
+                    onListPartLtn@ return
+                }
             }
 
             override fun onListSpeaksLtn(event: Event) {
-                val dialog = GetUserListDialogFragment(event.speakerIds, R.string.list_of_speakers)
-                dialog.show(requireActivity().supportFragmentManager, "List speakers dialog.")
+                if (event.speakerIds.isNotEmpty()) {
+                    val dialog =
+                        GetUserListDialogFragment(event.speakerIds, R.string.list_of_speakers)
+                    dialog.show(requireActivity().supportFragmentManager, "List speakers dialog.")
+                } else {
+                    toast(getString(R.string.no_speakers_for_this_event))
+                    onListSpeaksLtn@ return
+                }
             }
         })//adapter
 

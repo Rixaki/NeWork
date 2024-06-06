@@ -55,7 +55,10 @@ class NewOrEditPostFragment : Fragment() {
             container,
             false
         )
+
         binding.eventGroup.visibility = View.GONE
+        binding.list1Iv.setText(getString(R.string.select_mentioned_users))
+        binding.videoLink.setText(postEdited?.videoLink ?: "")
 
         //val mapPlacemark = binding.mapView.mapWindow?.map?.mapObjects?.addPlacemark()
         val map = binding.mapView.mapWindow?.map

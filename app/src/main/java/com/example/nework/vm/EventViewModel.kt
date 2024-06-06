@@ -190,6 +190,7 @@ class EventViewModel @Inject constructor(
             (edited.value?.coords == coords.value) &&
             (edited.value?.speakerIds == speakers.value) &&
             //TODO: MAYBE ANOTHER TIME FORMAT, DROP 8 ":00.000Z"
+            //NO CRITICAL FEATURE
             (edited.value?.datetime?.dropLast(8) == "${eventDate.value}T${eventTime.value}"))
 
         if (oldPredicated) {

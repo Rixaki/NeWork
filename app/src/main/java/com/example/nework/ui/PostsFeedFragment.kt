@@ -113,8 +113,14 @@ class PostsFeedFragment : Fragment() {
             }
 
             override fun onListMentLtn(post: Post) {
-                val dialog = GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
-                dialog.show(activity!!.supportFragmentManager, "List mention dialog.")
+                if (post.mentionIds.isNotEmpty()) {
+                    val dialog =
+                        GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
+                    dialog.show(activity!!.supportFragmentManager, "List mention dialog.")
+                } else {
+                    toast(getString(R.string.no_mentioned_users_for_this_post))
+                    onListMentLtn@ return
+                }
             }
 
             override fun onMapLtn(post: Post) {

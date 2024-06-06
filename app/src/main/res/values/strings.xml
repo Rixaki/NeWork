@@ -89,5 +89,11 @@
     <string name="you_are_not_authenticated">You are NOT authenticated.</string>
     <string name="link_does_not_lead_to_the_site">Link does not lead to the site.</string>
     <string name="user_was_not_founded_request_id">User was NOT founded (request id=%1$s)</string>
+    <string name="no_speakers_for_this_event">No speakers for this event.</string>
+    <string name="no_participants_for_this_event">No participants for this event.</string>
+    <string name="no_mentioned_users_for_this_post">No mentioned users for this post.</string>
+    <string name="select_start_date">SELECT START DATE</string>
+    <string name="select_finish_date">SELECT FINISH DATE</string>
+    <string name="select_mentioned_users">SELECT MENTIONED USERS</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

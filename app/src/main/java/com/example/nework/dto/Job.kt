@@ -18,7 +18,7 @@ data class Job(
     @SerializedName("start")
     val start: String,
     @SerializedName("finish")
-    val finish: String,
+    val finish: String?,
     @SerializedName("link")
     val link: String?,
 
