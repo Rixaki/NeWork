@@ -75,24 +75,4 @@ class DbModule {
     fun provideUserDao(
         userDb: UserDb
     ) : UserDao = userDb.userDao
-//_____________________________________________
-    @Singleton//set lifecycle
-    @Provides
-    fun provideWallDb(
-        @ApplicationContext
-        context: Context//uses cxt whole app
-    ): WallDb =
-        Room.databaseBuilder(
-            context,
-            WallDb::class.java,
-            "wall_db.db"
-        )
-            .fallbackToDestructiveMigration()
-            .allowMainThreadQueries()
-            .build()
-
-    @Provides
-    fun provideWallDao(
-        wallDb: WallDb
-    ) : WallDao = wallDb.wallDao
 }

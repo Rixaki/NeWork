@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 
 //ONLY SHOWING USER LIST
-@HiltViewModel
+@HiltViewModel(assistedFactory = UsersViewModelFactory::class)
 class UsersViewModel @AssistedInject constructor(
     private val appApi: AppApi,
     private val userRepo: UserRepo,

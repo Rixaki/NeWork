@@ -26,7 +26,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:contentDescription="@string/descriptionPostAuthorAvatar"
-            android:src="@tools:sample/avatars"
+            tools:src="@tools:sample/avatars"
             app:layout_constraintBottom_toBottomOf="@id/barrierUserHeadBottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/barrierUserHeadTop" />

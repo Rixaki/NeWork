@@ -8,9 +8,11 @@ import androidx.room.withTransaction
 import com.example.nework.api.AppApi
 import com.example.nework.dao.PostDao
 import com.example.nework.dao.PostRemoteKeyDao
+import com.example.nework.dao.WallByUserRemoteKeyDao
 import com.example.nework.db.PostDb
 import com.example.nework.entity.PostEntity
 import com.example.nework.entity.PostRemoteKeyEntity
+import com.example.nework.entity.WallByUserRemoteKeyEntity
 import com.example.nework.error.ApiError
 import java.lang.Math.max
 import java.lang.Math.min
@@ -21,8 +23,10 @@ const val STARTING_PAGE_INDEX = 1
 class PostRemoteMediator (
     private val service: AppApi,
     private val postDao: PostDao,
-    private val keyDao: PostRemoteKeyDao,
+    private val postKeyDao: PostRemoteKeyDao,
+    private val wallKeyDao: WallByUserRemoteKeyDao,
     private val postDb: PostDb,
+    private val isWall: Boolean = false,
 ) : RemoteMediator<Int, PostEntity>() {
     override suspend fun initialize(): InitializeAction =
         if (postDao.isEmpty()) {
@@ -35,6 +39,11 @@ class PostRemoteMediator (
         loadType: LoadType,
         state: PagingState<Int, PostEntity>
     ): MediatorResult {
+        val keyDao = KeyDaoMediator(
+            isWall = isWall,
+            postKeyDao = postKeyDao,
+            wallKeyDao = wallKeyDao
+        )
         try {
             val response = when (loadType) {
                 LoadType.REFRESH -> {
@@ -139,6 +148,34 @@ class PostRemoteMediator (
         } catch (e: Exception) {
             println("ERROR MESSAGE: ${e.message}")
             return MediatorResult.Error(e)
+        }
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+data class KeyDaoMediator(
+    val isWall: Boolean = false,
+    private val postKeyDao: PostRemoteKeyDao,
+    private val wallKeyDao: WallByUserRemoteKeyDao,
+){
+    suspend fun max() : Int? {
+        return if (isWall) {wallKeyDao.max()}
+        else {postKeyDao.max()}
+    }
+    suspend fun min() : Int? {
+        return if (isWall) {wallKeyDao.min()}
+        else {postKeyDao.min()}
+    }
+    suspend fun insert(ent: Any){
+        if (isWall) {wallKeyDao.insert(ent as WallByUserRemoteKeyEntity)}
+        else {postKeyDao.insert(ent as PostRemoteKeyEntity)}
+    }
+    suspend fun insert(ent1: Any, ent2: Any){
+        if (isWall) {
+            wallKeyDao.insert(listOf(ent1, ent2) as List<WallByUserRemoteKeyEntity>)
+        }
+        else {
+            postKeyDao.insert(listOf(ent1, ent2) as List<PostRemoteKeyEntity>)
         }
     }
 }

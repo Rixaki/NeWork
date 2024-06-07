@@ -30,9 +30,11 @@ import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.PostFragment.Companion.intArg
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.JobViewModel
+import com.example.nework.vm.JobViewModelFactory
 import com.example.nework.vm.PostByUserViewModel
 import com.example.nework.vm.PostByUserViewModelFactory
 import com.example.nework.vm.PostViewModel
+import com.example.nework.vm.PostViewModelFactory
 import com.example.nework.vm.UsersViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -56,9 +58,34 @@ class MyProfileFragment : Fragment() {
     }
 
     private val authModel by viewModels<AuthViewModel>()
+    //only for wall list
+    private val myId = authModel.data.asLiveData().value?.id//checked by prev fragment
+    private val jobModel: JobViewModel by activityViewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<JobViewModelFactory> { factory ->
+                @Suppress("DEPRECATION")
+                factory.create(myId ?: 0)
+            }
+        }
+    )
+    private val wallModel: PostByUserViewModel by viewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<PostByUserViewModelFactory> { factory ->
+                @Suppress("DEPRECATION")
+                factory.create(myId ?: 0)
+            }
+        }
+    )
+
     //for post manipulations
-    private val postModel: PostViewModel by activityViewModels()
-    private val jobModel: JobViewModel by activityViewModels()
+    private val postModel: PostViewModel by activityViewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<PostViewModelFactory> { factory ->
+                @Suppress("DEPRECATION")
+                factory.create(true)//wall
+            }
+        }
+    )
     private val userModel by viewModels<UsersViewModel>()
 
     override fun onCreateView(
@@ -68,16 +95,6 @@ class MyProfileFragment : Fragment() {
     ): View? {
         val binding = FragmentUserBinding.inflate(layoutInflater, container, false)
 
-        //only for wall list
-        val myId = authModel.data.asLiveData().value?.id//checked by prev fragment
-        val wallModel: PostByUserViewModel by viewModels(
-            extrasProducer = {
-                defaultViewModelCreationExtras.withCreationCallback<PostByUserViewModelFactory> { factory ->
-                    @Suppress("DEPRECATION")
-                    factory.create(myId ?: 0)
-                }
-            }
-        )
 
 
         if ((authModel.authenticated) && (myId != null) && (myId != 0)) {
@@ -236,7 +253,6 @@ class MyProfileFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        jobModel.clearModels()
         postModel.clearModels()
         userModel.clearModel()
         super.onDestroy()

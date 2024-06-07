@@ -37,6 +37,6 @@ interface UserDao {
     @Query("DELETE FROM UserEntity WHERE id = :id")
     suspend fun removeById(id: Int)
 
-    @Query("DELETE FROM PostEntity")
+    @Query("DELETE FROM UserEntity")
     suspend fun clear()
 }

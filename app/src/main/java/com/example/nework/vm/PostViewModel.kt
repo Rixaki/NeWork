@@ -20,6 +20,9 @@ import com.example.nework.dto.Post
 import com.example.nework.model.FeedModelState
 import com.example.nework.model.PhotoModel
 import com.example.nework.repo.PostRepo
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +31,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.SingleLiveEvent
-import java.io.File
 import javax.inject.Inject
 
 private val empty = Post(
@@ -49,13 +51,18 @@ private val empty = Post(
 private val noPhoto = PhotoModel()
 private val noList = emptyList<Int>()
 
-@HiltViewModel
+@HiltViewModel(assistedFactory = PostViewModelFactory::class)
 @SuppressLint("CheckResult")//suppression warning
-class PostViewModel @Inject constructor(
+class PostViewModel @AssistedInject constructor(
     private val repository: PostRepo,
     private val remoteKeyDao: PostRemoteKeyDao,
     private val appAuth: AppAuth,
+    @Assisted private val isWallOption: Boolean = false
 ) : ViewModel() {
+    init {
+        repository.isWall = isWallOption
+    }
+
     private val cached = repository
         .data
         .cachedIn(viewModelScope)
@@ -271,4 +278,9 @@ class PostViewModel @Inject constructor(
         }
     }
      */
+}
+
+@AssistedFactory
+interface PostViewModelFactory{
+    fun create(option: Boolean): PostViewModel
 }

@@ -28,6 +28,7 @@ class SelectUserListByEventFragment : Fragment() {
 
     init {
         selectorModel.setAllSelectorList(viewModel.speakers.value ?: emptyList())
+        selectorModel.sortList()
     }
 
     override fun onCreateView(

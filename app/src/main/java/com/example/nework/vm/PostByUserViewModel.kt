@@ -13,6 +13,7 @@ import com.example.nework.dao.PostRemoteKeyDao
 import com.example.nework.dto.FeedItem
 import com.example.nework.dto.Post
 import com.example.nework.repo.PostRepo
+import com.example.nework.repo.PostRepoImpl
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -37,7 +38,7 @@ private val empty = Post(
     mentionedMe = false
 )
 
-@HiltViewModel
+@HiltViewModel(assistedFactory = PostByUserViewModelFactory::class)
 @SuppressLint("CheckResult")//suppression warning
 class PostByUserViewModel @AssistedInject constructor(
     private val repository: PostRepo,

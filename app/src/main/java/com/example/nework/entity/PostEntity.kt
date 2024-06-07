@@ -10,7 +10,7 @@ import com.example.nework.dto.Coords
 import com.example.nework.dto.Post
 
 @Entity
-@TypeConverters(BaseTypeConverter::class, EventTypeConverter::class)
+@TypeConverters(BaseTypeConverter::class)
 data class PostEntity (
     @PrimaryKey(autoGenerate = true) val id: Int,
     val authorId: Int,
@@ -25,7 +25,7 @@ data class PostEntity (
     val mentionedMe: Boolean,
     val likeOwnerIds: List<Int> = emptyList(),
     val likedByMe: Boolean,
-    @Embedded val attachment: AttachmentEmbeddable? = null,
+    @Embedded(prefix= "att_") val attachment: AttachmentEmbeddable? = null,
     val users: List<UserPreviewEntity> = emptyList(),
 
     val ownedByMe: Boolean = false,

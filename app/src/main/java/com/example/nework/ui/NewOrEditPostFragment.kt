@@ -17,6 +17,7 @@ import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
 import com.example.nework.dto.Coords
 import com.example.nework.ui.SelectUserListByPostFragment.Companion.titleArg
 import com.example.nework.vm.PostViewModel
+import com.example.nework.vm.PostViewModelFactory
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
@@ -24,6 +25,7 @@ import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.MapObjectTapListener
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.StringArg
 import ru.netology.nmedia.util.toast
@@ -31,7 +33,14 @@ import ru.netology.nmedia.util.toast
 @AndroidEntryPoint
 class NewOrEditPostFragment : Fragment() {
     //viewModel take post in edited after onEditLtn in feed or post page
-    private val viewModel: PostViewModel by activityViewModels()
+    private val viewModel: PostViewModel by activityViewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<PostViewModelFactory> { factory ->
+                @Suppress("DEPRECATION")
+                factory.create(false)//no wall
+            }
+        }
+    )
 
     companion object {
         var Bundle.textArg: String? by StringArg

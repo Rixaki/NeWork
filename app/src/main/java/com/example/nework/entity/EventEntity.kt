@@ -2,6 +2,7 @@ package com.example.nework.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.nework.dto.Coords
 import com.example.nework.dto.Event
@@ -9,9 +10,9 @@ import com.example.nework.dto.EventType
 import com.example.nework.dto.UserPreview
 
 @Entity
-@TypeConverters(BaseTypeConverter::class, EventTypeConverter::class)
+@TypeConverters(BaseTypeConverter::class)
 data class EventEntity (
-    val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val authorId: Int,
     val author: String,
     val authorJob: String?,
@@ -26,9 +27,9 @@ data class EventEntity (
     val speakerIds: List<Int> = emptyList(),
     val participantsIds: List<Int> = emptyList(),
     val participatedByMe: Boolean,
-    val attachment: AttachmentEmbeddable?,
+    @Embedded(prefix = "att_") val attachment: AttachmentEmbeddable?,
     val link: String?,
-    val users: List<UserPreview> = emptyList(),
+    val users: List<UserPreviewEntity> = emptyList(),
 
     val ownedByMe: Boolean = false,
     val isLikeLoading: Boolean = false,
@@ -55,7 +56,7 @@ data class EventEntity (
         participatedByMe = participatedByMe,
         attachment = attachment?.toDto(),
         videoLink = link,
-        users = users,
+        users = users.map {it.toDto()},
 
         ownedByMe = ownedByMe,
         isLikeLoading = isLikeLoading,
@@ -88,7 +89,7 @@ data class EventEntity (
                     AttachmentEmbeddable.fromDto(it)
                 },
                 link = videoLink,
-                users = users,
+                users = users.map {UserPreviewEntity.fromDto(it)},
 
                 ownedByMe = ownedByMe,
                 isLikeLoading = isLikeLoading,

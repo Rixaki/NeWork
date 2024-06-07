@@ -5,8 +5,8 @@ import com.example.nework.dto.Coords
 
 @Entity
 data class CoordsEmbeddable (
-    val lat: Int,
-    val long: Int
+    val lat: Double,
+    val long: Double
 ) {
     fun toDto(): Coords = Coords(
         lat = lat,

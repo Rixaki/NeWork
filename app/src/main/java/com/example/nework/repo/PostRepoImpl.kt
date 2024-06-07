@@ -10,6 +10,7 @@ import androidx.room.withTransaction
 import com.example.nework.api.AppApi
 import com.example.nework.dao.PostDao
 import com.example.nework.dao.PostRemoteKeyDao
+import com.example.nework.dao.WallByUserRemoteKeyDao
 import com.example.nework.db.PostDb
 import com.example.nework.dto.Ad
 import com.example.nework.dto.Attachment
@@ -42,9 +43,12 @@ const val WEEK_COUNT : Long = 48 * 60 * 60
 class PostRepoImpl @Inject constructor(
     private val postDao: PostDao,
     private val postRemoteKeyDao: PostRemoteKeyDao,
+    private val wallRemoteKeyDao: WallByUserRemoteKeyDao,
     private val appApi: AppApi,
-    private val postDb: PostDb
+    private val postDb: PostDb,
 ) : PostRepo {
+    override var isWall: Boolean = false
+
     @OptIn(ExperimentalPagingApi::class)
     override val data: Flow<PagingData<FeedItem>> = Pager(
         config = PagingConfig(
@@ -56,8 +60,10 @@ class PostRepoImpl @Inject constructor(
         remoteMediator = PostRemoteMediator(
             service = appApi,
             postDao = postDao,
-            keyDao = postRemoteKeyDao,
+            postKeyDao = postRemoteKeyDao,
+            wallKeyDao = wallRemoteKeyDao,
             postDb = postDb,
+            isWall = isWall
         )
     ).flow.map { pagingData ->
         pagingData

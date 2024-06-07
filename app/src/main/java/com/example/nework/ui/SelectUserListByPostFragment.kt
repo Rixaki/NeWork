@@ -13,14 +13,21 @@ import com.example.nework.R
 import com.example.nework.adapter.UserSelectableAdapter
 import com.example.nework.databinding.FragmentListSelectorBinding
 import com.example.nework.vm.PostViewModel
+import com.example.nework.vm.PostViewModelFactory
 import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import ru.netology.nmedia.util.StringArg
 
 @AndroidEntryPoint
 class SelectUserListByPostFragment : Fragment() {
-    private val viewModel: PostViewModel by activityViewModels()
+    private val viewModel: PostViewModel by activityViewModels(extrasProducer = {
+        defaultViewModelCreationExtras.withCreationCallback<PostViewModelFactory> { factory ->
+            @Suppress("DEPRECATION")
+            factory.create(false)//no wall
+        }
+    })
     private val selectorModel: UsersSelectorViewModel by viewModels()
     companion object {
         var Bundle.titleArg: String? by StringArg
@@ -28,6 +35,7 @@ class SelectUserListByPostFragment : Fragment() {
 
     init {
         selectorModel.setAllSelectorList(viewModel.list.value ?: emptyList())
+        selectorModel.sortList()
     }
 
     override fun onCreateView(

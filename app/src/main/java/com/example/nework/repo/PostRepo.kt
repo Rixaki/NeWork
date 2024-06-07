@@ -8,6 +8,8 @@ import com.example.nework.dto.Post
 import kotlinx.coroutines.flow.Flow
 
 interface PostRepo {
+    var isWall: Boolean
+
     val data: Flow<PagingData<FeedItem>>
 
     //suspend fun getAll() //useless with paging

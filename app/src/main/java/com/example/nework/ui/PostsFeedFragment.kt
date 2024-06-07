@@ -26,9 +26,11 @@ import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.PostFragment.Companion.intArg
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.PostViewModel
+import com.example.nework.vm.PostViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.toast
@@ -36,7 +38,14 @@ import ru.netology.nmedia.util.toast
 @AndroidEntryPoint
 class PostsFeedFragment : Fragment() {
 
-    private val viewModel: PostViewModel by activityViewModels()
+    private val viewModel: PostViewModel by activityViewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<PostViewModelFactory> { factory ->
+                @Suppress("DEPRECATION")
+                factory.create(false)//no wall
+            }
+        }
+    )
     private val authModel : AuthViewModel by viewModels()
 
     /*

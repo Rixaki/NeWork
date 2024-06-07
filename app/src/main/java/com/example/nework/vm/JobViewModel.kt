@@ -8,6 +8,7 @@ import com.example.nework.api.AppApi
 import com.example.nework.dto.Job
 import com.example.nework.model.ResponceState
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +31,7 @@ private val noStr = ""
 private val noList = emptyList<Job>()
 
 //FOR EDIT JOB
-@HiltViewModel
+@HiltViewModel(assistedFactory = JobViewModelFactory::class)
 class JobViewModel @AssistedInject constructor(
     private val appApi: AppApi,
     @Assisted private val userId: Int
@@ -206,4 +207,9 @@ class JobViewModel @AssistedInject constructor(
         _finish.value = noStr
         _link.value = noStr
     }
+}
+
+@AssistedFactory
+interface JobViewModelFactory{
+    fun create (id: Int) : JobViewModel
 }

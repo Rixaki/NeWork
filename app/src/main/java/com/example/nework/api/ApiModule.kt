@@ -2,7 +2,10 @@ package com.example.nework.api
 
 import com.example.nework.BuildConfig
 import com.example.nework.auth.AppAuth
+import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -11,6 +14,8 @@ import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
+@Module
 class ApiModule {
     companion object {
         private const val BASE_URL = "http://94.228.125.136:8080/api/"
