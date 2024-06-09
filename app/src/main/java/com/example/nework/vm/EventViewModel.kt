@@ -28,6 +28,7 @@ import com.example.nework.model.PostModel
 import com.example.nework.repo.EventRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
@@ -56,6 +57,7 @@ private val noPhoto = PhotoModel()
 private val noList = emptyList<Int>()
 private val noTime = ""
 
+//@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 @SuppressLint("CheckResult")//suppression warning
 class EventViewModel @Inject constructor(

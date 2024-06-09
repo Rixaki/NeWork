@@ -8,6 +8,10 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     //kotlin("kapt")
+
+    //kotlinx.serialization
+    //kotlin("jvm") version "2.0.0"
+    kotlin("plugin.serialization") version "2.0.0"
 }
 
 android {
@@ -129,4 +133,7 @@ dependencies {
 
     val yandex_map_version =  "4.6.1-lite"
     implementation ("com.yandex.android:maps.mobile:$yandex_map_version")
+
+    val serialization_version = "1.7.0"
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version")
 }

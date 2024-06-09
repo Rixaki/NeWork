@@ -1,3 +1,4 @@
+/*
 package com.example.nework.dao
 
 import androidx.paging.PagingSource
@@ -57,3 +58,4 @@ interface WallDao {
     @Query("DELETE FROM WallPostEntity")
     suspend fun clear()
 }
+ */

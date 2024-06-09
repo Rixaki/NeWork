@@ -20,6 +20,9 @@ interface WallByUserRemoteKeyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(postRemoteKeyEntity: List<WallByUserRemoteKeyEntity>)
 
+    @Query("SELECT COUNT(*) == 0 FROM WallByUserRemoteKeyEntity")
+    suspend fun isEmpty(): Boolean
+
     @Query("DELETE FROM WallByUserRemoteKeyEntity")
     suspend fun clear()
 }

@@ -17,10 +17,12 @@ import com.example.nework.entity.WallByUserRemoteKeyEntity
 abstract class UserDb : RoomDatabase() {
     abstract val userDao: UserDao
 
+    /*
     companion object {
         @Volatile
         private var instance: UserDb? = null
 
         //buildDatabase migrated to DI
     }
+     */
 }

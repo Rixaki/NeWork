@@ -3,9 +3,9 @@ package com.example.nework.db
 import android.content.Context
 import androidx.room.Room
 import com.example.nework.dao.EventDao
+import com.example.nework.dao.EventRemoteKeyDao
 import com.example.nework.dao.PostDao
 import com.example.nework.dao.UserDao
-import com.example.nework.dao.WallDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)//depen-t for all app
 @Module
-class DbModule {
+object DbModule {
     @Singleton//set lifecycle
     @Provides
     fun providePostDb(

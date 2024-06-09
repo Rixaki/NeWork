@@ -5,6 +5,8 @@ import com.example.nework.dto.Attachment
 import com.example.nework.dto.AttachmentType
 import com.example.nework.dto.EventType
 import com.google.gson.Gson
+import kotlinx.serialization.*
+import kotlinx.serialization.json.Json
 import com.google.gson.reflect.TypeToken
 import java.io.Serializable
 
@@ -42,21 +44,18 @@ class BaseTypeConverter {
     // fun listToJson(list: List<Int>?): String defined in com.example.nework.entity.BaseTypeConverter
     //JSON CONVERTERS
     @TypeConverter
-    //fun listToJson(list: List<Int>?): Identifiable<String> = IdentifiableImpl(Gson().toJson(list))
-    fun listToJson(list: List<Int>?): String = Gson().toJson(list)
+    fun listIntToJson(list: List<Int>?): String = Gson().toJson(list)
 
     @TypeConverter
-    //fun jsonToList(json: Identifiable<String>): List<Int> =
-    //    Gson().fromJson(IdentifiableImpl(json), object : TypeToken<List<Int>>(){}.type) ?: emptyList()
-    fun jsonToList(json: String?): List<Int> =
+    fun jsonToListInt(json: String?): List<Int> =
         Gson().fromJson(json, object : TypeToken<List<Int>>(){}.type) ?: emptyList()
 
     //identifiable not need due to non-primitive type in list (maybe?)
     @TypeConverter
-    fun listToJson(list: List<UserPreviewEntity>?): String = Gson().toJson(list)
+    fun listUsersToJson(list: List<UserPreviewEntity>?): String = Gson().toJson(list)
 
     @TypeConverter
-    fun jsonToList(json: String): List<UserPreviewEntity> =
+    fun jsonToListUser(json: String): List<UserPreviewEntity> =
         Gson().fromJson(json, object : TypeToken<List<UserPreviewEntity>>(){}.type) ?: emptyList()
 
     //EVENT CONVERTERS
@@ -68,24 +67,4 @@ class BaseTypeConverter {
     fun fromDto(evType: EventType): EventTypeEntity =
         EventTypeEntity.valueOf(evType.name)
 
-}
-
-//https://stackoverflow.com/questions/29268526/how-to-overcome-same-jvm-signature-error-when-implementing-a-java-interface
-//from kotlin to java
-interface Identifiable<ID : Serializable?> {
-    val id: ID
-    fun getId() : ID = id
-}
-
-
-/*
-//from java to kotlin
-class IdentifiableImpl(@JvmField var id: String) : Identifiable<String>
-{
-    override fun getId(): String {TODO("not implemented")}
-}
- */
-class IdentifiableImpl(override val id: String) : Identifiable<String>
-{
-    override fun getId(): String = id
 }
