@@ -29,6 +29,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        lint {
+            baseline = file("lint-baseline.xml")
+        }
 
         //MAPKIT
         val properties = Properties()
