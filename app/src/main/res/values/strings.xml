@@ -96,5 +96,7 @@
     <string name="select_finish_date">SELECT FINISH DATE</string>
     <string name="select_mentioned_users">SELECT MENTIONED USERS</string>
     <string name="job_changed_was_saved">Job changed was saved.</string>
+    <string name="take_photo">Take photo</string>
+    <string name="take_picture_from_gallery">Take picture from gallery</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

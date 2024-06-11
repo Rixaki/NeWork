@@ -99,7 +99,7 @@
                 app:icon="@drawable/baseline_watch_later_48"
                 app:iconGravity="textStart"
                 app:iconTint="@color/white" />
-        </LinearLayout>>
+        </LinearLayout>
 
             <com.yandex.mapkit.mapview.MapView
                 android:id="@+id/mapView"
@@ -116,13 +116,16 @@
                 android:layout_marginVertical="@dimen/defaultMargin"
                 android:layout_marginHorizontal="@dimen/defaultMargin"
                 android:ems="10"
-                android:hint="@string/video_link_hint" />
+                android:hint="@string/video_link_hint"
+                android:importantForAutofill="no"
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:gravity="top"
+                android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:scrollbars="vertical"
                 android:layout_marginBottom="@dimen/defaultMargin"
@@ -147,6 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
+                    android:importantForAccessibility="no"
                     android:visibility="visible"
                     android:layout_marginBottom="@dimen/defaultMargin"
                     tools:srcCompat="@tools:sample/avatars[2]" />
@@ -256,7 +260,7 @@
             android:insetTop="10dp"
             android:insetRight="10dp"
             android:insetBottom="10dp"
-            android:contentDescription="Take photo"
+            android:contentDescription="@string/take_photo"
             app:icon="@drawable/baseline_location_pin_48"
             app:iconGravity="textStart"
             android:backgroundTint="?colorOnPrimary"
@@ -270,7 +274,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:contentDescription="Take photo"
+            android:contentDescription="@string/take_photo"
             app:icon="@drawable/baseline_photo_camera_48"
             app:iconGravity="textStart"
             app:iconTint="?colorOnPrimary"
@@ -283,7 +287,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:contentDescription="Take picture from gallery"
+            android:contentDescription="@string/take_picture_from_gallery"
             app:icon="@drawable/baseline_gallery_48"
             app:iconGravity="textStart"
             app:iconTint="?colorOnPrimary"
