@@ -128,7 +128,7 @@ dependencies {
     val coordinatorlayout_version = "1.2.0"
     implementation ("androidx.coordinatorlayout:coordinatorlayout:$coordinatorlayout_version")
 
-    val paging_version = "3.2.1"
+    val paging_version = "3.3.0"
     implementation ("androidx.paging:paging-runtime-ktx:$paging_version")
 
     val yandex_map_version ="4.6.1-lite"
