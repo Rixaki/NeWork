@@ -1,5 +1,6 @@
 package com.example.nework.ui
 
+import android.annotation.SuppressLint
 import com.example.nework.R
 import android.app.Dialog
 import android.os.Bundle
@@ -26,6 +27,7 @@ class MapDialogFragment(
     private var _mapView: MapView? = null
     private var _boardView: Button? = null
 
+    //@SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //MapKitFactory start/stop instance and initialize in activity
         val dialog = Dialog(requireContext())
@@ -37,7 +39,7 @@ class MapDialogFragment(
             root = null: onCreateDialog create dialog,
                 but there are NOT any facts about root view creating
          */
-        dialog.setContentView(inflater.inflate(R.layout.dialog_map, null))
+        dialog.setContentView(R.layout.dialog_map)
 
         _mapView = dialog.findViewById<MapView>(R.id.mapView)
         _boardView = dialog.findViewById<Button>(R.id.positionBoard)
