@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/defaultMargin"
             android:layout_marginEnd="@dimen/defaultMargin"
-            android:textSize="25dp"
+            android:textSize="24sp"
             android:ellipsize="end"
             android:singleLine="true"
             app:layout_constraintTop_toTopOf="parent"
