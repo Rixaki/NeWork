@@ -118,7 +118,7 @@ dependencies {
     val coroutines_version = "1.7.3"
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
 
-    val nav_version = "2.7.5"
+    val nav_version = "2.7.7"
     implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
 
