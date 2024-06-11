@@ -34,7 +34,7 @@ class UsersSelectorViewModel @Inject constructor(
     val usersState: LiveData<ResponceState>
         get() = _usersState
 
-    val users : LiveData<List<User>> = userRepo.data.asLiveData()
+    val users: LiveData<List<User>> = userRepo.data.asLiveData()
 
     init {
         getUsers()
@@ -91,8 +91,8 @@ class UsersSelectorViewModel @Inject constructor(
     }
 
     //for post/event edit
-    fun getPickedIdsList(list: List<SelectableUser>) : List<Int> {
-        return list.filter{ it.isPicked }.map{ it.id }
+    fun getPickedIdsList(list: List<SelectableUser>): List<Int> {
+        return list.filter { it.isPicked }.map { it.id }
     }
 
     fun clearModels() {

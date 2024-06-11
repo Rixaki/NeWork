@@ -71,7 +71,7 @@
             app:iconGravity="textStart"
             app:layout_constraintTop_toBottomOf="@id/avatar"
             app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
-            app:icon="@drawable/baseline_location_pin_48"/>
+            app:icon="@drawable/baseline_location_pin_48" />
 
         <TextView
             android:id="@+id/pointBoard"
@@ -80,14 +80,14 @@
             android:layout_margin="@dimen/buttonDefaultMarginDim"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
-            android:textSize="@dimen/defaultMargin"
+            android:textSize="@dimen/defaultTextSize"
             android:clickable="false"
             android:focusable="false"
             android:textColor="@color/black"
             android:background="@color/white"
             android:text="point: 100.0000 / 200.0000"
             app:layout_constraintTop_toTopOf="@id/mapView"
-            app:layout_constraintEnd_toEndOf="@id/mapView"/>
+            app:layout_constraintEnd_toEndOf="@id/mapView" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierPostHeadBottom"
@@ -128,7 +128,7 @@
             app:iconTint="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/publishedTime"/>
+            app:layout_constraintTop_toBottomOf="@id/publishedTime" />
 
         <com.google.android.material.button.MaterialButton
             style="@style/Widget.AppTheme.LikeButton"
@@ -217,6 +217,7 @@
             android:adjustViewBounds="true"
             android:clickable="true"
             android:focusable="true"
+            android:importantForAccessibility="no"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -239,6 +240,7 @@
             android:id="@+id/playVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@id/videoWallpaper"
             app:layout_constraintEnd_toEndOf="@id/videoWallpaper"
             app:layout_constraintStart_toStartOf="@id/videoWallpaper"

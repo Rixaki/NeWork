@@ -69,7 +69,7 @@ class GetUserListDialogFragment(
         val adapter = UserAdapter()
         binding.list.adapter = adapter
 
-        userListModel.list.asLiveData().observe(viewLifecycleOwner){ list ->
+        userListModel.list.asLiveData().observe(viewLifecycleOwner) { list ->
             adapter.submitList(list) {
                 binding.list.smoothScrollToPosition(0)
             }
@@ -86,7 +86,7 @@ class GetUserListDialogFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialog.let{
+        dialog.let {
             if (it != null) {
                 it.setTitle(titleId)
             } else {

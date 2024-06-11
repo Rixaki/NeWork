@@ -63,8 +63,8 @@ interface EventDao {
     suspend fun isEmpty(): Boolean
 
     @Query("SELECT max(id) FROM EventEntity")
-    suspend fun max():Int?
+    suspend fun max(): Int?
 
     @Query("SELECT min(id) FROM EventEntity")
-    suspend fun min():Int?
+    suspend fun min(): Int?
 }

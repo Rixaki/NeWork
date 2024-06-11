@@ -115,7 +115,8 @@ class EventFragment : Fragment() {
             override fun onMapLtn(event: Event) {}
 
             override fun onListPartLtn(event: Event) {
-                val dialog = GetUserListDialogFragment(event.participantsIds, R.string.list_of_participants)
+                val dialog =
+                    GetUserListDialogFragment(event.participantsIds, R.string.list_of_participants)
                 dialog.show(requireActivity().supportFragmentManager, "List participants dialog.")
             }
 

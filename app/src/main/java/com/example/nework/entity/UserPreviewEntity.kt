@@ -15,9 +15,11 @@ data class UserPreviewEntity(
 
     companion object {
         fun fromDto(dto: UserPreview): UserPreviewEntity =
-            with(dto) { UserPreviewEntity(
-                avatar = avatar,
-                name = name
-            ) }
+            with(dto) {
+                UserPreviewEntity(
+                    avatar = avatar,
+                    name = name
+                )
+            }
     }
 }

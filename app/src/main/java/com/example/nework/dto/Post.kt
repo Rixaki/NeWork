@@ -74,7 +74,7 @@ data class Attachment(
 )
 
 enum class AttachmentType {
-   IMAGE, VIDEO, AUDIO
+    IMAGE, VIDEO, AUDIO
 }
 
 data class Coords(

@@ -37,6 +37,7 @@
             app:layout_constraintBottom_toTopOf="@id/published"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="@tools:sample/full_names" />
+
         <TextView
             android:id="@+id/published"
             android:layout_width="0dp"
@@ -51,6 +52,7 @@
             app:layout_constraintBottom_toTopOf="@id/eventTime"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="published 25.05.2024 15:00" />
+
         <TextView
             android:id="@+id/eventTime"
             android:layout_width="0dp"
@@ -103,7 +105,7 @@
             app:iconTint="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/barrierPostHeadBottom"/>
+            app:layout_constraintTop_toBottomOf="@id/barrierPostHeadBottom" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierPostHeadBottom"
@@ -113,7 +115,6 @@
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/defaultMargin"
             app:constraint_referenced_ids="menu, avatar, authorName, published, eventTime" />
-
 
 
         <androidx.constraintlayout.widget.Barrier
@@ -154,7 +155,7 @@
             app:layout_constraintStart_toEndOf="@id/likeIv"
             app:layout_constraintTop_toTopOf="@id/likeIv"
             app:layout_constraintBottom_toBottomOf="@id/likeIv"
-            app:icon="@drawable/baseline_location_pin_48"/>
+            app:icon="@drawable/baseline_location_pin_48" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/list2Iv"
@@ -193,6 +194,7 @@
             android:adjustViewBounds="true"
             android:clickable="true"
             android:focusable="true"
+            android:importantForAccessibility="no"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -204,7 +206,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/defaultMargin"
-            android:minWidth="300dp"
+            android:importantForAccessibility="no" android:minWidth="300dp"
             android:minHeight="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +217,7 @@
             android:id="@+id/playVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@id/videoWallpaper"
+            android:importantForAccessibility="no" app:layout_constraintBottom_toBottomOf="@id/videoWallpaper"
             app:layout_constraintEnd_toEndOf="@id/videoWallpaper"
             app:layout_constraintStart_toStartOf="@id/videoWallpaper"
             app:layout_constraintTop_toTopOf="@id/videoWallpaper"

@@ -98,5 +98,12 @@
     <string name="job_changed_was_saved">Job changed was saved.</string>
     <string name="take_photo">Take photo</string>
     <string name="take_picture_from_gallery">Take picture from gallery</string>
+    <string name="login">Login</string>
+    <string name="registration">Registration</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="clear_avatar">Clear avatar</string>
+    <string name="already_registered">Already Registered?</string>
+    <string name="login_here">Login here</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

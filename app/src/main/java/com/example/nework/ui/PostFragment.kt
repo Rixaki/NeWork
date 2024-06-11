@@ -108,13 +108,14 @@ class PostFragment : Fragment() {
             override fun onMapLtn(post: Post) {}
 
             override fun onListMentLtn(post: Post) {
-                val dialog = GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
+                val dialog =
+                    GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
                 dialog.show(requireActivity().supportFragmentManager, "List mention dialog.")
             }
         })// val viewHolder
 
         val post = viewModel.getPostById(id)
-        if (post.published == "" ) { //null value
+        if (post.published == "") { //null value
             findNavController().navigateUp()
         } else {
             viewHolder.bind(post)

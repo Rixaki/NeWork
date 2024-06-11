@@ -69,8 +69,10 @@ class MapDialogFragment(
         val map = _mapView?.mapWindow?.map
         if (map != null && lat != null && long != null) {
             map.move(
-                CameraPosition(Point(lat, long),
-                    zoom, azimut, tilt)
+                CameraPosition(
+                    Point(lat, long),
+                    zoom, azimut, tilt
+                )
             )
             try {
                 _boardView!!.setText(
@@ -78,7 +80,8 @@ class MapDialogFragment(
                         R.string.position,
                         "%.4f".format(lat),
                         "%.4f".format(long)
-                    ))
+                    )
+                )
             } catch (e: Exception) {
                 errorDestroy()
             }

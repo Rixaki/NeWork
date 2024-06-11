@@ -92,25 +92,25 @@ class PostViewModel @AssistedInject constructor(
     }
 
     private val _state = MutableLiveData<FeedModelState>()
-    val state : LiveData<FeedModelState>
+    val state: LiveData<FeedModelState>
         get() = _state
 
     private val _coords = MutableLiveData<Coords?>()
-    val coords : LiveData<Coords?>
+    val coords: LiveData<Coords?>
         get() = _coords
 
     private val _list = MutableLiveData<List<Int>>()
-    val list : LiveData<List<Int>>
+    val list: LiveData<List<Int>>
         get() = _list
 
     val edited = MutableLiveData(empty)
 
     private val _postCreated = SingleLiveEvent<Unit>()
-    val postCreated : LiveData<Unit>
+    val postCreated: LiveData<Unit>
         get() = _postCreated
 
     private val _postCancelled = SingleLiveEvent<Unit>()
-    val postCancelled : LiveData<Unit>
+    val postCancelled: LiveData<Unit>
         get() = _postCancelled
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -127,7 +127,7 @@ class PostViewModel @AssistedInject constructor(
     //mutable for "Fresh posts" GONE after refresh/load
 
     private val _photo = MutableLiveData<PhotoModel>()
-    val photo : LiveData<PhotoModel>
+    val photo: LiveData<PhotoModel>
         get() = _photo
 
     init {
@@ -180,13 +180,13 @@ class PostViewModel @AssistedInject constructor(
     }
 
     fun changePostAndSave(content: String) {
-        val isPostModelEmpty = (coords.value==null && list.value==noList)
+        val isPostModelEmpty = (coords.value == null && list.value == noList)
         val oldPredicated = if (isPostModelEmpty)
             (edited.value?.content == content)
         else
             ((edited.value?.content == content) &&
-            (edited.value?.coords == coords.value) &&
-            (edited.value?.mentionIds == list.value))
+                    (edited.value?.coords == coords.value) &&
+                    (edited.value?.mentionIds == list.value))
 
         if (oldPredicated) {
             return
@@ -239,7 +239,8 @@ class PostViewModel @AssistedInject constructor(
 
     fun likeById(id: Int) {
         viewModelScope.launch {
-            val post = repository.getPostById(id)//antisticking before request answer (only with throw id, not post)
+            val post =
+                repository.getPostById(id)//antisticking before request answer (only with throw id, not post)
             if (post?.isLikeLoading == false) {
                 try {
                     repository.likeById(id)//like and unlike in 1
@@ -274,7 +275,6 @@ class PostViewModel @AssistedInject constructor(
     }
 
 
-
     /*
     fun refresh() = viewModelScope.launch {
         try {
@@ -289,6 +289,6 @@ class PostViewModel @AssistedInject constructor(
 }
 
 @AssistedFactory
-interface PostViewModelFactory{
+interface PostViewModelFactory {
     fun create(option: Boolean): PostViewModel
 }

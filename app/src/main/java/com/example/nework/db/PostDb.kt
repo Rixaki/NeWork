@@ -15,7 +15,7 @@ import com.example.nework.entity.WallByUserRemoteKeyEntity
     entities = [PostEntity::class, PostRemoteKeyEntity::class, WallByUserRemoteKeyEntity::class],
     version = 1,
     exportSchema = false,
-    )
+)
 @TypeConverters(BaseTypeConverter::class)
 abstract class PostDb : RoomDatabase() {
     abstract val postDao: PostDao

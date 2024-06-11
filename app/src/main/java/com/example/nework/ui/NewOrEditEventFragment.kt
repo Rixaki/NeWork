@@ -57,6 +57,7 @@ class NewOrEditEventFragment : Fragment() {
         viewModel.changeCoords(Coords(point.latitude, point.longitude))
         true
     }
+
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,9 +92,9 @@ class NewOrEditEventFragment : Fragment() {
         }
         try {
             val millisecsInDay = (Date(startDate).time % 86400000).toInt()
-            startHours = millisecsInDay / (1000*60*60)
-            startMinute = (millisecsInDay % (1000*60*60)) / (1000*60)
-        } catch (e : Exception) {
+            startHours = millisecsInDay / (1000 * 60 * 60)
+            startMinute = (millisecsInDay % (1000 * 60 * 60)) / (1000 * 60)
+        } catch (e: Exception) {
             startHours = 12
             startMinute = 10
         }
@@ -110,7 +111,7 @@ class NewOrEditEventFragment : Fragment() {
                 val formatter = SimpleDateFormat("dd-MM-yyyy")
                 val formattedStr = formatter.format(utc.time)
                 viewModel.changeEventDate(formattedStr)
-                binding.eventTime.setText("${viewModel.eventDate}T${viewModel.eventTime}"+":00.000Z")
+                binding.eventTime.setText("${viewModel.eventDate}T${viewModel.eventTime}" + ":00.000Z")
             }
         }
         val timePicker =
@@ -124,7 +125,7 @@ class NewOrEditEventFragment : Fragment() {
             val hh = timePicker.hour
             val mm = timePicker.minute
             viewModel.changeEventTime("$hh:$mm")
-            binding.eventTime.setText("${viewModel.eventDate}T${viewModel.eventTime}"+":00.000Z")
+            binding.eventTime.setText("${viewModel.eventDate}T${viewModel.eventTime}" + ":00.000Z")
         }
         binding.pickStartDate.setOnClickListener {
             datePicker
@@ -200,8 +201,6 @@ class NewOrEditEventFragment : Fragment() {
             binding.content.setText(savedInstanceState?.getString("textArg"))
         }
         binding.content.requestFocus()
-
-
 
 
         val pickPhotoLauncher =

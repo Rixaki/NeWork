@@ -46,7 +46,7 @@ class PostsFeedFragment : Fragment() {
             }
         }
     )
-    private val authModel : AuthViewModel by viewModels()
+    private val authModel: AuthViewModel by viewModels()
 
     /*
     @Inject
@@ -76,7 +76,7 @@ class PostsFeedFragment : Fragment() {
                         .setMessage(getString(R.string.do_you_want_to_sign_in_for_like_add_posts_etc))
                         .setIcon(R.drawable.baseline_login_48)
                         .setNegativeButton(getString(R.string.cancel), null)
-                        .setPositiveButton(getString(R.string.sign_in)) { _,_ ->
+                        .setPositiveButton(getString(R.string.sign_in)) { _, _ ->
                             findNavController().navigate(R.id.action_global_to_signInFragment)
                         }
                         .show()

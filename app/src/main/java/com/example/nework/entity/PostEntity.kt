@@ -11,7 +11,7 @@ import com.example.nework.dto.Post
 
 @Entity
 @TypeConverters(BaseTypeConverter::class)
-data class PostEntity (
+data class PostEntity(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val authorId: Int,
     val author: String,
@@ -25,14 +25,14 @@ data class PostEntity (
     val mentionedMe: Boolean,
     val likeOwnerIds: List<Int> = emptyList(),
     val likedByMe: Boolean,
-    @Embedded(prefix= "att_") val attachment: AttachmentEmbeddable? = null,
+    @Embedded(prefix = "att_") val attachment: AttachmentEmbeddable? = null,
     val users: List<UserPreviewEntity> = emptyList(),
 
     val ownedByMe: Boolean = false,
     val isLikeLoading: Boolean = false,
     val likes: Int = likeOwnerIds.size
 ) {
-    fun toDto(): Post = Post (
+    fun toDto(): Post = Post(
         id = id,
         authorId = authorId,
         author = author,
@@ -47,7 +47,7 @@ data class PostEntity (
         likeOwnerIds = likeOwnerIds,
         likedByMe = likedByMe,
         attachment = attachment?.toDto(),
-        users = users.map{ it.toDto() },
+        users = users.map { it.toDto() },
 
         ownedByMe = ownedByMe,
         isLikeLoading = isLikeLoading,
@@ -70,7 +70,7 @@ data class PostEntity (
                 mentionedMe = mentionedMe,
                 likeOwnerIds = likeOwnerIds,
                 likedByMe = likedByMe,
-                users = users.map{ UserPreviewEntity.fromDto(it) },
+                users = users.map { UserPreviewEntity.fromDto(it) },
                 attachment = attachment?.let {
                     AttachmentEmbeddable.fromDto(it)
                 },

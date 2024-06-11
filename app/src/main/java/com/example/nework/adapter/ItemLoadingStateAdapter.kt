@@ -17,8 +17,10 @@ class ItemLoadingStateAdapter(
     ): ItemLoadingViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return ItemLoadingViewHolder(
-            ItemLoadingBinding.inflate(LayoutInflater.from(parent.context), parent,
-                false),
+            ItemLoadingBinding.inflate(
+                LayoutInflater.from(parent.context), parent,
+                false
+            ),
             retryListener = retryListener
         )
     }

@@ -58,23 +58,25 @@ fun ImageView.load(
 }
 
 fun ImageView.loadAvatar(url: String) =
-    load(url = url,
+    load(
+        url = url,
         placeholderIndex = R.drawable.baseline_account_circle_48,
-        options = RequestOptions().circleCrop())
+        options = RequestOptions().circleCrop()
+    )
 
-    //method from lesson
-    fun ImageView.simpleLoad(
-        url: String,
-        vararg transforms: BitmapTransformation = emptyArray()
-    ) =
-        Glide.with(this)
-            .load(url)
-            .timeout(10_000)
-            .transform(*transforms)
-            .into(this)//this method not used
+//method from lesson
+fun ImageView.simpleLoad(
+    url: String,
+    vararg transforms: BitmapTransformation = emptyArray()
+) =
+    Glide.with(this)
+        .load(url)
+        .timeout(10_000)
+        .transform(*transforms)
+        .into(this)//this method not used
 
-    //method from lesson
-    fun ImageView.loadCircleCrop(
-        url: String,
-        vararg transforms: BitmapTransformation = emptyArray()
-    ) = simpleLoad(url, CircleCrop(), *transforms)//this method not used
+//method from lesson
+fun ImageView.loadCircleCrop(
+    url: String,
+    vararg transforms: BitmapTransformation = emptyArray()
+) = simpleLoad(url, CircleCrop(), *transforms)//this method not used

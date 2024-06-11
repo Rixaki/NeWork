@@ -20,7 +20,7 @@ import java.lang.Math.min
 const val STARTING_PAGE_INDEX = 1
 
 @OptIn(ExperimentalPagingApi::class)
-class PostRemoteMediator (
+class PostRemoteMediator(
     private val service: AppApi,
     private val postDao: PostDao,
     private val postKeyDao: PostRemoteKeyDao,
@@ -58,6 +58,7 @@ class PostRemoteMediator (
                         )
                     }
                 }
+
                 LoadType.PREPEND -> {
                     //return MediatorResult.Success(endOfPaginationReached = true)
 
@@ -69,6 +70,7 @@ class PostRemoteMediator (
                     )
 
                 }
+
                 LoadType.APPEND -> {
                     val firstId = keyDao.min()
                         ?: return MediatorResult.Success(false)
@@ -157,24 +159,35 @@ data class KeyDaoMediator(
     val isWall: Boolean = false,
     private val postKeyDao: PostRemoteKeyDao,
     private val wallKeyDao: WallByUserRemoteKeyDao,
-){
-    suspend fun max() : Int? {
-        return if (isWall) {wallKeyDao.max()}
-        else {postKeyDao.max()}
+) {
+    suspend fun max(): Int? {
+        return if (isWall) {
+            wallKeyDao.max()
+        } else {
+            postKeyDao.max()
+        }
     }
-    suspend fun min() : Int? {
-        return if (isWall) {wallKeyDao.min()}
-        else {postKeyDao.min()}
+
+    suspend fun min(): Int? {
+        return if (isWall) {
+            wallKeyDao.min()
+        } else {
+            postKeyDao.min()
+        }
     }
-    suspend fun insert(ent: Any){
-        if (isWall) {wallKeyDao.insert(ent as WallByUserRemoteKeyEntity)}
-        else {postKeyDao.insert(ent as PostRemoteKeyEntity)}
+
+    suspend fun insert(ent: Any) {
+        if (isWall) {
+            wallKeyDao.insert(ent as WallByUserRemoteKeyEntity)
+        } else {
+            postKeyDao.insert(ent as PostRemoteKeyEntity)
+        }
     }
-    suspend fun insert(ent1: Any, ent2: Any){
+
+    suspend fun insert(ent1: Any, ent2: Any) {
         if (isWall) {
             wallKeyDao.insert(listOf(ent1, ent2) as List<WallByUserRemoteKeyEntity>)
-        }
-        else {
+        } else {
             postKeyDao.insert(listOf(ent1, ent2) as List<PostRemoteKeyEntity>)
         }
     }

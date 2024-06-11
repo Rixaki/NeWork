@@ -76,7 +76,7 @@ class PostAdapter(
             is Post -> {
                 //(holder as? PostViewHolder)?.bind(item)
                 if (payloads.isEmpty()) {
-                        onBindViewHolder(holder as PostInFeedViewHolder, position)
+                    onBindViewHolder(holder as PostInFeedViewHolder, position)
                 } else {
                     val post = getItem(position) as Post
                     payloads.forEach {
@@ -86,6 +86,7 @@ class PostAdapter(
                     }
                 }
             }
+
             else -> error("unknown item type")
         }
         /*
@@ -115,7 +116,7 @@ class PostAdapter(
     class TimeHeaderViewHolder(
         private val binding: CardTimeHeaderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind (timeHeader: TimeHeader) {
+        fun bind(timeHeader: TimeHeader) {
             binding.title.setText(
                 when (timeHeader.type) {
                     TimeType.TODAY -> R.string.today
@@ -137,7 +138,6 @@ class PostAdapter(
         )
         return PostInFeedViewHolder(view, onIterationPostListener)
     }
-
 
 
     /*
@@ -169,7 +169,7 @@ class PostInFeedViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         with(binding) {
-            eventGroup.visibility=View.GONE
+            eventGroup.visibility = View.GONE
 
             val baseUrl = "$BASE_URL/"
             avatar.loadAvatar(url = baseUrl + post.authorAvatar)
@@ -227,7 +227,7 @@ class PostInFeedViewHolder(
             }
 
             list1Iv.text = countToString(post.mentionIds.size)
-            list1Iv.setOnClickListener{
+            list1Iv.setOnClickListener {
                 onIterationPostListener.onListMentLtn(post)
             }
 
@@ -267,8 +267,8 @@ class PostInFeedViewHolder(
             if (like) {
                 ObjectAnimator.ofPropertyValuesHolder(
                     binding.likeIv,
-                    PropertyValuesHolder.ofFloat(View.SCALE_X,  1.0F, 1.2F, 1.0F),
-                    PropertyValuesHolder.ofFloat(View.SCALE_Y,  1.0F, 1.2F, 1.0F),
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, 1.0F, 1.2F, 1.0F),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.0F, 1.2F, 1.0F),
                 )
             } else {
                 ObjectAnimator.ofFloat(binding.likeIv, View.ROTATION, 0F, 360F)
@@ -301,7 +301,7 @@ class PostInCardViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         with(binding) {
-            eventGroup.visibility=View.GONE
+            eventGroup.visibility = View.GONE
 
             val baseUrl = "$BASE_URL/"
             avatar.loadAvatar(url = baseUrl + post.authorAvatar)
@@ -363,7 +363,7 @@ class PostInCardViewHolder(
             }
 
             list1Iv.text = countToString(post.mentionIds.size)
-            list1Iv.setOnClickListener{
+            list1Iv.setOnClickListener {
                 onIterationPostListener.onListMentLtn(post)
             }
 
@@ -396,7 +396,7 @@ class PostInCardViewHolder(
 
 //for anti-flinking from updating
 data class PayloadPost(
-    val  likedByMe: Boolean? = null,
+    val likedByMe: Boolean? = null,
     val content: String? = null
 )
 

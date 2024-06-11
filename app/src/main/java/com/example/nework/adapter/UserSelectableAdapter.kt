@@ -13,8 +13,8 @@ import com.example.nework.dto.SelectableUser
 import com.example.nework.dto.User
 import ru.netology.nmedia.util.loadAvatar
 
-class UserSelectableAdapter ()
-    : ListAdapter<SelectableUser, SelectableUserViewHolder>(SelectableUserDiffCallBack){
+class UserSelectableAdapter() :
+    ListAdapter<SelectableUser, SelectableUserViewHolder>(SelectableUserDiffCallBack) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -53,9 +53,9 @@ class UserSelectableAdapter ()
 }
 
 class SelectableUserViewHolder(
-    private  val binding: ItemInFeedUserBinding
+    private val binding: ItemInFeedUserBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind (slctUser: SelectableUser){
+    fun bind(slctUser: SelectableUser) {
         with(binding) {
             checkbox.visibility = View.VISIBLE
             checkbox.isChecked = slctUser.isPicked
@@ -70,14 +70,14 @@ class SelectableUserViewHolder(
         }
     }
 
-    fun bind (
+    fun bind(
         payload: SelectablePayload,
         startState: Boolean
     ) = payload.picked?.let {
-            binding.checkbox.setOnClickListener {
-                binding.checkbox.isChecked = !startState
-            }
+        binding.checkbox.setOnClickListener {
+            binding.checkbox.isChecked = !startState
         }
+    }
 }
 
 //for anti-flinking from updating
@@ -86,13 +86,17 @@ data class SelectablePayload(
 )
 
 object SelectableUserDiffCallBack :
-    DiffUtil.ItemCallback<SelectableUser>() {//object without data better that class
+    DiffUtil.ItemCallback<SelectableUser>() {
+    //object without data better that class
     override fun areContentsTheSame(oldItem: SelectableUser, newItem: SelectableUser): Boolean =
         (oldItem.id == newItem.id)
 
     override fun areItemsTheSame(oldItem: SelectableUser, newItem: SelectableUser): Boolean =
         (oldItem == newItem)
 
-    override fun getChangePayload(oldItem: SelectableUser, newItem: SelectableUser): SelectablePayload? =
+    override fun getChangePayload(
+        oldItem: SelectableUser,
+        newItem: SelectableUser
+    ): SelectablePayload? =
         SelectablePayload(picked = newItem.isPicked.takeIf { it != oldItem.isPicked })
 }

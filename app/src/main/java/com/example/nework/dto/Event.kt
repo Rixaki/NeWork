@@ -2,7 +2,7 @@ package com.example.nework.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class Event (
+data class Event(
     @SerializedName("id")
     override val id: Int,
     @SerializedName("authorId")

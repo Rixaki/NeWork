@@ -18,8 +18,8 @@ class UserRepoImpl @Inject constructor(
     private val appApi: AppApi,
     private val userDao: UserDao
 ) : UserRepo {
-    override val data: Flow<List<User>> = userDao.getAll().map{list ->
-        list.map {ent -> ent.toDto() }
+    override val data: Flow<List<User>> = userDao.getAll().map { list ->
+        list.map { ent -> ent.toDto() }
     }
 
     override suspend fun getAll() {
@@ -32,7 +32,7 @@ class UserRepoImpl @Inject constructor(
             response.code(),
             response.message()
         )
-        userDao.insert(body.map{ UserEntity.fromDto(it) })
+        userDao.insert(body.map { UserEntity.fromDto(it) })
     }
 
     override suspend fun getUserPreviewById(id: Int): UserPreview {

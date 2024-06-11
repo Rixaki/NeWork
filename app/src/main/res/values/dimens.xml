@@ -4,4 +4,5 @@
     <dimen name="defaultMargin">16dp</dimen>
     <dimen name="bottomPostIconDimen">24dp</dimen>
     <dimen name="buttonDefaultMarginDim">8dp</dimen>
+    <dimen name="defaultTextSize">16sp</dimen>
 </resources>

@@ -22,6 +22,7 @@ import ru.netology.nmedia.util.StringArg
 class SelectUserListByEventFragment : Fragment() {
     private val viewModel: EventViewModel by activityViewModels()
     private val selectorModel: UsersSelectorViewModel by viewModels()
+
     companion object {
         var Bundle.titleArg: String? by StringArg
     }
@@ -42,7 +43,7 @@ class SelectUserListByEventFragment : Fragment() {
             false
         )
 
-        selectorModel.usersState.observe(viewLifecycleOwner){ state ->
+        selectorModel.usersState.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading
             if (state.error) {
                 val snackbar = Snackbar.make(
@@ -63,7 +64,7 @@ class SelectUserListByEventFragment : Fragment() {
 
         val adapter = UserSelectableAdapter()
         binding.list.adapter = adapter
-        selectorModel.list.observe(viewLifecycleOwner){ list ->
+        selectorModel.list.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
             binding.list.smoothScrollToPosition(0)
         }

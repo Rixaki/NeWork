@@ -54,11 +54,11 @@ interface PostDao {
 
     //for paging
     @Query("SELECT max(id) FROM PostEntity")
-    suspend fun max():Int?
+    suspend fun max(): Int?
 
     //for paging
     @Query("SELECT min(id) FROM PostEntity")
-    suspend fun min():Int?
+    suspend fun min(): Int?
 }
 //RECYCLE BIN
 /*

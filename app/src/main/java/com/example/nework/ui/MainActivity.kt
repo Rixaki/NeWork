@@ -32,8 +32,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private val authModel : AuthViewModel by viewModels()
-    private val usersSelector :
+    private val authModel: AuthViewModel by viewModels()
+    private val usersSelector:
             UsersSelectorViewModel by viewModels()//for clearUserRepo()
 
     @Inject
@@ -73,22 +73,25 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         )
          */
 
-        val navBottomView : NavigationBarView = binding.bottomNavigation
+        val navBottomView: NavigationBarView = binding.bottomNavigation
         navBottomView.setupWithNavController(navController)
         navBottomView.setOnItemSelectedListener { item ->
-            when(item.itemId) {
+            when (item.itemId) {
                 R.id.posts -> {
                     navController.navigate(R.id.action_global_to_postsFeedFragment)
                     true
                 }
+
                 R.id.events -> {
                     navController.navigate(R.id.action_global_to_eventsFeedFragment)
                     true
                 }
+
                 R.id.users -> {
                     navController.navigate(R.id.action_global_to_userFeedFragment)
                     true
                 }
+
                 R.id.my_profile -> {
                     item.isVisible = authModel.authenticated
                     if (authModel.authenticated) {
@@ -107,7 +110,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     }
                     true
                 }
-                else -> {false}
+
+                else -> {
+                    false
+                }
             }
         }
 
@@ -159,14 +165,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                             .setMessage("Are you want to from your account?")
                             .setIcon(R.drawable.baseline_logout_48)
                             .setNegativeButton("Cancel", null)
-                            .setPositiveButton("Sign Out", ) { _,_ ->
+                            .setPositiveButton("Sign Out") { _, _ ->
                                 appAuth.removeAuth()
                             }
                             .show()
                         true
                     }
 
-                    else -> {false}
+                    else -> {
+                        false
+                    }
                 }
         })//addMenuProvider
 

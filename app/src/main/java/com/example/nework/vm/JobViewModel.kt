@@ -75,7 +75,9 @@ class JobViewModel @AssistedInject constructor(
     val JobCreated: LiveData<Unit>
         get() = privateJobCreated
 
-    init {loadJobsById(userId)}
+    init {
+        loadJobsById(userId)
+    }
 
     fun loadJobsById(id: Int) {
         _state.update {
@@ -130,13 +132,15 @@ class JobViewModel @AssistedInject constructor(
         } else {
             _state.value = ResponceState(loading = true)
             //NO CRITICAL FEATURE WITH TIME DISPLAY ON BOARDS
-            changeJob( job.value.copy(
-                name = if (name.value.isNullOrBlank()) job.value.name else name.value!!,
-                position = if (position.value.isNullOrBlank()) job.value.position else position.value!!,
-                start = if (start.value.isNullOrBlank()) job.value.start else start.value!!,
-                finish = if (finish.value.isNullOrBlank()) job.value.finish else finish.value!!,
-                link = if (link.value.isNullOrBlank()) job.value.link else link.value!!
-            ))
+            changeJob(
+                job.value.copy(
+                    name = if (name.value.isNullOrBlank()) job.value.name else name.value!!,
+                    position = if (position.value.isNullOrBlank()) job.value.position else position.value!!,
+                    start = if (start.value.isNullOrBlank()) job.value.start else start.value!!,
+                    finish = if (finish.value.isNullOrBlank()) job.value.finish else finish.value!!,
+                    link = if (link.value.isNullOrBlank()) job.value.link else link.value!!
+                )
+            )
             _job.value.let { job ->
                 viewModelScope.launch {
                     try {
@@ -167,7 +171,7 @@ class JobViewModel @AssistedInject constructor(
         }
     }
 
-    fun removeById(id : Int) {
+    fun removeById(id: Int) {
         viewModelScope.launch {
             try {
                 val response = appApi.deleteJob(id)
@@ -210,6 +214,6 @@ class JobViewModel @AssistedInject constructor(
 }
 
 @AssistedFactory
-interface JobViewModelFactory{
-    fun create (id: Int) : JobViewModel
+interface JobViewModelFactory {
+    fun create(id: Int): JobViewModel
 }

@@ -10,8 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="User profile">
-    </androidx.appcompat.widget.Toolbar>
+        app:title="User profile"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constrainLayout"
@@ -45,13 +44,14 @@
             app:layout_constraintBottom_toTopOf="@id/name"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Nickname" />
+
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/defaultMargin"
             android:layout_marginEnd="@dimen/defaultMargin"
-            android:textSize="@dimen/defaultMargin"
+            android:textSize="@dimen/defaultTextSize"
             android:ellipsize="end"
             android:singleLine="true"
             app:layout_constraintStart_toEndOf="@id/avatar"
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/wall"
-                app:icon="@drawable/baseline_edit_note_48"/>
+                app:icon="@drawable/baseline_edit_note_48" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/jobs"
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/jobs"
-                app:icon="@drawable/baseline_work_48"/>
+                app:icon="@drawable/baseline_work_48" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 

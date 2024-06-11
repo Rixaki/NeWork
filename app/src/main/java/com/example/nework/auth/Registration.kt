@@ -52,9 +52,11 @@ class Registration @Inject constructor(
                 is IOException -> {
                     return Result.failure(IOException())
                 }
+
                 is ApiError -> {
                     return Result.failure(ApiError())
                 }
+
                 else -> {
                     return Result.failure(UnknownError())
                 }

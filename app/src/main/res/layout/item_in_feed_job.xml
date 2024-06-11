@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constrainLayout"
@@ -25,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/defaultMargin"
         android:layout_marginEnd="@dimen/defaultMargin"
-        android:textSize="@dimen/defaultMargin"
+        android:textSize="@dimen/defaultTextSize"
         android:ellipsize="end"
         android:singleLine="true"
         app:layout_constraintTop_toTopOf="@id/jobIv"
@@ -34,13 +33,14 @@
         app:layout_constraintBottom_toTopOf="@id/position"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="@tools:sample/cities" />
+
     <TextView
         android:id="@+id/position"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/defaultMargin"
         android:layout_marginEnd="@dimen/defaultMargin"
-        android:textSize="@dimen/defaultMargin"
+        android:textSize="@dimen/defaultTextSize"
         android:ellipsize="end"
         android:singleLine="true"
         app:layout_constraintEnd_toStartOf="@id/link"
@@ -119,6 +119,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/buttonDefaultMarginDim"
-        android:background="@android:color/black"/>
+        android:background="@android:color/black" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

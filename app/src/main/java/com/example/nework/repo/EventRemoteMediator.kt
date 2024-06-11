@@ -16,7 +16,7 @@ import java.lang.Math.max
 import java.lang.Math.min
 
 @OptIn(ExperimentalPagingApi::class)
-class EventRemoteMediator (
+class EventRemoteMediator(
     private val service: AppApi,
     private val eventDao: EventDao,
     private val eventRemoteKeyDao: EventRemoteKeyDao,
@@ -47,6 +47,7 @@ class EventRemoteMediator (
                         )
                     }
                 }
+
                 LoadType.PREPEND -> {
                     //return MediatorResult.Success(endOfPaginationReached = true)
 
@@ -58,6 +59,7 @@ class EventRemoteMediator (
                     )
 
                 }
+
                 LoadType.APPEND -> {
                     val firstId = eventRemoteKeyDao.min()
                         ?: return MediatorResult.Success(false)

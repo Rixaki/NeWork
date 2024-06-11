@@ -6,7 +6,7 @@ import com.example.nework.dto.Job
 import com.google.gson.annotations.SerializedName
 
 @Entity
-data class JobEntity (
+data class JobEntity(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
     val position: String,
@@ -16,7 +16,7 @@ data class JobEntity (
 
     val ownedByMe: Boolean = false
 ) {
-    fun toDto(): Job = Job (
+    fun toDto(): Job = Job(
         id = id,
         name = name,
         position = position,

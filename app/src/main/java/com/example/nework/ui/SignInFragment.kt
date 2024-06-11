@@ -45,7 +45,7 @@ class SignInFragment : Fragment() {
 
         requireActivity()
             .onBackPressedDispatcher
-            .addCallback(this){
+            .addCallback(this) {
                 this.isEnabled = true
                 findNavController().navigate(R.id.action_global_to_postsFeedFragment)
             }

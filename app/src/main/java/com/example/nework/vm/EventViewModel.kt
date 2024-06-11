@@ -66,7 +66,7 @@ class EventViewModel @Inject constructor(
     private val repository: EventRepo,
     private val remoteKeyDao: EventRemoteKeyDao,
     private val appAuth: AppAuth,
-): ViewModel() {
+) : ViewModel() {
     private val cached = repository
         .data
         .cachedIn(viewModelScope)
@@ -93,33 +93,33 @@ class EventViewModel @Inject constructor(
     }
 
     private val _state = MutableLiveData<FeedModelState>()
-    val state : LiveData<FeedModelState>
+    val state: LiveData<FeedModelState>
         get() = _state
 
     private val _coords = MutableLiveData<Coords?>()
-    val coords : LiveData<Coords?>
+    val coords: LiveData<Coords?>
         get() = _coords
 
     private val _speakers = MutableLiveData<List<Int>>()
-    val speakers : LiveData<List<Int>>
+    val speakers: LiveData<List<Int>>
         get() = _speakers
 
     private val _eventDate = MutableLiveData<String>()
-    val eventDate : LiveData<String>
+    val eventDate: LiveData<String>
         get() = _eventDate
 
     private val _eventTime = MutableLiveData<String>()
-    val eventTime : LiveData<String>
+    val eventTime: LiveData<String>
         get() = _eventTime
 
     val edited = MutableLiveData(empty)
 
     private val _eventCreated = SingleLiveEvent<Unit>()
-    val eventCreated : LiveData<Unit>
+    val eventCreated: LiveData<Unit>
         get() = _eventCreated
 
     private val _eventCancelled = SingleLiveEvent<Unit>()
-    val eventCancelled : LiveData<Unit>
+    val eventCancelled: LiveData<Unit>
         get() = _eventCancelled
 
     @Suppress("UNCHECKED_CAST")
@@ -134,7 +134,7 @@ class EventViewModel @Inject constructor(
     //mutable for "Fresh events" GONE after refresh/load
 
     private val _photo = MutableLiveData<PhotoModel>()
-    val photo : LiveData<PhotoModel>
+    val photo: LiveData<PhotoModel>
         get() = _photo
 
     init {
@@ -187,19 +187,19 @@ class EventViewModel @Inject constructor(
         content: String,
         videoLink: String? = null
     ) {
-        val isEventModelEmpty = (coords.value==null &&
-                speakers.value==noList)
+        val isEventModelEmpty = (coords.value == null &&
+                speakers.value == noList)
         val oldPredicated = if (isEventModelEmpty)
             ((edited.value?.content == content) &&
-            (edited.value?.videoLink == videoLink))
+                    (edited.value?.videoLink == videoLink))
         else
             ((edited.value?.content == content) &&
-            (edited.value?.videoLink == videoLink) &&
-            (edited.value?.coords == coords.value) &&
-            (edited.value?.speakerIds == speakers.value) &&
-            //TODO: MAYBE ANOTHER TIME FORMAT, DROP 8 ":00.000Z"
-            //NO CRITICAL FEATURE
-            (edited.value?.datetime?.dropLast(8) == "${eventDate.value}T${eventTime.value}"))
+                    (edited.value?.videoLink == videoLink) &&
+                    (edited.value?.coords == coords.value) &&
+                    (edited.value?.speakerIds == speakers.value) &&
+                    //TODO: MAYBE ANOTHER TIME FORMAT, DROP 8 ":00.000Z"
+                    //NO CRITICAL FEATURE
+                    (edited.value?.datetime?.dropLast(8) == "${eventDate.value}T${eventTime.value}"))
 
         if (oldPredicated) {
             return
@@ -258,7 +258,8 @@ class EventViewModel @Inject constructor(
 
     fun likeById(id: Int) {
         viewModelScope.launch {
-            val event = repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
+            val event =
+                repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
             if (event?.isLikeLoading == false) {
                 try {
                     repository.likeById(id)//like and unlike in 1
@@ -279,7 +280,8 @@ class EventViewModel @Inject constructor(
 
     fun takePartById(id: Int) {
         viewModelScope.launch {
-            val event = repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
+            val event =
+                repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
             if (event?.isLikeLoading == false) {
                 try {
                     repository.participateById(id)//like and unlike in 1

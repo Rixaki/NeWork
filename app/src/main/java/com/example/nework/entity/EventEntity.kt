@@ -11,7 +11,7 @@ import com.example.nework.dto.UserPreview
 
 @Entity
 @TypeConverters(BaseTypeConverter::class)
-data class EventEntity (
+data class EventEntity(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val authorId: Int,
     val author: String,
@@ -56,7 +56,7 @@ data class EventEntity (
         participatedByMe = participatedByMe,
         attachment = attachment?.toDto(),
         videoLink = link,
-        users = users.map {it.toDto()},
+        users = users.map { it.toDto() },
 
         ownedByMe = ownedByMe,
         isLikeLoading = isLikeLoading,
@@ -69,7 +69,7 @@ data class EventEntity (
 
     companion object {
         fun fromDto(dto: Event) = with(dto) {
-            EventEntity (
+            EventEntity(
                 id = id,
                 authorId = authorId,
                 author = author,
@@ -89,7 +89,7 @@ data class EventEntity (
                     AttachmentEmbeddable.fromDto(it)
                 },
                 link = videoLink,
-                users = users.map {UserPreviewEntity.fromDto(it)},
+                users = users.map { UserPreviewEntity.fromDto(it) },
 
                 ownedByMe = ownedByMe,
                 isLikeLoading = isLikeLoading,

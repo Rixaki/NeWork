@@ -7,7 +7,7 @@ import com.example.nework.dto.Attachment
 import com.example.nework.dto.AttachmentType
 
 @Entity
-data class WallByUserRemoteKeyEntity (
+data class WallByUserRemoteKeyEntity(
     @PrimaryKey val type: KeyType,
     val id: Int,
 ) {

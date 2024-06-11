@@ -9,10 +9,10 @@ import com.example.nework.entity.EventRemoteKeyEntity
 @Dao
 interface EventRemoteKeyDao {
     @Query("SELECT max(id) FROM EventRemoteKeyEntity")
-    suspend fun max():Int?
+    suspend fun max(): Int?
 
     @Query("SELECT min(id) FROM EventRemoteKeyEntity")
-    suspend fun min():Int?
+    suspend fun min(): Int?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(eventRemoteKeyEntity: EventRemoteKeyEntity)

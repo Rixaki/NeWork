@@ -15,6 +15,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/retry_loading"
-        />
+        android:text="@string/retry_loading" />
 </FrameLayout>

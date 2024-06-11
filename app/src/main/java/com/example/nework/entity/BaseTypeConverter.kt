@@ -48,7 +48,7 @@ class BaseTypeConverter {
 
     @TypeConverter
     fun jsonToListInt(json: String?): List<Int> =
-        Gson().fromJson(json, object : TypeToken<List<Int>>(){}.type) ?: emptyList()
+        Gson().fromJson(json, object : TypeToken<List<Int>>() {}.type) ?: emptyList()
 
     //identifiable not need due to non-primitive type in list (maybe?)
     @TypeConverter
@@ -56,7 +56,7 @@ class BaseTypeConverter {
 
     @TypeConverter
     fun jsonToListUser(json: String): List<UserPreviewEntity> =
-        Gson().fromJson(json, object : TypeToken<List<UserPreviewEntity>>(){}.type) ?: emptyList()
+        Gson().fromJson(json, object : TypeToken<List<UserPreviewEntity>>() {}.type) ?: emptyList()
 
     //EVENT CONVERTERS
     @TypeConverter

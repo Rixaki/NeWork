@@ -6,16 +6,16 @@
         <item
             android:id="@+id/signIn"
             android:title="@string/sign_in"
-            app:showAsAction="never"/>
+            app:showAsAction="never" />
         <item
             android:id="@+id/signUp"
             android:title="@string/sign_up"
-            app:showAsAction="never"/>
+            app:showAsAction="never" />
     </group>
     <group android:id="@+id/authenticated">
         <item
             android:id="@+id/signOut"
             android:title="@string/sign_out"
-            app:showAsAction=""/>
+            app:showAsAction="" />
     </group>
 </menu>

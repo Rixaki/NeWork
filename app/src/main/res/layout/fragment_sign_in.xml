@@ -11,8 +11,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="?attr/actionBarSize"
         android:gravity="center"
-        android:text="Login"
-        android:textSize="25dp"
+        android:text="@string/login"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
     <EditText
@@ -22,7 +22,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/defaultMargin"
         android:ems="10"
-        android:hint="Login" />
+        android:hint="@string/login"
+        android:importantForAutofill="no" />
 
 
     <EditText
@@ -31,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
+        android:importantForAutofill="no"
         android:inputType="textPassword" />
 
     <Button
@@ -40,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/defaultMargin"
-        android:text="Login" />
+        android:text="@string/login" />
 
     <LinearLayout
         android:id="@+id/signUpHintButton"
@@ -58,7 +60,7 @@
             android:maxLines="1"
             android:text="@string/new_in_nework"
             android:textColor="@color/design_default_color_primary"
-            android:textSize="20dp" />
+            android:textSize="@dimen/defaultTextSize" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,7 +70,7 @@
             android:maxLines="1"
             android:text="@string/register_here"
             android:textColor="@color/design_default_color_primary"
-            android:textSize="20dp"
+            android:textSize="@dimen/defaultTextSize"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

@@ -11,7 +11,7 @@ import com.example.nework.databinding.ItemInFeedUserBinding
 import com.example.nework.dto.User
 import ru.netology.nmedia.util.loadAvatar
 
-class UserAdapter (): ListAdapter<User, UserViewHolder>(UserDiffCallBack){
+class UserAdapter() : ListAdapter<User, UserViewHolder>(UserDiffCallBack) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -27,16 +27,17 @@ class UserAdapter (): ListAdapter<User, UserViewHolder>(UserDiffCallBack){
 
     override fun onBindViewHolder(
         holder: UserViewHolder,
-        position: Int) {
+        position: Int
+    ) {
         val user = getItem(position)
         holder.bind(user)
     }
 }
 
 class UserViewHolder(
-    private  val binding: ItemInFeedUserBinding
+    private val binding: ItemInFeedUserBinding
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind (user: User){
+    fun bind(user: User) {
         with(binding) {
             checkbox.visibility = View.GONE
 
@@ -50,7 +51,7 @@ class UserViewHolder(
 }
 
 object UserDiffCallBack :
-        DiffUtil.ItemCallback<User>() {
+    DiffUtil.ItemCallback<User>() {
     override fun areContentsTheSame(oldItem: User, newItem: User): Boolean =
         (oldItem.id == newItem.id)
 

@@ -57,7 +57,7 @@ class SignUpFragment : Fragment() {
 
         requireActivity()
             .onBackPressedDispatcher
-            .addCallback(this){
+            .addCallback(this) {
                 this.isEnabled = true
                 findNavController().navigate(R.id.action_global_to_postsFeedFragment)
             }
@@ -74,7 +74,7 @@ class SignUpFragment : Fragment() {
         val binding = FragmentSignUpBinding
             .inflate(layoutInflater, container, false)
 
-        binding.signUpButton.setOnClickListener{
+        binding.signUpButton.setOnClickListener {
             val name = binding.txtName.text.toString()
             val login = binding.txtLogin.text.toString()
             val pass = binding.txtPassword.text.toString()
@@ -93,8 +93,8 @@ class SignUpFragment : Fragment() {
                         getString(R.string.regi_toast_request),
                         Toast.LENGTH_SHORT
                     ).show()
-                    val avatarMedia = viewModel.photo.value?.file?.let {
-                            file -> MediaUpload(file)
+                    val avatarMedia = viewModel.photo.value?.file?.let { file ->
+                        MediaUpload(file)
                     }//nullable
 
                     authModel.register(

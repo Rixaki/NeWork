@@ -13,7 +13,7 @@ import com.example.nework.entity.EventRemoteKeyEntity
     entities = [EventEntity::class, EventRemoteKeyEntity::class],
     version = 1,
     exportSchema = false,
-    )
+)
 @TypeConverters(BaseTypeConverter::class)
 abstract class EventDb : RoomDatabase() {
     abstract val eventDao: EventDao

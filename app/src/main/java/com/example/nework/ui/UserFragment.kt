@@ -56,6 +56,7 @@ class UserFragment : Fragment() {
         fun createArgs(id: Int): Bundle =
             bundleOf(USER_ID to id)
     }
+
     private val userId = requireArguments().USER_ID
     private val authModel by viewModels<AuthViewModel>()
 
@@ -154,7 +155,8 @@ class UserFragment : Fragment() {
                 }
 
                 override fun onListMentLtn(post: Post) {
-                    val dialog = GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
+                    val dialog =
+                        GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
                     dialog.show(activity!!.supportFragmentManager, "List mention dialog.")
                 }
 
@@ -169,7 +171,7 @@ class UserFragment : Fragment() {
                 }
             })//wall_adapter
 
-            val jobAdapter = JobAdapter(object: OnIterationJobListener {
+            val jobAdapter = JobAdapter(object : OnIterationJobListener {
                 override fun onEditLtn(job: Job) {
                     jobModel.changeJob(job)
                     findNavController().navigate(
@@ -196,7 +198,7 @@ class UserFragment : Fragment() {
                 }
             })//job_adapter
 
-            with(binding){
+            with(binding) {
                 avatar.loadAvatar(user.avatar ?: "404")
                 login.text = user.login
                 name.text = user.name

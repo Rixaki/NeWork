@@ -27,7 +27,7 @@ fun Fragment.toast(
     message: String,
     context: Context = requireContext(),
     period: Int = Toast.LENGTH_LONG
-    ) {
+) {
     Toast.makeText(
         context,
         message,

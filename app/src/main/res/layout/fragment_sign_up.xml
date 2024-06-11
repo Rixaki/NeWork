@@ -8,6 +8,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="vertical"
@@ -19,8 +20,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="?attr/actionBarSize"
-                android:text="Registration"
-                android:textSize="25dp"
+                android:text="@string/registration"
+                android:textSize="32sp"
                 android:textStyle="bold" />
 
             <FrameLayout
@@ -33,6 +34,7 @@
                     android:layout_height="200dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/defaultMargin"
+                    android:importantForAccessibility="no"
                     android:visibility="visible"
                     tools:srcCompat="@tools:sample/avatars[8]" />
             </FrameLayout>
@@ -44,7 +46,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/defaultMargin"
                 android:ems="10"
-                android:hint="Name" />
+                android:hint="@string/name"
+                android:importantForAutofill="no"
+                android:inputType="none" />
 
             <EditText
                 android:id="@+id/txtLogin"
@@ -52,7 +56,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:hint="Login" />
+                android:hint="@string/login"
+                android:importantForAutofill="no"
+                android:inputType="none" />
 
 
             <EditText
@@ -61,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:hint="Password"
+                android:hint="@string/password"
+                android:importantForAutofill="no"
                 android:inputType="textPassword" />
 
             <EditText
@@ -70,10 +77,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:hint="Confirm password"
+                android:hint="@string/confirm_password"
+                android:importantForAutofill="no"
                 android:inputType="textPassword" />
 
             <LinearLayout
+                style="?android:attr/buttonBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/defaultMargin"
@@ -82,12 +91,13 @@
 
                 <Button
                     android:id="@+id/clearPhoto"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/defaultMargin"
                     android:lines="1"
                     android:maxWidth="200dp"
-                    android:text="Clear avatar"
+                    android:text="@string/clear_avatar"
                     android:textColor="?colorOnPrimary"
                     android:visibility="gone"
                     app:iconTint="?colorOnPrimary"
@@ -102,7 +112,7 @@
                     android:layout_marginStart="@dimen/defaultMargin"
                     android:layout_marginEnd="@dimen/defaultMargin"
                     android:backgroundTint="?colorPrimary"
-                    android:contentDescription="Take photo"
+                    android:contentDescription="@string/take_photo"
                     app:icon="@drawable/baseline_photo_camera_48"
                     app:iconGravity="textStart"
                     app:iconTint="?colorOnPrimary" />
@@ -115,19 +125,20 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/defaultMargin"
                     android:backgroundTint="?colorPrimary"
-                    android:contentDescription="Take picture from gallery"
+                    android:contentDescription="@string/take_picture_from_gallery"
                     app:icon="@drawable/baseline_gallery_48"
                     app:iconGravity="textStart"
                     app:iconTint="?colorOnPrimary" />
 
                 <Button
                     android:id="@+id/signUpButton"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/defaultMargin"
                     android:lines="1"
-                    android:text="Sign Up" />
+                    android:text="@string/sign_up" />
             </LinearLayout>
 
             <LinearLayout
@@ -144,9 +155,9 @@
                     android:layout_weight="1"
                     android:gravity="end"
                     android:maxLines="1"
-                    android:text="Already Registered?"
+                    android:text="@string/already_registered"
                     android:textColor="@color/design_default_color_primary"
-                    android:textSize="20dp" />
+                    android:textSize="@dimen/defaultTextSize" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -154,9 +165,9 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:maxLines="1"
-                    android:text="Login here"
+                    android:text="@string/login_here"
                     android:textColor="@color/design_default_color_primary"
-                    android:textSize="20dp"
+                    android:textSize="@dimen/defaultTextSize"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

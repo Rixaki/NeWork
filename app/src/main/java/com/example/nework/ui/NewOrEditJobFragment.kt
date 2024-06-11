@@ -44,6 +44,7 @@ class NewOrEditJobFragment : Fragment() {
             }
         }
     )
+
     @SuppressLint("SimpleDateFormat")
     private val formatter = SimpleDateFormat("dd-MM-yyyy")
 
@@ -126,7 +127,7 @@ class NewOrEditJobFragment : Fragment() {
             viewModel.changeLink(binding.link.text.toString())
             viewModel.save()
         }
-        viewModel.JobCreated.observe(viewLifecycleOwner){
+        viewModel.JobCreated.observe(viewLifecycleOwner) {
             AndroidUtils.hideKeyBoard(requireView())
             toast(getString(R.string.job_changed_was_saved))
             findNavController().navigateUp()
@@ -135,7 +136,7 @@ class NewOrEditJobFragment : Fragment() {
         binding.cancel.setOnClickListener {
             viewModel.cancel()
         }
-        viewModel.JobCanceled.observe(viewLifecycleOwner){
+        viewModel.JobCanceled.observe(viewLifecycleOwner) {
             AndroidUtils.hideKeyBoard(requireView())
             findNavController().navigateUp()
         }

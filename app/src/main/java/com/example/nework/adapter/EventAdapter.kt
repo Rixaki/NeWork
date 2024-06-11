@@ -112,7 +112,7 @@ class EventAdapter(
     class TimeHeaderViewHolder(
         private val binding: CardTimeHeaderBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind (timeHeader: TimeHeader) {
+        fun bind(timeHeader: TimeHeader) {
             binding.title.setText(
                 when (timeHeader.type) {
                     TimeType.TODAY -> R.string.today
@@ -204,10 +204,10 @@ class EventInFeedViewHolder(
 
             list1Iv.text = countToString(event.participantsIds.size)
             list2Iv.text = countToString(event.speakerIds.size)
-            list1Iv.setOnClickListener{
+            list1Iv.setOnClickListener {
                 onIterationEventListener.onListPartLtn(event)
             }
-            list2Iv.setOnClickListener{
+            list2Iv.setOnClickListener {
                 onIterationEventListener.onListSpeaksLtn(event)
             }
 
@@ -247,8 +247,8 @@ class EventInFeedViewHolder(
             if (like) {
                 ObjectAnimator.ofPropertyValuesHolder(
                     binding.likeIv,
-                    PropertyValuesHolder.ofFloat(View.SCALE_X,  1.0F, 1.2F, 1.0F),
-                    PropertyValuesHolder.ofFloat(View.SCALE_Y,  1.0F, 1.2F, 1.0F),
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, 1.0F, 1.2F, 1.0F),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.0F, 1.2F, 1.0F),
                 )
             } else {
                 ObjectAnimator.ofFloat(binding.likeIv, View.ROTATION, 0F, 360F)
@@ -266,8 +266,8 @@ class EventInFeedViewHolder(
             }
             ObjectAnimator.ofPropertyValuesHolder(
                 binding.participantStatus,
-                PropertyValuesHolder.ofFloat(View.SCALE_X,  1.0F, 1.2F, 1.0F),
-                PropertyValuesHolder.ofFloat(View.SCALE_Y,  1.0F, 1.2F, 1.0F),
+                PropertyValuesHolder.ofFloat(View.SCALE_X, 1.0F, 1.2F, 1.0F),
+                PropertyValuesHolder.ofFloat(View.SCALE_Y, 1.0F, 1.2F, 1.0F),
             ).start()
         }
     }
@@ -279,7 +279,7 @@ class EventInCardViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(event: Event) {
         with(binding) {
-            eventGroup.visibility= View.VISIBLE
+            eventGroup.visibility = View.VISIBLE
             participantStatus.setOnClickListener {
                 //textset: in fragment
                 onIterationEventListener.onParticipantLtn(event)
@@ -345,11 +345,11 @@ class EventInCardViewHolder(
             }
 
             list1Iv.text = countToString(event.participantsIds.size)
-            list1Iv.setOnClickListener{
+            list1Iv.setOnClickListener {
                 onIterationEventListener.onListPartLtn(event)
             }
             list2Iv.text = countToString(event.speakerIds.size)
-            list2Iv.setOnClickListener{
+            list2Iv.setOnClickListener {
                 onIterationEventListener.onListSpeaksLtn(event)
             }
 

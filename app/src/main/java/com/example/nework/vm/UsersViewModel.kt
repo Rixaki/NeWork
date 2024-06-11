@@ -66,7 +66,7 @@ class UsersViewModel @AssistedInject constructor(
         }
     }
 
-    private fun loadUsersByIds (listIds: List<Int>) {
+    private fun loadUsersByIds(listIds: List<Int>) {
         viewModelScope.launch {
             try {
                 val result = listIds.map {

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import com.example.nework.dto.Coords
 
 @Entity
-data class CoordsEmbeddable (
+data class CoordsEmbeddable(
     val lat: Double,
     val long: Double
 ) {

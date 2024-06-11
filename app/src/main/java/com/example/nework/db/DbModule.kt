@@ -36,18 +36,19 @@ object DbModule {
     @Provides
     fun providePostDao(
         postDb: PostDb
-    ) : PostDao = postDb.postDao
+    ): PostDao = postDb.postDao
 
     @Provides
     fun providePostKeyDao(
         postDb: PostDb
-    ) : PostRemoteKeyDao = postDb.postKeyDao
+    ): PostRemoteKeyDao = postDb.postKeyDao
 
     @Provides
     fun provideWallKeyDao(
         postDb: PostDb
-    ) : WallByUserRemoteKeyDao = postDb.wallKeyDao
-//_____________________________________________
+    ): WallByUserRemoteKeyDao = postDb.wallKeyDao
+
+    //_____________________________________________
     @Singleton
     @Provides
     fun provideEventDb(
@@ -66,13 +67,14 @@ object DbModule {
     @Provides
     fun provideEventDao(
         eventDb: EventDb
-    ) : EventDao = eventDb.eventDao
+    ): EventDao = eventDb.eventDao
 
     @Provides
     fun provideEventKeyDao(
         eventDb: EventDb
-    ) : EventRemoteKeyDao = eventDb.eventKeyDao
-//_____________________________________________
+    ): EventRemoteKeyDao = eventDb.eventKeyDao
+
+    //_____________________________________________
     @Singleton
     @Provides
     fun provideUserDb(
@@ -91,5 +93,5 @@ object DbModule {
     @Provides
     fun provideUserDao(
         userDb: UserDb
-    ) : UserDao = userDb.userDao
+    ): UserDao = userDb.userDao
 }

@@ -36,8 +36,8 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-const val TODAY_COUNT : Long = 24 * 60 * 60
-const val WEEK_COUNT : Long = 48 * 60 * 60
+const val TODAY_COUNT: Long = 24 * 60 * 60
+const val WEEK_COUNT: Long = 48 * 60 * 60
 
 @Singleton
 class PostRepoImpl @Inject constructor(
@@ -166,6 +166,7 @@ class PostRepoImpl @Inject constructor(
                 is IOException -> {
                     throw NetworkError
                 }
+
                 else -> {
                     throw UnknownError
                 }

@@ -16,97 +16,97 @@
             android:orientation="vertical"
             android:paddingBottom="?attr/actionBarSize">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/defaultMargin">
-
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.AppTheme.LikeButton"
-                android:id="@+id/position"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:layout_marginHorizontal="@dimen/defaultMargin"
-                app:icon="@drawable/baseline_location_pin_48"
-                app:iconTint="@color/black"
-                android:focusable="false"
-                android:clickable="false"
-                tools:text="Map point: 100.0000 / 200.0000" />
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/defaultMargin">
 
-            <Button
-                android:id="@+id/cancelMapPoint"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.AppTheme.LikeButton"
+                    android:id="@+id/position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:layout_marginHorizontal="@dimen/defaultMargin"
+                    app:icon="@drawable/baseline_location_pin_48"
+                    app:iconTint="@color/black"
+                    android:focusable="false"
+                    android:clickable="false"
+                    tools:text="Map point: 100.0000 / 200.0000" />
+
+                <Button
+                    android:id="@+id/cancelMapPoint"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/defaultMargin"
+                    android:backgroundTint="#ddd"
+                    android:contentDescription="@string/take_date_for_event_time"
+                    app:icon="@drawable/baseline_location_off_48"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/defaultMargin"
-                android:backgroundTint="#ddd"
-                android:contentDescription="@string/take_date_for_event_time"
-                app:icon="@drawable/baseline_location_off_48"
-                app:iconGravity="textStart"
-                app:iconTint="@color/black" />
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/buttonDefaultMarginDim">
 
-        </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.AppTheme.LikeButton"
+                    android:id="@+id/eventTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:layout_marginHorizontal="@dimen/defaultMargin"
+                    app:icon="@drawable/baseline_event_48"
+                    app:iconTint="@color/black"
+                    android:focusable="false"
+                    android:clickable="false"
+                    app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
+                    app:layout_constraintEnd_toStartOf="@id/menu"
+                    app:layout_constraintStart_toEndOf="@id/jobIv"
+                    app:layout_constraintTop_toBottomOf="@id/name"
+                    tools:text="01.06.2024 10:00" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/buttonDefaultMarginDim">
+                <Button
+                    android:id="@+id/pickStartDate"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/defaultMargin"
+                    android:backgroundTint="@color/black"
+                    android:contentDescription="@string/take_date_for_event_time"
+                    app:icon="@drawable/baseline_edit_calendar_48"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/white" />
 
-            <com.google.android.material.button.MaterialButton
-                style="@style/Widget.AppTheme.LikeButton"
-                android:id="@+id/eventTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:layout_marginHorizontal="@dimen/defaultMargin"
-                app:icon="@drawable/baseline_event_48"
-                app:iconTint="@color/black"
-                android:focusable="false"
-                android:clickable="false"
-                app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
-                app:layout_constraintEnd_toStartOf="@id/menu"
-                app:layout_constraintStart_toEndOf="@id/jobIv"
-                app:layout_constraintTop_toBottomOf="@id/name"
-                tools:text="01.06.2024 10:00" />
-
-            <Button
-                android:id="@+id/pickStartDate"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/defaultMargin"
-                android:backgroundTint="@color/black"
-                android:contentDescription="@string/take_date_for_event_time"
-                app:icon="@drawable/baseline_edit_calendar_48"
-                app:iconGravity="textStart"
-                app:iconTint="@color/white" />
-
-            <Button
-                android:id="@+id/pickClock"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/defaultMargin"
-                android:backgroundTint="@color/black"
-                android:contentDescription="@string/take_time_in_day_for_event"
-                app:icon="@drawable/baseline_watch_later_48"
-                app:iconGravity="textStart"
-                app:iconTint="@color/white" />
-        </LinearLayout>
+                <Button
+                    android:id="@+id/pickClock"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/defaultMargin"
+                    android:backgroundTint="@color/black"
+                    android:contentDescription="@string/take_time_in_day_for_event"
+                    app:icon="@drawable/baseline_watch_later_48"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/white" />
+            </LinearLayout>
 
             <com.yandex.mapkit.mapview.MapView
                 android:id="@+id/mapView"
                 android:layout_marginTop="@dimen/defaultMargin"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:layout_constraintBottom_toTopOf="@id/videoLink"/>
+                app:layout_constraintBottom_toTopOf="@id/videoLink" />
 
             <EditText
                 android:id="@+id/videoLink"
@@ -138,7 +138,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@tools:sample/lorem[275]"
-                android:hint="@string/content_text_hint"/>
+                android:hint="@string/content_text_hint" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -265,7 +265,7 @@
             app:iconGravity="textStart"
             android:backgroundTint="?colorOnPrimary"
             app:iconTint="?colorPrimary"
-            app:layout_anchor="@id/bottomAppBar"/>
+            app:layout_anchor="@id/bottomAppBar" />
 
         <Button
             android:id="@+id/takePhoto"

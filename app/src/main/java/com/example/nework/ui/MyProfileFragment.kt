@@ -60,6 +60,7 @@ class MyProfileFragment : Fragment() {
     }
 
     private val authModel by viewModels<AuthViewModel>()
+
     //only for wall list
     private val jobModel: JobViewModel by activityViewModels(
         extrasProducer = {
@@ -115,7 +116,7 @@ class MyProfileFragment : Fragment() {
                             .setMessage(getString(R.string.do_you_want_to_sign_in_for_like_add_posts_etc))
                             .setIcon(R.drawable.baseline_login_48)
                             .setNegativeButton(getString(R.string.cancel), null)
-                            .setPositiveButton(getString(R.string.sign_in)) { _,_ ->
+                            .setPositiveButton(getString(R.string.sign_in)) { _, _ ->
                                 findNavController().navigate(R.id.action_global_to_signInFragment)
                             }
                             .show()
@@ -161,7 +162,8 @@ class MyProfileFragment : Fragment() {
                 }
 
                 override fun onListMentLtn(post: Post) {
-                    val dialog = GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
+                    val dialog =
+                        GetUserListDialogFragment(post.mentionIds, R.string.list_of_mentioned_users)
                     dialog.show(activity!!.supportFragmentManager, "List mention dialog.")
                 }
 
@@ -176,7 +178,7 @@ class MyProfileFragment : Fragment() {
                 }
             })//wall_adapter
 
-            val jobAdapter = JobAdapter(object: OnIterationJobListener{
+            val jobAdapter = JobAdapter(object : OnIterationJobListener {
                 override fun onEditLtn(job: Job) {
                     jobModel.changeJob(job)
                     findNavController().navigate(
@@ -203,7 +205,7 @@ class MyProfileFragment : Fragment() {
                 }
             })//job_adapter
 
-            with(binding){
+            with(binding) {
                 avatar.loadAvatar(user.avatar ?: "404")
                 login.text = user.login
                 name.text = user.name

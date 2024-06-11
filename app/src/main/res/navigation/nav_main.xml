@@ -25,7 +25,7 @@
     <fragment
         android:id="@+id/postsFeedFragment"
         android:name="com.example.nework.ui.PostsFeedFragment"
-        android:label="PostsFeedFragment" >
+        android:label="PostsFeedFragment">
         <action
             android:id="@+id/action_postsFeedFragment_to_postFragment"
             app:destination="@id/postFragment" />
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/eventsFeedFragment"
         android:name="com.example.nework.ui.EventsFeedFragment"
-        android:label="EventsFeedFragment" >
+        android:label="EventsFeedFragment">
         <action
             android:id="@+id/action_eventsFeedFragment_to_eventFragment"
             app:destination="@id/eventFragment" />
@@ -47,7 +47,7 @@
     <fragment
         android:id="@+id/postFragment"
         android:name="com.example.nework.ui.PostFragment"
-        android:label="PostFragment" >
+        android:label="PostFragment">
         <action
             android:id="@+id/action_postFragment_to_newOrEditPostFragment"
             app:destination="@id/newOrEditPostFragment" />
@@ -55,7 +55,7 @@
     <fragment
         android:id="@+id/eventFragment"
         android:name="com.example.nework.ui.EventFragment"
-        android:label="EventFragment" >
+        android:label="EventFragment">
         <action
             android:id="@+id/action_eventFragment_to_newOrEditEventFragment"
             app:destination="@id/newOrEditEventFragment" />
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/newOrEditEventFragment"
         android:name="com.example.nework.ui.NewOrEditEventFragment"
-        android:label="NewOrEditEventFragment" >
+        android:label="NewOrEditEventFragment">
         <action
             android:id="@+id/action_newOrEditEventFragment_to_selectUserListByEventFragment"
             app:destination="@id/selectUserListByEventFragment" />
@@ -71,7 +71,7 @@
     <fragment
         android:id="@+id/newOrEditPostFragment"
         android:name="com.example.nework.ui.NewOrEditPostFragment"
-        android:label="NewOrEditPostFragment" >
+        android:label="NewOrEditPostFragment">
         <action
             android:id="@+id/action_newOrEditPostFragment_to_selectUserListByPostFragment"
             app:destination="@id/selectUserListByPostFragment" />
@@ -87,7 +87,7 @@
     <fragment
         android:id="@+id/myProfileFragment"
         android:name="com.example.nework.ui.MyProfileFragment"
-        android:label="MyProfileFragment" >
+        android:label="MyProfileFragment">
         <action
             android:id="@+id/action_myProfileFragment_to_newOrEditJobFragment"
             app:destination="@id/newOrEditJobFragment" />
@@ -99,7 +99,7 @@
     <fragment
         android:id="@+id/userFeedFragment"
         android:name="com.example.nework.ui.UserFeedFragment"
-        android:label="UserFeedFragment" >
+        android:label="UserFeedFragment">
         <action
             android:id="@+id/action_userFeedFragment_to_userFragment"
             app:destination="@id/userFragment" />

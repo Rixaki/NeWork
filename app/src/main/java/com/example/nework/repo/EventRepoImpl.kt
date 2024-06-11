@@ -46,10 +46,10 @@ class EventRepoImpl @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override val data: Flow<PagingData<FeedItem>> = Pager(
         config = PagingConfig(
-        pageSize = 5,
-        enablePlaceholders = false,
-        prefetchDistance = 1
-    ),
+            pageSize = 5,
+            enablePlaceholders = false,
+            prefetchDistance = 1
+        ),
         pagingSourceFactory = { eventDao.pagingSource() },
         remoteMediator = EventRemoteMediator(
             service = appApi,
@@ -57,40 +57,47 @@ class EventRepoImpl @Inject constructor(
             eventRemoteKeyDao = eventRemoteKeyDao,
             eventDb = eventDb,
         )
-    ).flow.map{
-        pagingData -> pagingData.map(EventEntity::toDto)
-        .insertSeparators { after: Event?, before: Event? ->
-            if (after == null) {
-                return@insertSeparators TimeHeader(
-                    id = 0, type = TimeType.TODAY
-                )
-            }
-            val curTime = System.currentTimeMillis()/1000
-            // old analog of Instant.now().epochSecond
-            try {
-                val firstTime = before!!.toEpoch()//NPE throwable
-                val secondTime = after.toEpoch()//NPE throwable
-                //println("1st t: ${firstTime}, 2st t: ${secondTime},
-                // cur: " + "$curTime")
-                if ((curTime - firstTime < TODAY_COUNT)
-                    &&
-                    (curTime - secondTime >= TODAY_COUNT)) {
-                    return@insertSeparators TimeHeader(id = 0, type =
-                    TimeType.YESTERDAY)
-                } else {
-                    if ((curTime - firstTime < WEEK_COUNT)
-                        &&
-                        (curTime - secondTime >= WEEK_COUNT)) {
-                        return@insertSeparators TimeHeader(id = 0, type =
-                        TimeType.LAST_WEEK)
-                    } else {
-                        return@insertSeparators null
-                    }
+    ).flow.map { pagingData ->
+        pagingData.map(EventEntity::toDto)
+            .insertSeparators { after: Event?, before: Event? ->
+                if (after == null) {
+                    return@insertSeparators TimeHeader(
+                        id = 0, type = TimeType.TODAY
+                    )
                 }
-            } catch (e: NullPointerException) {
-                return@insertSeparators null
+                val curTime = System.currentTimeMillis() / 1000
+                // old analog of Instant.now().epochSecond
+                try {
+                    val firstTime = before!!.toEpoch()//NPE throwable
+                    val secondTime = after.toEpoch()//NPE throwable
+                    //println("1st t: ${firstTime}, 2st t: ${secondTime},
+                    // cur: " + "$curTime")
+                    if ((curTime - firstTime < TODAY_COUNT)
+                        &&
+                        (curTime - secondTime >= TODAY_COUNT)
+                    ) {
+                        return@insertSeparators TimeHeader(
+                            id = 0, type =
+                            TimeType.YESTERDAY
+                        )
+                    } else {
+                        if ((curTime - firstTime < WEEK_COUNT)
+                            &&
+                            (curTime - secondTime >= WEEK_COUNT)
+                        ) {
+                            return@insertSeparators TimeHeader(
+                                id = 0, type =
+                                TimeType.LAST_WEEK
+                            )
+                        } else {
+                            return@insertSeparators null
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    return@insertSeparators null
+                }
             }
-        }}
+    }
 
     override fun getNewerCount(id: Int): Flow<Int> = flow {
         while (true) {
@@ -137,6 +144,7 @@ class EventRepoImpl @Inject constructor(
                 is IOException -> {
                     throw NetworkError
                 }
+
                 else -> {
                     throw UnknownError
                 }
