@@ -22,7 +22,7 @@ jobs:
       - name: Decode maps.properties
         env:
           MAP_SECRET: ${{ secrets.MAP_SECRET }}
-        run: echo $MAP_SECRET > .app/src/maps.properties
+        run: echo $MAP_SECRET > ./app/src/maps.properties
 
       - name: Build
         run: |
