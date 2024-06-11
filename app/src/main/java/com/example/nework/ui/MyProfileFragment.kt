@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -26,6 +27,7 @@ import com.example.nework.adapter.PostAdapter
 import com.example.nework.databinding.FragmentUserBinding
 import com.example.nework.dto.Job
 import com.example.nework.dto.Post
+import com.example.nework.dto.User
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.PostFragment.Companion.intArg
 import com.example.nework.vm.AuthViewModel
@@ -59,12 +61,11 @@ class MyProfileFragment : Fragment() {
 
     private val authModel by viewModels<AuthViewModel>()
     //only for wall list
-    private val myId = authModel.data.asLiveData().value?.id//checked by prev fragment
     private val jobModel: JobViewModel by activityViewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<JobViewModelFactory> { factory ->
                 @Suppress("DEPRECATION")
-                factory.create(myId ?: 0)
+                factory.create(authModel.userId)//checked by prev fragment
             }
         }
     )
@@ -72,7 +73,7 @@ class MyProfileFragment : Fragment() {
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<PostByUserViewModelFactory> { factory ->
                 @Suppress("DEPRECATION")
-                factory.create(myId ?: 0)
+                factory.create(authModel.userId)//checked by prev fragment
             }
         }
     )
@@ -95,10 +96,14 @@ class MyProfileFragment : Fragment() {
     ): View? {
         val binding = FragmentUserBinding.inflate(layoutInflater, container, false)
 
-
+        val myId = authModel.userId
 
         if ((authModel.authenticated) && (myId != null) && (myId != 0)) {
-            val user = userModel.getUserById(myId)//for binding info
+            val user = try {
+                userModel.getUserById(myId)
+            } catch (e: Exception) {
+                User(id = 1, login = "", name = "", avatar = null)
+            }//for binding info
 
             val wallAdapter = PostAdapter(object : OnIterationPostListener {
                 override fun onLikeLtn(post: Post) {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:id="@+id/unauthenticated">
         <item
             android:id="@+id/posts"
             android:icon="@drawable/baseline_description_48"
@@ -15,11 +14,9 @@
             android:id="@+id/users"
             android:icon="@drawable/baseline_people_outline_48"
             android:title="@string/users" />
-    </group>
-    <group android:id="@+id/authenticated">
         <item
             android:id="@+id/my_profile"
             android:icon="@drawable/baseline_person_48"
+            android:checked="false"
             android:title="@string/my_profile" />
-    </group>
 </menu>

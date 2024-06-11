@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.filter
 import com.example.nework.api.AppApi
+import com.example.nework.dao.UserDao
 import com.example.nework.dto.Event
 import com.example.nework.dto.User
 import com.example.nework.model.ResponceState
@@ -27,7 +28,8 @@ import javax.inject.Inject
 class UsersViewModel @AssistedInject constructor(
     private val appApi: AppApi,
     private val userRepo: UserRepo,
-    @Assisted private val userIds: List<Int>,
+    private val userDao: UserDao,
+    @Assisted private val userIds: List<Int> = emptyList(),
 ) : ViewModel() {
     private val _state = MutableStateFlow(ResponceState())
     val state = _state.asStateFlow()
@@ -37,7 +39,31 @@ class UsersViewModel @AssistedInject constructor(
     val list = _list.asStateFlow()
 
     init {
+        getUsers()
         loadUsersByIds(userIds)
+    }
+
+    //get from api only for empty userRepo
+    fun getUsers() {
+        _state.update {
+            ResponceState(
+                loading = true,
+            )
+        }
+        viewModelScope.launch {
+            try {
+                if (userDao.getSize() == 0) {
+                    userRepo.getAll()//users from api
+                }
+            } catch (e: Exception) {
+                _state.update {
+                    ResponceState(
+                        error = true,
+                        lastErrorAction = "Api responce error with get users."
+                    )
+                }
+            }
+        }
     }
 
     private fun loadUsersByIds (listIds: List<Int>) {
@@ -64,7 +90,11 @@ class UsersViewModel @AssistedInject constructor(
     fun getUserById(id: Int): User {
         var result = User(id = 0, login = "", name = "", avatar = null)
         viewModelScope.launch {
-            result = userRepo.getUserById(id)
+            try {
+                result = userRepo.getUserById(id)
+            } catch (e: Exception) {
+
+            }
         }
         return result
     }

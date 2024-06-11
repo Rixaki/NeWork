@@ -5,7 +5,9 @@ import androidx.room.Room
 import com.example.nework.dao.EventDao
 import com.example.nework.dao.EventRemoteKeyDao
 import com.example.nework.dao.PostDao
+import com.example.nework.dao.PostRemoteKeyDao
 import com.example.nework.dao.UserDao
+import com.example.nework.dao.WallByUserRemoteKeyDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +37,16 @@ object DbModule {
     fun providePostDao(
         postDb: PostDb
     ) : PostDao = postDb.postDao
+
+    @Provides
+    fun providePostKeyDao(
+        postDb: PostDb
+    ) : PostRemoteKeyDao = postDb.postKeyDao
+
+    @Provides
+    fun provideWallKeyDao(
+        postDb: PostDb
+    ) : WallByUserRemoteKeyDao = postDb.wallKeyDao
 //_____________________________________________
     @Singleton
     @Provides
@@ -55,6 +67,11 @@ object DbModule {
     fun provideEventDao(
         eventDb: EventDb
     ) : EventDao = eventDb.eventDao
+
+    @Provides
+    fun provideEventKeyDao(
+        eventDb: EventDb
+    ) : EventRemoteKeyDao = eventDb.eventKeyDao
 //_____________________________________________
     @Singleton
     @Provides

@@ -29,9 +29,9 @@ class SignInFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        activity?.addMenuProvider(object : MenuProvider {
+        requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menu.clear()
+                //menu.clear()
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

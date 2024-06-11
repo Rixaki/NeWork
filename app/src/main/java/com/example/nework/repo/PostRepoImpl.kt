@@ -130,6 +130,7 @@ class PostRepoImpl @Inject constructor(
             emit(body.size)
         }
     }.catch { flowOf(value = 0) }
+    //.flowOn(Dispatchers.Default)//default in viewmodel
 
     override fun getPostById(id: Int): Post? = postDao.getPostById(id).toDto()
 

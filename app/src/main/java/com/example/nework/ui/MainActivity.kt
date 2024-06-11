@@ -6,16 +6,14 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.nework.BuildConfig
 import com.example.nework.R
@@ -25,6 +23,7 @@ import com.example.nework.ui.MyProfileFragment.Companion.USER_ID
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.navigation.NavigationBarView
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -42,37 +41,59 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onStart() {
         super.onStart()
+
         MapKitFactory.getInstance().onStart()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        MapKitFactory.initialize(this)
         MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
+        MapKitFactory.initialize(this)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navBottomView: BottomNavigationView = binding.bottomNavigation
+        //val navHostFragment =
+        //    supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
+        //val navController = navHostFragment.navController
+        val navController = binding.myNavHostFragment.getFragment<Fragment>().findNavController()
+
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        /*
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.posts,
+                R.id.events,
+                R.id.users,
+                R.id.my_profile
+            )
+        )
+         */
+
+        val navBottomView : NavigationBarView = binding.bottomNavigation
+        navBottomView.setupWithNavController(navController)
         navBottomView.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.posts -> {
-                    findNavController(R.id.nav_main).navigate(R.id.action_global_to_postsFeedFragment)
+                    navController.navigate(R.id.action_global_to_postsFeedFragment)
                     true
                 }
                 R.id.events -> {
-                    findNavController(R.id.nav_main).navigate(R.id.action_global_to_eventsFeedFragment)
+                    navController.navigate(R.id.action_global_to_eventsFeedFragment)
                     true
                 }
                 R.id.users -> {
-                    findNavController(R.id.nav_main).navigate(R.id.action_global_to_userFeedFragment)
+                    navController.navigate(R.id.action_global_to_userFeedFragment)
                     true
                 }
                 R.id.my_profile -> {
+                    item.isVisible = authModel.authenticated
                     if (authModel.authenticated) {
                         val myId = authModel.data.asLiveData().value!!.id//!=0 with authenticated
-                        findNavController(R.id.nav_main).navigate(
+                        navController.navigate(
                             R.id.action_global_to_myProfileFragment,
                             Bundle().apply {
                                 USER_ID = myId
@@ -88,10 +109,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 }
                 else -> {false}
             }
-        }
-        navBottomView.menu.let{
-            it.setGroupVisible(R.id.unauthenticated, !authModel.authenticated)
-            it.setGroupVisible(R.id.authenticated, authModel.authenticated)
         }
 
         lifecycleScope.launch {
@@ -127,12 +144,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
                 when (menuItem.itemId) {
                     R.id.signIn -> {
-                        findNavController(R.id.nav_main).navigate(R.id.action_global_to_signInFragment)
+                        navController.navigate(R.id.action_global_to_signInFragment)
                         true
                     }
 
                     R.id.signUp -> {
-                        findNavController(R.id.nav_main).navigate(R.id.action_global_to_signUpFragment)
+                        navController.navigate(R.id.action_global_to_signUpFragment)
                         true
                     }
 
@@ -153,19 +170,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 }
         })//addMenuProvider
 
-        val navController = findNavController(R.id.nav_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.posts,
-                R.id.events,
-                R.id.users,
-                R.id.my_profile
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navBottomView.setupWithNavController(navController)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
+        //navBottomView.setupWithNavController(navController)
     }
 
     override fun onStop() {

@@ -6,6 +6,7 @@ import androidx.core.net.toFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -25,8 +26,10 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -110,12 +113,17 @@ class PostViewModel @AssistedInject constructor(
     val postCancelled : LiveData<Unit>
         get() = _postCancelled
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Suppress("UNCHECKED_CAST")
-    val newerCount: MutableLiveData<Int> = data.flatMapLatest {
-        repository.getNewerCount(remoteKeyDao.max()!!)
-            .flowOn(Dispatchers.Default)
+    val newerCount: LiveData<Int> = data.flatMapLatest {
+        if (!isWallOption) {
+            repository.getNewerCount(remoteKeyDao.max()!!)
+                .flowOn(Dispatchers.Default)
+        } else {
+            flowOf(0)
+        }
         //!! getNewerCount catchable with flow(0)
-    } as MutableLiveData<Int>
+    }.asLiveData(Dispatchers.Default)
     //mutable for "Fresh posts" GONE after refresh/load
 
     private val _photo = MutableLiveData<PhotoModel>()

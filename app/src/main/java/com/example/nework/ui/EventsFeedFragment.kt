@@ -35,7 +35,6 @@ import ru.netology.nmedia.util.toast
 
 @AndroidEntryPoint
 class EventsFeedFragment : Fragment() {
-
     private val viewModel: EventViewModel by activityViewModels()
     private val authModel : AuthViewModel by viewModels()
 

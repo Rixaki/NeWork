@@ -43,7 +43,7 @@ class SignUpFragment : Fragment() {
 
         activity?.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menu.clear()
+                //menu.clear()
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -69,7 +69,7 @@ class SignUpFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setMenuVisibility(false)
+        //setMenuVisibility(false)
 
         val binding = FragmentSignUpBinding
             .inflate(layoutInflater, container, false)

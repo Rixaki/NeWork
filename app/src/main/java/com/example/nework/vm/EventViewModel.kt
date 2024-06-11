@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.paging.PagingData
@@ -31,6 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -121,11 +123,14 @@ class EventViewModel @Inject constructor(
         get() = _eventCancelled
 
     @Suppress("UNCHECKED_CAST")
-    val newerCount: MutableLiveData<Int> = data.flatMapLatest {
-        repository.getNewerCount(remoteKeyDao.max()!!)
-            .flowOn(Dispatchers.Default)
-        //!! getNewerCount catchable with flow(0)
-    } as MutableLiveData<Int>
+    val newerCount: LiveData<Int> = try {
+        data.flatMapLatest {
+            repository.getNewerCount(remoteKeyDao.max()!!)
+                .flowOn(Dispatchers.Default)
+        }.asLiveData()
+    } catch (e: Exception) {
+        flowOf(0).asLiveData()
+    }
     //mutable for "Fresh events" GONE after refresh/load
 
     private val _photo = MutableLiveData<PhotoModel>()

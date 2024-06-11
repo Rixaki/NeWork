@@ -32,11 +32,8 @@ android {
 
         //MAPKIT
         val properties = Properties()
-        val file = rootProject.file("maps.properties")
-        if (file.exists()) {
-            properties.load(file.inputStream())
-        }
-        val mapkitApiKey = properties.getProperty("MAPKIT_API_KEY","")
+        properties.load(project.rootProject.file("app/src/maps.properties").inputStream())
+        val mapkitApiKey = properties.getProperty("MAPKIT_API_KEY","no api")
         buildConfigField ("String", "MAPKIT_API_KEY", "\"${mapkitApiKey}\"")
     }
 
@@ -131,7 +128,7 @@ dependencies {
     val paging_version = "3.2.1"
     implementation ("androidx.paging:paging-runtime-ktx:$paging_version")
 
-    val yandex_map_version =  "4.6.1-lite"
+    val yandex_map_version ="4.6.1-lite"
     implementation ("com.yandex.android:maps.mobile:$yandex_map_version")
 
     val serialization_version = "1.7.0"
