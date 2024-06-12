@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         val navBottomView: NavigationBarView = binding.bottomNavigation
         navBottomView.setupWithNavController(navController)
+        navBottomView.menu.findItem(R.id.my_profile).isVisible = authModel.authenticated
         navBottomView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.posts -> {
@@ -93,7 +94,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 }
 
                 R.id.my_profile -> {
-                    item.isVisible = authModel.authenticated
+                    //item.isVisible = authModel.authenticated
                     if (authModel.authenticated) {
                         val myId = authModel.data.asLiveData().value!!.id//!=0 with authenticated
                         navController.navigate(

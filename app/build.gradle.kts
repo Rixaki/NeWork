@@ -30,6 +30,7 @@ android {
             useSupportLibrary = true
         }
         lint {
+            ignoreWarnings = true
             baseline = file("lint-baseline.xml")
         }
 

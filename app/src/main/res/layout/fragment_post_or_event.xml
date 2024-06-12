@@ -229,6 +229,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/defaultMargin"
+            android:importantForAccessibility="no"
             android:minWidth="300dp"
             android:minHeight="100dp"
             app:layout_constraintEnd_toEndOf="parent"
