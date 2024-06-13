@@ -19,6 +19,7 @@ import com.example.nework.auth.AppAuth
 import com.example.nework.dao.EventRemoteKeyDao
 import com.example.nework.dto.Coords
 import com.example.nework.dto.Event
+import com.example.nework.dto.EventType
 import com.example.nework.dto.FeedItem
 import com.example.nework.dto.MediaUpload
 import com.example.nework.dto.Post
@@ -112,6 +113,10 @@ class EventViewModel @Inject constructor(
     val eventTime: LiveData<String>
         get() = _eventTime
 
+    private val _isOnline = MutableLiveData<Boolean>()
+    val isOnline: LiveData<Boolean>
+        get() = _isOnline
+
     val edited = MutableLiveData(empty)
 
     private val _eventCreated = SingleLiveEvent<Unit>()
@@ -139,6 +144,7 @@ class EventViewModel @Inject constructor(
 
     init {
         load()
+        _isOnline.postValue(edited.value?.type == EventType.ONLINE)
     }
 
     private fun clearModels() {
@@ -148,6 +154,7 @@ class EventViewModel @Inject constructor(
         _speakers.postValue(noList)
         _eventDate.postValue(noTime)
         _eventTime.postValue(noTime)
+        _isOnline.postValue(false)
     }
 
     private fun load() = viewModelScope.launch {
@@ -197,6 +204,9 @@ class EventViewModel @Inject constructor(
                     (edited.value?.videoLink == videoLink) &&
                     (edited.value?.coords == coords.value) &&
                     (edited.value?.speakerIds == speakers.value) &&
+                    (edited.value?.type ==
+                            (if (isOnline.value == true)
+                                EventType.ONLINE else EventType.OFFLINE)) &&
                     //TODO: MAYBE ANOTHER TIME FORMAT, DROP 8 ":00.000Z"
                     //NO CRITICAL FEATURE
                     (edited.value?.datetime?.dropLast(8) == "${eventDate.value}T${eventTime.value}"))
@@ -212,7 +222,9 @@ class EventViewModel @Inject constructor(
                 videoLink = videoLink,
                 coords = coords.value,
                 speakerIds = speakers.value ?: noList,
-                datetime = "${eventDate.value} ${eventTime.value}"
+                datetime = "${eventDate.value} ${eventTime.value}",
+                type = if (isOnline.value == true)
+                    EventType.ONLINE else EventType.OFFLINE
             )
         edited.value?.let { editedEvent ->
             viewModelScope.launch {
@@ -250,6 +262,10 @@ class EventViewModel @Inject constructor(
     fun changeSpeakersList(list: List<Int>) = _speakers.postValue(list)
     fun changeEventDate(date: String) = _eventDate.postValue(date)
     fun changeEventTime(time: String) = _eventTime.postValue(time)
+    fun changeType() {
+        val prevStatus = isOnline.value ?: false
+        _isOnline.postValue(!prevStatus)
+    }
     fun clearCoords() = _coords.postValue(null)
     fun clearPhoto() = _photo.postValue(noPhoto)
     //fun clearSpeakersList() = _speakers.postValue(noList)

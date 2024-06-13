@@ -105,5 +105,8 @@
     <string name="clear_avatar">Clear avatar</string>
     <string name="already_registered">Already Registered?</string>
     <string name="login_here">Login here</string>
+    <string name="your_participation_not_been_noted">Your participation NOT been noted</string>
+    <string name="offline">Offline</string>
+    <string name="online">Online</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

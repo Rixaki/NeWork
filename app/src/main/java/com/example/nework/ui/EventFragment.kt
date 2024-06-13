@@ -19,6 +19,7 @@ import com.example.nework.adapter.EventInCardViewHolder
 import com.example.nework.adapter.OnIterationEventListener
 import com.example.nework.databinding.FragmentPostOrEventBinding
 import com.example.nework.dto.Event
+import com.example.nework.dto.EventType
 import com.example.nework.dto.Post
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.vm.AuthViewModel
@@ -132,6 +133,10 @@ class EventFragment : Fragment() {
         } else {
             viewHolder.bind(event)
         }
+        val isOnline = event.type == EventType.ONLINE
+        binding.eventType.isSelected = isOnline
+        binding.eventType.text = "  " + if (isOnline)
+            getString(R.string.online) else getString(R.string.offline)
 
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->

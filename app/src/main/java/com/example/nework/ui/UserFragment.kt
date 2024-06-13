@@ -43,6 +43,7 @@ import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.IntArg
+import ru.netology.nmedia.util.load
 import ru.netology.nmedia.util.loadAvatar
 import ru.netology.nmedia.util.toast
 
@@ -199,9 +200,12 @@ class UserFragment : Fragment() {
             })//job_adapter
 
             with(binding) {
-                avatar.loadAvatar(user.avatar ?: "404")
-                login.text = user.login
-                name.text = user.name
+                avatar.load(
+                    url = user.avatar ?: "404",
+                    placeholderIndex = R.drawable.baseline_account_circle_48,
+                    errorIndex = R.drawable.baseline_account_circle_48,
+                )
+                nameAndLogin.text = "${user.name} / ${user.login}"
 
                 wall.setOnClickListener {
                     swiperefreshPost.isVisible = true

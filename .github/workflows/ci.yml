@@ -24,6 +24,11 @@ jobs:
           MAP_SECRET: ${{ secrets.MAP_SECRET }}
         run: echo $MAP_SECRET > ./app/src/maps.properties
 
+      - name: Decode api.properties
+        env:
+          MAP_SECRET: ${{ secrets.SERVER_SECRET }}
+        run: echo $SERVER_SECRET > ./app/src/api.properties
+
       - name: Build
         run: |
           chmod +x ./gradlew

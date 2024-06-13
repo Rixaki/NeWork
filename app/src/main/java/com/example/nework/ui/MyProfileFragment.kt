@@ -207,8 +207,7 @@ class MyProfileFragment : Fragment() {
 
             with(binding) {
                 avatar.loadAvatar(user.avatar ?: "404")
-                login.text = user.login
-                name.text = user.name
+                nameAndLogin.text = "${user.name} / ${user.login}"
 
                 wall.setOnClickListener {
                     swiperefreshPost.isVisible = true

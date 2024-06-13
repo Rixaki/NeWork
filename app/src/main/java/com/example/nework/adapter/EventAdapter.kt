@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -21,6 +23,7 @@ import com.example.nework.databinding.FragmentPostOrEventBinding
 import com.example.nework.databinding.ItemInFeedPostOrEventBinding
 import com.example.nework.dto.Ad
 import com.example.nework.dto.Event
+import com.example.nework.dto.EventType
 import com.example.nework.dto.FeedItem
 import com.example.nework.dto.Post
 import com.example.nework.dto.TimeHeader
@@ -143,10 +146,18 @@ class EventInFeedViewHolder(
     fun bind(event: Event) {
         with(binding) {
             eventGroup.visibility = View.VISIBLE
+
             participantStatus.setOnClickListener {
-                //textset: in fragment
+                val yesTextId = R.string.you_participants_in_this_event
+                val noTextId = R.string.your_participation_not_been_noted
+                participantStatus.setText(if (event.participatedByMe) noTextId else yesTextId)
                 onIterationEventListener.onParticipantLtn(event)
             }
+            val isOnline = event.type == EventType.ONLINE
+            binding.eventType.isSelected = isOnline
+            binding.eventType.setText(if (isOnline)
+                R.string.online else R.string.offline)
+            binding.eventType.text = "  " + binding.eventType.text
 
             val baseUrl = "$BASE_URL/"
             avatar.loadAvatar(url = baseUrl + event.authorAvatar)

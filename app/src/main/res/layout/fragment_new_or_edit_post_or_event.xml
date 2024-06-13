@@ -28,6 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
+                    android:layout_weight="3"
                     android:textColor="@color/black"
                     android:layout_marginHorizontal="@dimen/defaultMargin"
                     app:icon="@drawable/baseline_location_pin_48"
@@ -41,6 +42,7 @@
                     style="@style/Widget.Material3.Button.IconButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginEnd="@dimen/defaultMargin"
                     android:backgroundTint="#ddd"
                     android:contentDescription="@string/take_date_for_event_time"
@@ -59,7 +61,7 @@
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget.AppTheme.LikeButton"
                     android:id="@+id/eventTime"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textColor="@color/black"
@@ -68,38 +70,58 @@
                     app:iconTint="@color/black"
                     android:focusable="false"
                     android:clickable="false"
-                    app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
-                    app:layout_constraintEnd_toStartOf="@id/menu"
-                    app:layout_constraintStart_toEndOf="@id/jobIv"
-                    app:layout_constraintTop_toBottomOf="@id/name"
                     tools:text="01.06.2024 10:00" />
-
-                <Button
-                    android:id="@+id/pickStartDate"
-                    style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/defaultMargin"
-                    android:backgroundTint="@color/black"
-                    android:contentDescription="@string/take_date_for_event_time"
-                    app:icon="@drawable/baseline_edit_calendar_48"
-                    app:iconGravity="textStart"
-                    app:iconTint="@color/white" />
-
-                <Button
-                    android:id="@+id/pickClock"
-                    style="@style/Widget.Material3.Button.IconButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/defaultMargin"
-                    android:backgroundTint="@color/black"
-                    android:contentDescription="@string/take_time_in_day_for_event"
-                    app:icon="@drawable/baseline_watch_later_48"
-                    app:iconGravity="textStart"
-                    app:iconTint="@color/white" />
             </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/buttonDefaultMarginDim">
+
+            <Button
+                android:id="@+id/eventType"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Offline"
+                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:backgroundTint="@color/black"
+                app:icon="@drawable/ic_event_type_selector"
+                app:iconTint="@color/white"
+                android:clickable="false"
+                android:focusable="false"/>
+
+            <Button
+                android:id="@+id/pickStartDate"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="@dimen/defaultMargin"
+                android:backgroundTint="@color/black"
+                android:contentDescription="@string/take_date_for_event_time"
+                app:icon="@drawable/baseline_edit_calendar_48"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white" />
+
+            <Button
+                android:id="@+id/pickClock"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:backgroundTint="@color/black"
+                android:contentDescription="@string/take_time_in_day_for_event"
+                app:icon="@drawable/baseline_watch_later_48"
+                app:iconGravity="textStart"
+                app:iconTint="@color/white" />
+        </LinearLayout>
 
             <com.yandex.mapkit.mapview.MapView
                 android:id="@+id/mapView"
@@ -310,5 +332,5 @@
         android:clickable="true"
         android:focusable="true"
         android:visibility="gone"
-        app:constraint_referenced_ids="eventTime, pickStartDate, pickClock, list2Iv" />
+        app:constraint_referenced_ids="eventTime, pickStartDate, pickClock, list2Iv, eventType" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

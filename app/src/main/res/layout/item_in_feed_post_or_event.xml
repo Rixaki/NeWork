@@ -31,7 +31,7 @@
             android:layout_marginEnd="@dimen/defaultMargin"
             android:ellipsize="end"
             android:singleLine="true"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/avatar"
             app:layout_constraintEnd_toStartOf="@id/menu"
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintBottom_toTopOf="@id/published"
@@ -49,24 +49,9 @@
             app:layout_constraintEnd_toStartOf="@id/menu"
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintTop_toBottomOf="@id/authorName"
-            app:layout_constraintBottom_toTopOf="@id/eventTime"
+            app:layout_constraintBottom_toBottomOf="@id/avatar"
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="published 25.05.2024 15:00" />
-
-        <TextView
-            android:id="@+id/eventTime"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/defaultMargin"
-            android:layout_marginEnd="@dimen/defaultMargin"
-            android:ellipsize="end"
-            android:singleLine="true"
-            app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
-            app:layout_constraintEnd_toStartOf="@id/menu"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/published"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="event at 01.06.2024 10:00" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/menu"
@@ -87,23 +72,56 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/defaultMargin"
             android:autoLink="web"
-            app:layout_constraintTop_toBottomOf="@id/participantStatus"
+            app:layout_constraintTop_toBottomOf="@id/eventType"
             tools:layout_editor_absoluteX="56dp"
             tools:text="@tools:sample/lorem/random" />
+
+        <Button
+            android:id="@+id/eventType"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/offline"
+            android:textColor="@color/white"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:backgroundTint="@color/black"
+            app:icon="@drawable/ic_event_type_selector"
+            app:iconTint="@color/white"
+            android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/participantStatus"/>
+
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.AppTheme.LikeButton"
+            android:id="@+id/eventTime"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:layout_marginTop="@dimen/buttonDefaultMarginDim"
+            android:layout_marginStart="@dimen/defaultMargin"
+            app:icon="@drawable/baseline_event_48"
+            app:iconTint="@color/black"
+            android:focusable="false"
+            android:clickable="false"
+            app:layout_constraintStart_toEndOf="@id/eventType"
+            app:layout_constraintTop_toBottomOf="@id/participantStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="01.06.2024 10:00" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/participantStatus"
             style="@style/Widget.AppTheme.ParticipantButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/defaultMargin"
-            android:insetTop="0dp"
-            android:minHeight="0dp"
+            android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
             app:icon="@drawable/ic_participant_selector"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:text="@string/you_participants_in_this_event"
             android:textColor="@color/black"
             app:iconTint="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/eventType"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrierPostHeadBottom" />
 
@@ -239,7 +257,7 @@
             android:clickable="true"
             android:focusable="true"
             android:visibility="visible"
-            app:constraint_referenced_ids="eventTime, list2Iv, participantStatus" />
+            app:constraint_referenced_ids="eventTime, list2Iv, participantStatus, eventType" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

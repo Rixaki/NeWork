@@ -1,82 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <!--Attemption to AppBar-->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="User profile"/>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constrainLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:isScrollContainer="true"
-        android:padding="@dimen/defaultMargin"
-        tools:context=".activity.AppActivity">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/buttonDefaultMarginDim">
 
         <ImageView
             android:id="@+id/avatar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:contentDescription="@string/descriptionPostAuthorAvatar"
-            tools:src="@tools:sample/avatars"
-            app:layout_constraintBottom_toBottomOf="@id/barrierUserHeadBottom"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/barrierUserHeadTop" />
+            tools:src="@tools:sample/avatars"/>
 
         <TextView
-            android:id="@+id/login"
-            android:layout_width="0dp"
+            android:id="@+id/nameAndLogin"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:textStyle="bold"
             android:layout_marginStart="@dimen/defaultMargin"
             android:layout_marginEnd="@dimen/defaultMargin"
             android:textSize="24sp"
             android:ellipsize="end"
             android:singleLine="true"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintBottom_toTopOf="@id/name"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="Nickname" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/defaultMargin"
-            android:layout_marginEnd="@dimen/defaultMargin"
-            android:textSize="@dimen/defaultTextSize"
-            android:ellipsize="end"
-            android:singleLine="true"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/login"
-            app:layout_constraintBottom_toBottomOf="@id/barrierUserHeadBottom"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:text="@tools:sample/full_names" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrierUserHeadBottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/defaultMargin"
-            app:barrierDirection="bottom"
-            app:barrierMargin="@dimen/defaultMargin"
-            app:constraint_referenced_ids="avatar, login, name" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrierUserHeadTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/defaultMargin"
-            app:barrierDirection="top"
-            app:barrierMargin="@dimen/defaultMargin"
-            app:constraint_referenced_ids="avatar, login, name" />
+            android:layout_gravity="bottom|center"
+            tools:text="Name Surname / Nickname" />
+        </FrameLayout>
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/userGroupButton"
@@ -84,14 +41,12 @@
             android:layout_height="wrap_content"
             app:selectionRequired="true"
             app:singleSelection="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/barrierUserHeadBottom">
+            android:layout_gravity="center">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/wall"
                 style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/wall"
                 app:icon="@drawable/baseline_edit_note_48" />
@@ -99,7 +54,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/jobs"
                 style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/jobs"
                 app:icon="@drawable/baseline_work_48" />
@@ -139,15 +94,12 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_job"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                android:paddingTop="?attr/actionBarSize"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_in_feed_job" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>
 
 

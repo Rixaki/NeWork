@@ -39,6 +39,11 @@ android {
         properties.load(project.rootProject.file("app/src/maps.properties").inputStream())
         val mapkitApiKey = properties.getProperty("MAPKIT_API_KEY", "no api")
         buildConfigField("String", "MAPKIT_API_KEY", "\"${mapkitApiKey}\"")
+
+        //SWAGGER
+        properties.load(project.rootProject.file("app/src/api.properties").inputStream())
+        val swaggerApiKey = properties.getProperty("SERVER_API_KEY", "no api")
+        buildConfigField("String", "SERVER_KEY", "\"${swaggerApiKey}\"")
     }
 
     buildTypes {
@@ -57,6 +62,11 @@ android {
         }
     }
     compileOptions {
+        // Flag to enable support for the new language APIs
+
+        // For AGP 4.1+
+        isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -137,4 +147,8 @@ dependencies {
 
     val serialization_version = "1.7.0"
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version")
+
+    // For AGP 7.4+
+    val desugar_version = "2.0.3"
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:$desugar_version")
 }

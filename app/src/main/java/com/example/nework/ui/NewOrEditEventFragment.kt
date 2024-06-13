@@ -17,6 +17,7 @@ import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
 import com.example.nework.dto.Coords
 import com.example.nework.dto.DATE_FORMAT
+import com.example.nework.dto.EventType
 import com.example.nework.ui.SelectUserListByPostFragment.Companion.titleArg
 import com.example.nework.util.countToString
 import com.example.nework.vm.EventViewModel
@@ -78,11 +79,22 @@ class NewOrEditEventFragment : Fragment() {
         binding.list1Iv.setText((countToString(eventEdited?.participantsIds?.size ?: 0)))
         binding.list2Iv.setText(getString(R.string.select_speakers))
 
+        binding.eventType.isSelected = viewModel.isOnline.value == true//select == online
+        viewModel.isOnline.observe(viewLifecycleOwner) {
+            val isOnline = viewModel.isOnline.value ?: false
+            binding.eventType.text = if (isOnline)
+                getString(R.string.online) else getString(R.string.offline)
+            binding.eventType.isSelected = !(binding.eventType.isSelected)
+        }
+        binding.eventType.setOnClickListener {
+            viewModel.changeType()
+        }
+
         //TIME SETTING ZONE
         //default listener in MaterialDatePicker, MaterialTimePicker = dismiss()
         var startDate = 0L
-        val hourFormat = SimpleDateFormat("HH")
-        val minuteFormat = SimpleDateFormat("mm")
+        //val hourFormat = SimpleDateFormat("HH")
+        //val minuteFormat = SimpleDateFormat("mm")
         var startHours = 0
         var startMinute = 0
         try {

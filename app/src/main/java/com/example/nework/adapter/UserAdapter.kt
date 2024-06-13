@@ -42,7 +42,7 @@ class UserViewHolder(
             checkbox.visibility = View.GONE
 
             val baseUrl = "$BASE_URL/"
-            avatar.loadAvatar(baseUrl + user.avatar)
+            avatar.loadAvatar(url = baseUrl + user.avatar)
 
             login.text = user.login
             name.text = user.name

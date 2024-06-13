@@ -114,19 +114,36 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:text="25.05.2024 15:00" />
 
+        <Button
+            android:id="@+id/eventType"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/offline"
+            android:textColor="@color/white"
+            android:layout_marginEnd="@dimen/defaultMargin"
+            android:backgroundTint="@color/black"
+            app:icon="@drawable/ic_event_type_selector"
+            app:iconTint="@color/white"
+            android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/participantStatus"
+            app:layout_constraintTop_toBottomOf="@id/publishedTime"/>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/participantStatus"
             style="@style/Widget.AppTheme.ParticipantButton"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
-            android:insetTop="0dp"
-            android:minHeight="0dp"
             app:icon="@drawable/ic_participant_selector"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:text="@string/you_participants_in_this_event"
             android:textColor="@color/black"
             app:iconTint="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/eventType"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/publishedTime" />
 
@@ -153,7 +170,7 @@
             android:paddingBottom="@dimen/defaultMargin"
             app:barrierDirection="bottom"
             app:barrierMargin="@dimen/defaultMargin"
-            app:constraint_referenced_ids="publishedTime, participantStatus, barrierPostTimeBottom" />
+            app:constraint_referenced_ids="publishedTime, participantStatus, barrierPostTimeBottom, eventType" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierPostContentBottom"
@@ -273,7 +290,7 @@
             android:clickable="true"
             android:focusable="true"
             android:visibility="visible"
-            app:constraint_referenced_ids="eventTime, list2Iv, participantStatus" />
+            app:constraint_referenced_ids="eventTime, list2Iv, participantStatus, eventType" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

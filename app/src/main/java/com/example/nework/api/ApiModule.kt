@@ -41,7 +41,10 @@ class ApiModule {
                     .build()
                 return@addInterceptor chain.proceed(newRequest)
             }
-            chain.proceed(chain.request())//work without token
+            //chain.proceed(chain.request())//work without token
+            chain.proceed(chain.request().newBuilder()
+                .addHeader("Api-Key", BuildConfig.SERVER_KEY)
+                .build())
         }
         .let {
             if (BuildConfig.DEBUG) it.addInterceptor(logging) else it

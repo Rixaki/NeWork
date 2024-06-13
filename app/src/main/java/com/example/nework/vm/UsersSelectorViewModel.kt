@@ -80,6 +80,21 @@ class UsersSelectorViewModel @Inject constructor(
         }
     }
 
+    fun refresh() {
+        _usersState.value = (ResponceState(loading = true))
+        viewModelScope.launch {
+            try {
+                userRepo.getAll()
+                _usersState.value = ResponceState()
+            } catch (e: Exception) {
+                _usersState.value = ResponceState(
+                    error = true,
+                    lastErrorAction = "Error with list refresh."
+                )
+            }
+        }
+    }
+
     /*
     fun changeList(newUserSelectableList: List<SelectableUser>) {
         _list.value = newUserSelectableList.sortedBy { !it.isPicked }//picked first

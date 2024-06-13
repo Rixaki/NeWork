@@ -61,6 +61,7 @@ fun ImageView.loadAvatar(url: String) =
     load(
         url = url,
         placeholderIndex = R.drawable.baseline_account_circle_48,
+        errorIndex = R.drawable.baseline_account_circle_48,
         options = RequestOptions().circleCrop()
     )
 

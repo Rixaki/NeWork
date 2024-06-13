@@ -53,18 +53,18 @@ class PostsFeedFragment : Fragment() {
     lateinit var appAuth: AppAuth
      */
 
-    private var _binding: FragmentFeedPostOrEventBinding? = null
+    //private var _binding: FragmentFeedPostOrEventBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
+    //private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFeedPostOrEventBinding.inflate(inflater, container, false)
+        val binding = FragmentFeedPostOrEventBinding.inflate(inflater, container, false)
 
         val adapter = PostAdapter(object : OnIterationPostListener {
             override fun onLikeLtn(post: Post) {
@@ -183,6 +183,6 @@ class PostsFeedFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        //_binding = null
     }
 }
