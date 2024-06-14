@@ -40,11 +40,13 @@ class UserFeedFragment : Fragment() {
             adapter.submitList(list) {
                 binding.list.smoothScrollToPosition(0)
             }
+            binding.emptyText.isVisible = list.size == 0
         }
-        
+
         usersViewModel.usersState.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading
-            binding.swiperefresh.isRefreshing = state.loading
+            binding.statusText.isVisible = state.loading
+            binding.errorGroup.isVisible = state.error
         }
 
         binding.swiperefresh.setOnRefreshListener {

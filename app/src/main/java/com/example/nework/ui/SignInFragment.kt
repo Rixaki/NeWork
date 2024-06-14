@@ -97,7 +97,7 @@ class SignInFragment : Fragment() {
             } else {
                 val errorMsg =
                     response.exceptionOrNull()?.message
-                        ?: "no detected error"
+                        ?: "Initial value"
                 if (errorMsg != "Initial value") {
                     Toast.makeText(
                         requireContext(),

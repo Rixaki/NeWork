@@ -127,16 +127,20 @@ class EventViewModel @Inject constructor(
     val eventCancelled: LiveData<Unit>
         get() = _eventCancelled
 
-    @Suppress("UNCHECKED_CAST")
-    val newerCount: LiveData<Int> = try {
-        data.flatMapLatest {
-            repository.getNewerCount(remoteKeyDao.max()!!)
-                .flowOn(Dispatchers.Default)
-        }.asLiveData()
-    } catch (e: Exception) {
-        flowOf(0).asLiveData()
+    private val _newerCount = MutableLiveData<Int>()
+    val newerCount: LiveData<Int>
+        get() = _newerCount
+
+    fun checkNewer() {
+        viewModelScope.launch {
+            try {
+                _newerCount.value = repository.getNewerCount(remoteKeyDao.max()!!)
+                    .asLiveData(Dispatchers.Default).value
+            } catch (e: Exception) {
+                _newerCount.value = 0
+            }
+        }
     }
-    //mutable for "Fresh events" GONE after refresh/load
 
     private val _photo = MutableLiveData<PhotoModel>()
     val photo: LiveData<PhotoModel>
@@ -330,4 +334,17 @@ class EventViewModel @Inject constructor(
             }
         }
     }
+
+    /*
+    //refresh is NOT necessary due to paging
+    fun refresh() = viewModelScope.launch {
+        try {
+            _state.value = FeedModelState(refreshing = true)
+            //repository.getAll()
+            _state.value = FeedModelState()
+        } catch (e: Exception) {
+            _state.value = FeedModelState(error = true)
+        }
+    }
+ */
 }

@@ -30,11 +30,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.SingleLiveEvent
-import javax.inject.Inject
 
 private val empty = Post(
     id = 0,
@@ -113,18 +112,34 @@ class PostViewModel @AssistedInject constructor(
     val postCancelled: LiveData<Unit>
         get() = _postCancelled
 
+    private val _newerCount = MutableLiveData<Int>()
+    val newerCount: LiveData<Int>
+        get() = _newerCount
+
+    fun checkNewer() {
+        viewModelScope.launch {
+            try {
+                _newerCount.value = repository.getNewerCount(remoteKeyDao.max()!!)
+                    .asLiveData(Dispatchers.Default).value
+            } catch (e: Exception) {
+                _newerCount.value = 0
+            }
+        }
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    @Suppress("UNCHECKED_CAST")
-    val newerCount: LiveData<Int> = data.flatMapLatest {
+    /*
+    fun newerCount(): LiveData<Int> = viewModelScope.launch {
         if (!isWallOption) {
             repository.getNewerCount(remoteKeyDao.max()!!)
-                .flowOn(Dispatchers.Default)
         } else {
             flowOf(0)
         }
+            .asLiveData(Dispatchers.Default)
+        }
         //!! getNewerCount catchable with flow(0)
-    }.asLiveData(Dispatchers.Default)
     //mutable for "Fresh posts" GONE after refresh/load
+     */
 
     private val _photo = MutableLiveData<PhotoModel>()
     val photo: LiveData<PhotoModel>
@@ -276,6 +291,7 @@ class PostViewModel @AssistedInject constructor(
 
 
     /*
+    //refresh is NOT necessary due to paging
     fun refresh() = viewModelScope.launch {
         try {
             _state.value = FeedModelState(refreshing = true)

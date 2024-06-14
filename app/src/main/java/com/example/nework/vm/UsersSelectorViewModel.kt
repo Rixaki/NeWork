@@ -51,6 +51,7 @@ class UsersSelectorViewModel @Inject constructor(
                 if (userDao.getSize() == 0) {
                     userRepo.getAll()//users from api
                 }
+                _usersState.postValue(ResponceState())
             } catch (e: Exception) {
                 _usersState.postValue(
                     ResponceState(

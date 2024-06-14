@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
@@ -123,6 +124,7 @@ class MainActivity : AppCompatActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 appAuth.authState.collect {
                     invalidateOptionsMenu()
+                    navBottomView.menu.findItem(R.id.my_profile).isVisible = authModel.authenticated
                 }
             }
         }

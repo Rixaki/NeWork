@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -24,11 +25,14 @@ import com.example.nework.databinding.FragmentFeedPostOrEventBinding
 import com.example.nework.dto.Event
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.PostFragment.Companion.intArg
+import com.example.nework.util.countToString
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.EventViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.toast
@@ -192,6 +196,27 @@ class EventsFeedFragment : Fragment() {
                         state.refresh is LoadState.Loading
                 }
             }
+        }
+
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            binding.progress.isVisible = state.loading
+            binding.statusText.isVisible = state.loading
+            binding.errorGroup.isVisible = state.error
+        }
+
+        //NEWER BUTTON
+        binding.freshPosts.visibility = View.GONE
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+            while (true) {
+                delay(timeMillis = 10_000)
+                viewModel.checkNewer()
+            }
+        }
+        viewModel.newerCount.observe(viewLifecycleOwner) { count ->
+            binding.freshPosts.text =
+                getString(R.string.fresh_posts, countToString(count))
+            binding.freshPosts.visibility =
+                if (count == 0) View.GONE else View.VISIBLE
         }
 
         binding.swiperefresh.setOnRefreshListener(adapter::refresh)

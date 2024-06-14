@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -14,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.net.toFile
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
@@ -62,7 +64,7 @@ class SignUpFragment : Fragment() {
                 findNavController().navigate(R.id.action_global_to_postsFeedFragment)
             }
     }
-
+    
     @SuppressLint("ResourceType", "StringFormatMatches", "StringFormatInvalid")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,6 +75,8 @@ class SignUpFragment : Fragment() {
 
         val binding = FragmentSignUpBinding
             .inflate(layoutInflater, container, false)
+
+        binding.newAttachmentMedia.setImageResource(R.drawable.baseline_account_circle_48)
 
         binding.signUpButton.setOnClickListener {
             val name = binding.txtName.text.toString()
@@ -124,7 +128,7 @@ class SignUpFragment : Fragment() {
                 findNavController().navigate(R.id.action_global_to_postsFeedFragment)
             } else {
                 val errorMsg =
-                    response.exceptionOrNull()?.message ?: "no detected error"
+                    response.exceptionOrNull()?.message ?: "Initial value"
                 if (errorMsg != "Initial value") {
                     toast(getString(R.string.regi_toast_unsuccess, errorMsg))
                 }

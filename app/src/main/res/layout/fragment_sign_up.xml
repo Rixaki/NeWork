@@ -47,6 +47,7 @@
                 android:layout_marginTop="@dimen/defaultMargin"
                 android:ems="10"
                 android:hint="@string/name"
+                android:singleLine="true"
                 android:importantForAutofill="no"
                 android:inputType="none" />
 
@@ -57,6 +58,7 @@
                 android:layout_gravity="center"
                 android:ems="10"
                 android:hint="@string/login"
+                android:singleLine="true"
                 android:importantForAutofill="no"
                 android:inputType="none" />
 
@@ -76,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:singleLine="true"
                 android:ems="10"
                 android:hint="@string/confirm_password"
                 android:importantForAutofill="no"
@@ -98,9 +101,9 @@
                     android:lines="1"
                     android:maxWidth="200dp"
                     android:text="@string/clear_avatar"
-                    android:textColor="?colorOnPrimary"
-                    android:visibility="gone"
-                    app:iconTint="?colorOnPrimary"
+                    android:textColor="@color/white"
+                    android:visibility="visible"
+                    android:backgroundTint="@color/black"
                     app:layout_anchor="@id/newAttachmentMedia" />
 
                 <Button
@@ -136,6 +139,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:backgroundTint="@color/black"
+                    android:textColor="@color/white"
                     android:layout_marginEnd="@dimen/defaultMargin"
                     android:lines="1"
                     android:text="@string/sign_up" />

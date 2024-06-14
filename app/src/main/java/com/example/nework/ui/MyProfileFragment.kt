@@ -106,6 +106,8 @@ class MyProfileFragment : Fragment() {
                 User(id = 1, login = "", name = "", avatar = null)
             }//for binding info
 
+            //TODO: ADD POST AND ADD JOB
+
             val wallAdapter = PostAdapter(object : OnIterationPostListener {
                 override fun onLikeLtn(post: Post) {
                     if (authModel.authenticated) {
