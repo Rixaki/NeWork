@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/defaultMargin"
+    android:paddingHorizontal="@dimen/defaultMargin"
     android:layout_margin="@dimen/buttonDefaultMarginDim"
     android:background="#ccc">
 
@@ -20,6 +20,9 @@
             app:layout_constraintStart_toStartOf="@id/list"
             app:layout_constraintEnd_toEndOf="@id/list"
             app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/defaultMargin"
+            android:layout_marginBottom="@dimen/buttonDefaultMarginDim"
+            android:maxLines="2"
             android:text="TITLE"
             android:gravity="center"
             android:textSize="32sp" />
@@ -30,10 +33,10 @@
             android:layout_height="500dp"
             android:layout_alignParentTop="true"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/cancellButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
             android:background="@color/white"
             tools:listitem="@layout/item_in_feed_user" />
 
@@ -42,7 +45,9 @@
             style="@style/Widget.AppTheme.LikeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/defaultMargin"
+            android:layout_marginHorizontal="@dimen/defaultMargin"
+            android:layout_marginBottom="@dimen/defaultMargin"
+            app:layout_goneMarginBottom="@dimen/buttonDefaultMarginDim"
             android:clickable="true"
             android:focusable="true"
             android:singleLine="true"
@@ -60,7 +65,9 @@
             style="@style/Widget.AppTheme.LikeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/defaultMargin"
+            android:layout_marginHorizontal="@dimen/defaultMargin"
+            android:layout_marginBottom="@dimen/defaultMargin"
+            app:layout_goneMarginBottom="@dimen/buttonDefaultMarginDim"
             android:clickable="true"
             android:focusable="true"
             android:singleLine="true"

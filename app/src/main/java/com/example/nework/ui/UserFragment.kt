@@ -36,6 +36,7 @@ import com.example.nework.vm.PostByUserViewModelFactory
 import com.example.nework.vm.PostViewModel
 import com.example.nework.vm.PostViewModelFactory
 import com.example.nework.vm.UsersViewModel
+import com.example.nework.vm.UsersViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,18 +59,8 @@ class UserFragment : Fragment() {
             bundleOf(USER_ID to id)
     }
 
-    private val userId = requireArguments().USER_ID
     private val authModel by viewModels<AuthViewModel>()
 
-    //only for wall list
-    val wallModel: PostByUserViewModel by viewModels(
-        extrasProducer = {
-            defaultViewModelCreationExtras.withCreationCallback<PostByUserViewModelFactory> { factory ->
-                @Suppress("DEPRECATION")
-                factory.create(requireArguments().getSerializable(USER_ID) as Int)
-            }
-        }
-    )
 
     //for post manipulations
     private val postModel: PostViewModel by activityViewModels(
@@ -80,7 +71,19 @@ class UserFragment : Fragment() {
             }
         }
     )
-    private val jobModel: JobViewModel by activityViewModels(
+
+    //for wall list
+    val wallModel: PostByUserViewModel by viewModels(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<PostByUserViewModelFactory> { factory ->
+                @Suppress("DEPRECATION")
+                factory.create(requireArguments().getSerializable(USER_ID) as Int)
+            }
+        }
+    )
+
+    //for job list
+    val jobModel: JobViewModel by activityViewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<JobViewModelFactory> { factory ->
                 @Suppress("DEPRECATION")
@@ -88,14 +91,26 @@ class UserFragment : Fragment() {
             }
         }
     )
-    private val userModel by viewModels<UsersViewModel>()
+
+    private val userModel by viewModels<UsersViewModel>(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<UsersViewModelFactory> { factory ->
+                @Suppress("DEPRECATION")
+                factory.create(emptyList())
+            }
+        }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val userId = requireArguments().USER_ID
+
         val binding = FragmentUserBinding.inflate(layoutInflater, container, false)
+        binding.addJob.isVisible = false
+        binding.addPost.isVisible = false
 
         if (userId != 0) {
             val user = userModel.getUserById(userId)//for binding info
@@ -257,7 +272,7 @@ class UserFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        jobModel.clearModels()
+        //jobModel.clearModels()
         postModel.clearModels()
         userModel.clearModel()
         super.onDestroy()

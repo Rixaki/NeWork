@@ -5,37 +5,40 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditJobBinding
 import com.example.nework.dto.DATE_FORMAT
 import com.example.nework.ui.UserFragment.Companion.USER_ID
-import com.example.nework.vm.AuthViewModel
-import com.example.nework.vm.EventViewModel
 import com.example.nework.vm.JobViewModel
 import com.example.nework.vm.JobViewModelFactory
-import com.example.nework.vm.PostByUserViewModelFactory
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 import ru.netology.nmedia.util.AndroidUtils
-import ru.netology.nmedia.util.IntArg
 import ru.netology.nmedia.util.toast
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.TimeZone
 
 @AndroidEntryPoint
 class NewOrEditJobFragment : Fragment() {
+    /*
+    companion object {
+        private const val USER_ID = "USER_ID"
+        var Bundle.USER_ID: Int by IntArg//for value by main_activity
+
+        //maybe set value in viewmodel
+        fun createArgs(id: Int): Bundle =
+            bundleOf(USER_ID to id)
+    }
+     */
+
     //edited job in vm by prev fragment
+    //user_id assisted for load jobs by user
     private val viewModel: JobViewModel by activityViewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<JobViewModelFactory> { factory ->

@@ -91,6 +91,9 @@
         <action
             android:id="@+id/action_myProfileFragment_to_newOrEditJobFragment"
             app:destination="@id/newOrEditJobFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_newOrEditPostFragment"
+            app:destination="@id/newOrEditPostFragment" />
     </fragment>
     <fragment
         android:id="@+id/newOrEditJobFragment"

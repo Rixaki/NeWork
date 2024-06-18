@@ -9,8 +9,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.nework.R
+import com.example.nework.adapter.OnIterationUserListener
 import com.example.nework.adapter.UserAdapter
 import com.example.nework.databinding.FragmentFeedUserBinding
+import com.example.nework.dto.User
+import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
+import com.example.nework.ui.UserFragment.Companion.USER_ID
 import com.example.nework.vm.UsersSelectorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +39,17 @@ class UserFeedFragment : Fragment() {
         _binding = FragmentFeedUserBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = UserAdapter()
+        val adapter = UserAdapter(
+            object : OnIterationUserListener {
+                override fun onRootLtn(user: User) {
+                    findNavController().navigate(
+                        R.id.action_userFeedFragment_to_userFragment,
+                        Bundle().apply {
+                            USER_ID = user.id
+                        })
+                }
+            }
+        )
         binding.list.adapter = adapter
 
         usersViewModel.users.observe(viewLifecycleOwner) { list ->

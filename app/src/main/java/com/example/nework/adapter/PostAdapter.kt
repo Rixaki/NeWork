@@ -171,8 +171,7 @@ class PostInFeedViewHolder(
         with(binding) {
             eventGroup.visibility = View.GONE
 
-            val baseUrl = "$BASE_URL/"
-            avatar.loadAvatar(url = baseUrl + post.authorAvatar)
+            avatar.loadAvatar(url = post.authorAvatar ?: "404")
 
             authorName.text = post.author
             published.text = post.published
@@ -303,8 +302,7 @@ class PostInCardViewHolder(
         with(binding) {
             eventGroup.visibility = View.GONE
 
-            val baseUrl = "$BASE_URL/"
-            avatar.loadAvatar(url = baseUrl + post.authorAvatar)
+            avatar.loadAvatar(url = post.authorAvatar ?: "404")
 
             author.text = post.author
             publishedTime.setText(post.published)

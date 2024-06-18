@@ -62,8 +62,7 @@ class SelectableUserViewHolder(
 
             val user = slctUser.user
 
-            val baseUrl = "$BASE_URL/"
-            avatar.loadAvatar(baseUrl + user.avatar)
+            avatar.loadAvatar(user.avatar)
 
             login.visibility = View.GONE
             name.text = user.name

@@ -13,6 +13,7 @@ import com.example.nework.dto.UserPreview
 import com.example.nework.model.ResponceState
 import com.example.nework.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,7 +47,7 @@ class UsersSelectorViewModel @Inject constructor(
                 loading = true,
             )
         )
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 if (userDao.getSize() == 0) {
                     userRepo.getAll()//users from api
@@ -64,26 +65,24 @@ class UsersSelectorViewModel @Inject constructor(
     }
 
     fun setAllSelectorList(ids: List<Int>) {
-        viewModelScope.launch {
-            if (users.value != emptyList<User>()) {
-                val result = users.value!!.map {
-                    SelectableUser(
-                        id = it.id,
-                        user = UserPreview(
-                            avatar = it.avatar ?: "404",
-                            name = it.name
-                        ),
-                        isPicked = ids.contains(it.id)
-                    )
-                }
-                _list.postValue(result)
+        viewModelScope.launch(Dispatchers.Default) {
+            val result = users.value?.map {
+                SelectableUser(
+                    id = it.id,
+                    user = UserPreview(
+                        avatar = it.avatar ?: "404",
+                        name = it.name
+                    ),
+                    isPicked = ids.contains(it.id)
+                )
             }
+            _list.postValue(result)
         }
     }
 
     fun refresh() {
         _usersState.value = (ResponceState(loading = true))
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 userRepo.getAll()
                 _usersState.value = ResponceState()

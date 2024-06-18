@@ -55,13 +55,13 @@
         android:layout_width="@dimen/avatarDimen"
         android:layout_height="@dimen/avatarDimen"
         android:layout_marginEnd="@dimen/defaultMargin"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="#ccf"
         android:contentDescription="@string/take_date_for_event_time"
         app:icon="@drawable/baseline_link_48"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/jobIv"
         app:iconGravity="textStart"
-        app:iconTint="@color/white" />
+        app:iconTint="@color/black" />
 
     <Button
         android:id="@+id/menu"

@@ -64,6 +64,7 @@ class PostRemoteMediator(
 
                     val lastId = keyDao.max()
                         ?: return MediatorResult.Success(false)
+                    println("lastId $lastId")
                     service.getAfterPost(
                         lastId,
                         state.config.pageSize
@@ -74,6 +75,7 @@ class PostRemoteMediator(
                 LoadType.APPEND -> {
                     val firstId = keyDao.min()
                         ?: return MediatorResult.Success(false)
+                    println("firstId $firstId")
                     service.getBeforePost(
                         firstId,
                         state.config.pageSize
@@ -100,7 +102,7 @@ class PostRemoteMediator(
                  */
             }
 
-            postDb.withTransaction {//all changes postdao+keysDao or prev state
+            postDb.withTransaction { //all changes postdao+keysDao or prev state
                 when (loadType) {
                     LoadType.REFRESH -> {
                         println("trans refresh")

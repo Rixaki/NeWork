@@ -35,71 +35,108 @@
             tools:text="Name Surname / Nickname" />
         </FrameLayout>
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/userGroupButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:selectionRequired="true"
-            app:singleSelection="true"
-            android:layout_gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingHorizontal="@dimen/defaultMargin">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/wall"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/wall"
-                app:icon="@drawable/baseline_edit_note_48" />
+        <Button
+            android:id="@+id/addPost"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="@dimen/avatarDimen"
+            android:layout_height="@dimen/avatarDimen"
+            android:backgroundTint="#dd0"
+            android:contentDescription="@string/add_post"
+            app:icon="@drawable/baseline_post_add_48"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/jobIv"
+            app:iconGravity="textStart"
+            app:iconTint="@color/black" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/jobs"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/jobs"
-                app:icon="@drawable/baseline_work_48" />
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/userGroupButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/avatarDimen"
+        android:paddingHorizontal="@dimen/defaultMargin"
+        app:selectionRequired="true"
+        app:singleSelection="true">
 
-        </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swiperefresh_post"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/wall"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/swiperefresh_job"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/userGroupButton"
-            android:visibility="gone">
+            android:text="@string/wall"
+            app:icon="@drawable/baseline_edit_note_48" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_post"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_alignParentTop="true"
-                android:paddingTop="?attr/actionBarSize"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_in_feed_post_or_event" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swiperefresh_job"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/jobs"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/jobs"
+            app:icon="@drawable/baseline_work_48" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <Button
+            android:id="@+id/addJob"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="@dimen/avatarDimen"
+            android:layout_height="@dimen/avatarDimen"
+            android:backgroundTint="#dd0"
+            android:contentDescription="@string/add_job"
+            app:icon="@drawable/new_job_48"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/swiperefresh_post"
-            android:visibility="visible">
+            app:layout_constraintTop_toTopOf="@id/jobIv"
+            app:iconGravity="textStart"
+            app:iconTint="@color/black" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list_job"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_in_feed_job" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/defaultMargin"
+        app:layout_constraintBottom_toTopOf="@id/swiperefresh_job"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userGroupButton"
+        android:visibility="gone">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_post"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_alignParentTop="true"
+            android:paddingTop="?attr/actionBarSize"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_in_feed_post_or_event" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh_job"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
+        android:layout_marginHorizontal="@dimen/defaultMargin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/swiperefresh_post"
+        android:visibility="visible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_job"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_in_feed_job" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
 
 

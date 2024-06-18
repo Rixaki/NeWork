@@ -92,8 +92,18 @@ class UsersViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 result = userRepo.getUserById(id)
-            } catch (e: Exception) {
-
+            } catch (_: Exception) {
+                try {
+                    val response = appApi.getUserById(id)
+                    result = response.body() ?: throw RuntimeException()
+                } catch (e: Exception) {
+                    _state.update {
+                        ResponceState(
+                            error = true,
+                            lastErrorAction = "Api responce error with find user."
+                        )
+                    }
+                }
             }
         }
         return result

@@ -9,11 +9,15 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import androidx.navigation.fragment.findNavController
 import com.example.nework.R
+import com.example.nework.adapter.OnIterationUserListener
 import com.example.nework.adapter.UserAdapter
 import com.example.nework.api.AppApi
 import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.DialogListUserBinding
+import com.example.nework.dto.User
+import com.example.nework.ui.UserFragment.Companion.USER_ID
 import com.example.nework.vm.UsersViewModel
 import com.example.nework.vm.UsersViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,7 +70,11 @@ class GetUserListDialogFragment(
             }
         )
 
-        val adapter = UserAdapter()
+        val adapter = UserAdapter(
+            object : OnIterationUserListener {
+                override fun onRootLtn(user: User) {}
+            }
+        )
         binding.list.adapter = adapter
 
         userListModel.list.asLiveData().observe(viewLifecycleOwner) { list ->

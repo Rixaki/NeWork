@@ -34,10 +34,13 @@ class SelectUserListByPostFragment : Fragment() {
         var Bundle.titleArg: String? by StringArg
     }
 
+    /*
+    //throws Fragment$InstantiationException (doubled in on_create_view)
     init {
         selectorModel.setAllSelectorList(viewModel.list.value ?: emptyList())
         selectorModel.sortList()
     }
+     */
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +52,9 @@ class SelectUserListByPostFragment : Fragment() {
             container,
             false
         )
+
+        selectorModel.setAllSelectorList(viewModel.list.value ?: emptyList())
+        selectorModel.sortList()
 
         selectorModel.usersState.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading

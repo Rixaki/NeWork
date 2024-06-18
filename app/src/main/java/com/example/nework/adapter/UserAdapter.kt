@@ -8,10 +8,17 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.nework.BuildConfig.BASE_URL
 import com.example.nework.databinding.ItemInFeedUserBinding
+import com.example.nework.dto.Post
 import com.example.nework.dto.User
 import ru.netology.nmedia.util.loadAvatar
 
-class UserAdapter() : ListAdapter<User, UserViewHolder>(UserDiffCallBack) {
+interface OnIterationUserListener {
+    fun onRootLtn(user: User) {}
+}
+
+class UserAdapter(
+    private val onIterationUserListener: OnIterationUserListener
+) : ListAdapter<User, UserViewHolder>(UserDiffCallBack) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -22,7 +29,7 @@ class UserAdapter() : ListAdapter<User, UserViewHolder>(UserDiffCallBack) {
             false
         )
 
-        return UserViewHolder(view)
+        return UserViewHolder(view, onIterationUserListener)
     }
 
     override fun onBindViewHolder(
@@ -35,17 +42,21 @@ class UserAdapter() : ListAdapter<User, UserViewHolder>(UserDiffCallBack) {
 }
 
 class UserViewHolder(
-    private val binding: ItemInFeedUserBinding
+    private val binding: ItemInFeedUserBinding,
+    private val onIterationUserListener: OnIterationUserListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(user: User) {
         with(binding) {
             checkbox.visibility = View.GONE
 
-            val baseUrl = "$BASE_URL/"
-            avatar.loadAvatar(url = baseUrl + user.avatar)
+            avatar.loadAvatar(url = user.avatar ?: "404")
 
             login.text = user.login
             name.text = user.name
+
+            constrainLayout.setOnClickListener {
+                onIterationUserListener.onRootLtn(user)
+            }
         }
     }
 }

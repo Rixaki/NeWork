@@ -1,5 +1,6 @@
 package com.example.nework.ui
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -7,8 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.viewModels
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -30,6 +29,7 @@ import com.example.nework.dto.Post
 import com.example.nework.dto.User
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.PostFragment.Companion.intArg
+import com.example.nework.ui.UserFragment.Companion.USER_ID
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.JobViewModel
 import com.example.nework.vm.JobViewModelFactory
@@ -38,18 +38,21 @@ import com.example.nework.vm.PostByUserViewModelFactory
 import com.example.nework.vm.PostViewModel
 import com.example.nework.vm.PostViewModelFactory
 import com.example.nework.vm.UsersViewModel
+import com.example.nework.vm.UsersViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.util.IntArg
 import ru.netology.nmedia.util.loadAvatar
 import ru.netology.nmedia.util.toast
 
 @AndroidEntryPoint
 class MyProfileFragment : Fragment() {
+    /*
     companion object {
         private const val USER_ID = "USER_ID"
         var Bundle.USER_ID: Int by IntArg//for value by main_activity
@@ -58,6 +61,7 @@ class MyProfileFragment : Fragment() {
         fun createArgs(id: Int): Bundle =
             bundleOf(USER_ID to id)
     }
+     */
 
     private val authModel by viewModels<AuthViewModel>()
 
@@ -88,25 +92,59 @@ class MyProfileFragment : Fragment() {
             }
         }
     )
-    private val userModel by viewModels<UsersViewModel>()
+    private val userModel by viewModels<UsersViewModel>(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<UsersViewModelFactory> { factory ->
+                @Suppress("DEPRECATION")
+                factory.create(emptyList())
+            }
+        }
+    )
 
+    @SuppressLint("StringFormatMatches")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentUserBinding.inflate(layoutInflater, container, false)
+        binding.addJob.isVisible = true
+        binding.addPost.isVisible = true
 
         val myId = authModel.userId
 
         if ((authModel.authenticated) && (myId != null) && (myId != 0)) {
             val user = try {
                 userModel.getUserById(myId)
-            } catch (e: Exception) {
-                User(id = 1, login = "", name = "", avatar = null)
-            }//for binding info
+            } catch (_: Exception) {
+                User(id=0, name = "", login = "", avatar = "404")//for none throwable
+            }
+            userModel.state.asLiveData(Dispatchers.Default).observe(viewLifecycleOwner){ state ->
+                if(state.error){
+                    toast(
+                        getString(
+                            R.string.failure_with_users_info_error_code,
+                            state.lastErrorAction
+                        ))
+                    findNavController().navigate(R.id.action_global_to_postsFeedFragment)
+                    val bottomBarView = requireActivity().findViewById<NavigationBarView>(R.id.bottom_navigation)
+                    bottomBarView.selectedItemId = R.id.posts
+                }
+            }
 
-            //TODO: ADD POST AND ADD JOB
+            binding.addJob.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_myProfileFragment_to_newOrEditJobFragment,
+                    Bundle().apply {
+                        USER_ID = user.id
+                    })
+            }
+
+            binding.addPost.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_myProfileFragment_to_newOrEditPostFragment
+                )
+            }
 
             val wallAdapter = PostAdapter(object : OnIterationPostListener {
                 override fun onLikeLtn(post: Post) {
@@ -210,6 +248,8 @@ class MyProfileFragment : Fragment() {
             with(binding) {
                 avatar.loadAvatar(user.avatar ?: "404")
                 nameAndLogin.text = "${user.name} / ${user.login}"
+                println ("text: ${user.name} / ${user.login}")
+                println ("ava: ${user.avatar}")
 
                 wall.setOnClickListener {
                     swiperefreshPost.isVisible = true
@@ -254,7 +294,7 @@ class MyProfileFragment : Fragment() {
             }
         } else {
             toast(getString(R.string.you_are_not_authenticated))
-            onDestroy()
+            this.onDestroy()
         }
 
         return binding.root

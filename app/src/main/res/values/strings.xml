@@ -108,5 +108,8 @@
     <string name="your_participation_not_been_noted">Your participation NOT been noted</string>
     <string name="offline">Offline</string>
     <string name="online">Online</string>
+    <string name="failure_with_users_info_error_code">Failure with users info, error code: \"%1$s\"</string>
+    <string name="add_post">add post</string>
+    <string name="add_job">add job</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

@@ -1,14 +1,21 @@
 package com.example.nework.ui
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.transition.Transition
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
+import androidx.core.view.get
 import androidx.core.view.marginBottom
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -17,18 +24,24 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
 import com.example.nework.BuildConfig
 import com.example.nework.R
 import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.ActivityMainBinding
-import com.example.nework.ui.MyProfileFragment.Companion.USER_ID
+import com.example.nework.ui.UserFragment.Companion.USER_ID
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationBarView
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ru.netology.nmedia.util.load
+import ru.netology.nmedia.util.loadAvatar
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -43,9 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-
         MapKitFactory.getInstance().onStart()
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +88,35 @@ class MainActivity : AppCompatActivity() {
 
         val navBottomView: NavigationBarView = binding.bottomNavigation
         navBottomView.setupWithNavController(navController)
-        navBottomView.menu.findItem(R.id.my_profile).isVisible = authModel.authenticated
+        if (authModel.authenticated) {
+            with(navBottomView.menu.findItem(R.id.my_profile)) {
+                this.isVisible = true
+                /*
+                Glide
+                    .with(this@MainActivity)
+                    .asDrawable()
+                    .load(authModel.data.asLiveData(Dispatchers.Default).value?.avatarUrl ?: "404")
+                    .placeholder(R.drawable.baseline_account_circle_48)
+                    .error(R.drawable.baseline_account_circle_48)
+                    .apply(
+                        RequestOptions.circleCropTransform()
+                    )
+                    .into(object :
+                        CustomTarget<Bitmap>(findViewById<View>(R.id.my_profile).layoutParams.width, findViewById<View>(R.id.my_profile).layoutParams.height) {
+                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                            navBottomView.menu.findItem(R.id.my_profile).icon = BitmapDrawable(resources, resource)
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {
+                            navBottomView.menu.findItem(R.id.my_profile).icon = placeholder
+                        }
+                        })
+                //println("HxW: ${navBottomView.findViewById<View>(R.id.my_profile).height}x${navBottomView.findViewById<View>(R.id.my_profile).width}")
+                //val icon = navBottomView.get(R.id.my_profile) as ImageView//it is NOT ImageView
+                //icon.loadAvatar(authModel.data.asLiveData(Dispatchers.Default).value?.avatarUrl ?: "404")
+                 */
+            }
+        }
         navBottomView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.posts -> {

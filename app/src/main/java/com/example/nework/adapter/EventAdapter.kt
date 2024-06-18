@@ -159,8 +159,7 @@ class EventInFeedViewHolder(
                 R.string.online else R.string.offline)
             binding.eventType.text = "  " + binding.eventType.text
 
-            val baseUrl = "$BASE_URL/"
-            avatar.loadAvatar(url = baseUrl + event.authorAvatar)
+            avatar.loadAvatar(url = event.authorAvatar ?: "404")
 
             authorName.text = event.author
             published.text = event.published
@@ -296,8 +295,7 @@ class EventInCardViewHolder(
                 onIterationEventListener.onParticipantLtn(event)
             }
 
-            val baseUrl = "$BASE_URL/"
-            avatar.loadAvatar(url = baseUrl + event.authorAvatar)
+            avatar.loadAvatar(url = event.authorAvatar ?: "404")
 
             author.text = event.author
             publishedTime.setText(event.published)

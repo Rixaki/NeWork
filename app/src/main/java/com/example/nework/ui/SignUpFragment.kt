@@ -64,7 +64,7 @@ class SignUpFragment : Fragment() {
                 findNavController().navigate(R.id.action_global_to_postsFeedFragment)
             }
     }
-    
+
     @SuppressLint("ResourceType", "StringFormatMatches", "StringFormatInvalid")
     override fun onCreateView(
         inflater: LayoutInflater,
