@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        /*
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 println("on receive") //do something with intent
@@ -62,6 +63,7 @@ class MainActivity : AppCompatActivity() {
             IntentFilter(),
             ContextCompat.RECEIVER_EXPORTED
         )
+         */
 
         MapKitFactory.getInstance().onStart()
     }

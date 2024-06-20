@@ -90,6 +90,7 @@ class NewOrEditPostFragment : Fragment() {
         val inputListener = object : InputListener {
             override fun onMapTap(p0: Map, p1: Point) {
                 println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
+                viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
                 p0.mapObjects.addPlacemark().apply {
                     geometry = p1
                     setIcon(imageProvider)
@@ -104,9 +105,18 @@ class NewOrEditPostFragment : Fragment() {
                 onMapTap(p0, p1)
             }
         }
+
+        //MAPKIT BLOCK 2
         mapView = binding.mapView
         val map = mapView.mapWindow?.map
-        //map?.addTapListener { false }//for inputlister working?
+        /*
+        println("OPTIONS: " +
+                "${map?.isZoomGesturesEnabled}, " +
+                "${map?.isScrollGesturesEnabled}, " +
+                "${map?.isRotateGesturesEnabled}, " +
+                "${map?.isTiltGesturesEnabled}")
+        map?.addTapListener { false }//for inputlister working?
+         */
         map?.addInputListener(inputListener)
         if (postEdited?.coords != null) {
             binding.position.setText(
@@ -166,8 +176,6 @@ class NewOrEditPostFragment : Fragment() {
             }
         }
 
-
-
         //binding.eventGroup.visibility = View.GONE
         binding.eventTime.visibility = View.GONE
         binding.pickStartDate.visibility = View.GONE
@@ -178,15 +186,15 @@ class NewOrEditPostFragment : Fragment() {
         binding.list1Iv.setText(getString(R.string.select_mentioned_users))
         binding.videoLink.setText(postEdited?.videoLink ?: "")
 
-        viewModel.coords.observe(viewLifecycleOwner) {
-            val lat = postEdited?.coords?.lat
-            val long = postEdited?.coords?.long
-            if (postEdited?.coords != null) {
+        viewModel.coords.observe(viewLifecycleOwner) { value ->
+            val lat = value?.lat
+            val long = value?.long
+            if (value != null) {
                 binding.position.setText(
                     getString(
                         R.string.position,
-                        "%.4f".format(postEdited.coords.lat),
-                        "%.4f".format(postEdited.coords.long)
+                        "%.4f".format(value.lat),
+                        "%.4f".format(value.long)
                     )
                 )
             } else {
