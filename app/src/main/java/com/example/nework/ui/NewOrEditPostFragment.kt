@@ -23,7 +23,10 @@ import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.InputListener
+import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.map.MapObjectTapListener
+import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 import ru.netology.nmedia.util.AndroidUtils
@@ -46,11 +49,26 @@ class NewOrEditPostFragment : Fragment() {
         var Bundle.textArg: String? by StringArg
     }
 
-    private val placemarkTapListener = MapObjectTapListener { _, point ->
-        toast("Tapped the point (${point.longitude}, ${point.latitude})")
-        viewModel.changeCoords(Coords(point.latitude, point.longitude))
-        true
+    private lateinit var mapView: MapView //for set lifecycle
+    /*
+    private lateinit var imageProvider: com.yandex.runtime.image.ImageProvider
+    private val inputListener = object : InputListener {
+        override fun onMapTap(p0: Map, p1: Point) {
+            p0.mapObjects.addPlacemark().apply {
+                geometry = p1
+                setIcon(imageProvider)
+            }
+            toast(
+                message = getString(R.string.push_bottom_map_button_to_save_point),
+                period = Toast.LENGTH_SHORT
+            )
+        }
+
+        override fun onMapLongTap(p0: Map, p1: Point) {
+            onMapTap(p0, p1)
+        }
     }
+     */
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +76,7 @@ class NewOrEditPostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val postEdited = viewModel.edited.value
+        val startLocation: Coords? = postEdited?.coords
         //val isEdited = postEdited?.id != 0
         val binding = FragmentNewOrEditPostOrEventBinding.inflate(
             layoutInflater,
@@ -65,14 +84,99 @@ class NewOrEditPostFragment : Fragment() {
             false
         )
 
-        binding.eventGroup.visibility = View.GONE
-        binding.list1Iv.setText(getString(R.string.select_mentioned_users))
-        binding.videoLink.setText(postEdited?.videoLink ?: "")
-
-        //val mapPlacemark = binding.mapView.mapWindow?.map?.mapObjects?.addPlacemark()
-        val map = binding.mapView.mapWindow?.map
+        //MAP_KIT BLOCK
         val imageProvider = com.yandex.runtime.image.ImageProvider
             .fromResource(requireContext(), R.drawable.baseline_location_pin_48)
+        val inputListener = object : InputListener {
+            override fun onMapTap(p0: Map, p1: Point) {
+                println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
+                p0.mapObjects.addPlacemark().apply {
+                    geometry = p1
+                    setIcon(imageProvider)
+                }
+                toast(
+                    message = getString(R.string.push_bottom_map_button_to_save_point),
+                    period = Toast.LENGTH_SHORT
+                )
+            }
+
+            override fun onMapLongTap(p0: Map, p1: Point) {
+                onMapTap(p0, p1)
+            }
+        }
+        mapView = binding.mapView
+        val map = mapView.mapWindow?.map
+        //map?.addTapListener { false }//for inputlister working?
+        map?.addInputListener(inputListener)
+        if (postEdited?.coords != null) {
+            binding.position.setText(
+                getString(
+                    R.string.position,
+                    "%.4f".format(postEdited.coords.lat),
+                    "%.4f".format(postEdited.coords.long)
+                )
+            )
+        } else {
+            binding.position.setText(getString(R.string.no_map_point))
+        }
+        binding.clearLocation.setOnClickListener {
+            viewModel.clearCoords()
+            map?.deselectGeoObject()
+        }
+        binding.prevLocation.setOnClickListener {
+            viewModel.changeCoords(startLocation)
+            if (startLocation == null) {
+                map?.deselectGeoObject()
+                toast(
+                    getString(R.string.there_was_not_previous_location),
+                    period = Toast.LENGTH_SHORT
+                )
+            }
+        }
+        binding.mapLocker.setOnClickListener {
+            val startState = binding.mapLocker.isSelected
+            binding.mapLocker.isSelected = !startState
+            if (startState) {
+                binding.mapView.visibility = View.GONE
+            } else {
+                binding.mapView.visibility = View.VISIBLE
+                //map?.addInputListener(inputListener)
+            }
+        }
+
+        //SCROLL_SETTING_BLOCK
+        binding.scrollView.isScrollable = true
+        binding.scrollLocker.setOnClickListener {
+            val startState = binding.scrollView.isScrollable
+            val selectState = binding.scrollLocker.isSelected
+            binding.scrollView.isScrollable = !startState
+            binding.scrollLocker.isSelected = !selectState
+            if (startState) {
+                //now locked
+                toast(
+                    message = "Scroll is locked.",
+                    period = Toast.LENGTH_SHORT
+                )
+            } else {
+                //now avaliable scroll
+                toast(
+                    message = "Scroll is unlocked.",
+                    period = Toast.LENGTH_SHORT
+                )
+            }
+        }
+
+
+
+        //binding.eventGroup.visibility = View.GONE
+        binding.eventTime.visibility = View.GONE
+        binding.pickStartDate.visibility = View.GONE
+        binding.pickClock.visibility = View.GONE
+        binding.list2Iv.visibility = View.GONE
+        binding.eventType.visibility = View.GONE
+
+        binding.list1Iv.setText(getString(R.string.select_mentioned_users))
+        binding.videoLink.setText(postEdited?.videoLink ?: "")
 
         viewModel.coords.observe(viewLifecycleOwner) {
             val lat = postEdited?.coords?.lat
@@ -94,17 +198,12 @@ class NewOrEditPostFragment : Fragment() {
                         Point(lat, long), 17.0f, 150.0f, 30.0f
                     )
                 )
-                if (map != null) {
-                    //adding map point
-                    map.mapObjects.addPlacemark().apply {
-                        geometry = Point(lat, long)
-                        setIcon(imageProvider)
-                    }
+                map.mapObjects.addPlacemark().apply {
+                    geometry = Point(lat, long)
+                    setIcon(imageProvider)
                 }
             } else {
-                toast(getString(R.string.button_for_map_opening_in_the_bottom))
-                binding.mapView.visibility = View.GONE
-                map?.mapObjects?.addPlacemark()?.removeTapListener(placemarkTapListener)
+                //map?.mapObjects?.addPlacemark()?.removeTapListener(placemarkTapListener)
                 if (map == null) {
                     toast(
                         getString(R.string.erroneous_absence_of_map_display),
@@ -114,23 +213,8 @@ class NewOrEditPostFragment : Fragment() {
             }
         }
 
-        binding.takeOrOpenMap.setOnClickListener {
-            if (postEdited?.coords != null) {
-                viewModel.changeCoords(postEdited.coords)
-            } else {
-                binding.mapView.visibility = View.VISIBLE
-                toast("Map opening...")
-                map?.mapObjects?.addPlacemark()?.addTapListener(placemarkTapListener)
-            }
-        }
-
-        binding.cancelMapPoint.setOnClickListener {
-            viewModel.clearCoords()
-        }
-
-
         binding.cancelButton.setOnClickListener {
-            viewModel.clearCoords()
+            viewModel.clearModels()
         }
 
         //eventTime and time change buttons no show in post editor
@@ -241,5 +325,15 @@ class NewOrEditPostFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onStop() {
+        mapView.onStop()
+        super.onStop()
     }
 }

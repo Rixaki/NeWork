@@ -30,6 +30,8 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.InputListener
+import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.map.MapObjectTapListener
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.util.AndroidUtils
@@ -73,7 +75,13 @@ class NewOrEditEventFragment : Fragment() {
             false
         )
 
-        binding.eventGroup.visibility = View.VISIBLE
+        //binding.eventGroup.visibility = View.VISIBLE
+        binding.eventTime.visibility = View.VISIBLE
+        binding.pickStartDate.visibility = View.VISIBLE
+        binding.pickClock.visibility = View.VISIBLE
+        binding.list2Iv.visibility = View.VISIBLE
+        binding.eventType.visibility = View.VISIBLE
+
         binding.eventTime.setText(eventEdited?.datetime ?: "no time")
         binding.videoLink.setText(eventEdited?.videoLink ?: "")
         binding.list1Iv.setText((countToString(eventEdited?.participantsIds?.size ?: 0)))
@@ -152,6 +160,16 @@ class NewOrEditEventFragment : Fragment() {
         val map = binding.mapView.mapWindow?.map
         val imageProvider = com.yandex.runtime.image.ImageProvider
             .fromResource(requireContext(), R.drawable.baseline_location_pin_48)
+        val inputListener = object : InputListener {
+            override fun onMapTap(p0: Map, p1: Point) {
+                viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
+            }
+
+            override fun onMapLongTap(p0: Map, p1: Point) {
+                onMapTap(p0, p1)
+            }
+        }
+        map?.addInputListener(inputListener)
 
         viewModel.coords.observe(viewLifecycleOwner) {
             val lat = eventEdited?.coords?.lat
@@ -191,20 +209,6 @@ class NewOrEditEventFragment : Fragment() {
                     )
                 }
             }
-        }
-
-        binding.takeOrOpenMap.setOnClickListener {
-            if (eventEdited?.coords != null) {
-                viewModel.changeCoords(eventEdited.coords)
-            } else {
-                binding.mapView.visibility = View.VISIBLE
-                toast("Map opening...")
-                map?.mapObjects?.addPlacemark()?.addTapListener(placemarkTapListener)
-            }
-        }
-
-        binding.cancelMapPoint.setOnClickListener {
-            viewModel.clearCoords()
         }
 
         //eventTime and time change buttons no show in post editor

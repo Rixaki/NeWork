@@ -15,6 +15,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
@@ -50,7 +51,7 @@ class UsersViewModel @AssistedInject constructor(
                 loading = true,
             )
         }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 if (userDao.getSize() == 0) {
                     userRepo.getAll()//users from api
@@ -67,7 +68,7 @@ class UsersViewModel @AssistedInject constructor(
     }
 
     private fun loadUsersByIds(listIds: List<Int>) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 val result = listIds.map {
                     val response = appApi.getUserById(it)
@@ -89,7 +90,7 @@ class UsersViewModel @AssistedInject constructor(
 
     fun getUserById(id: Int): User {
         var result = User(id = 0, login = "", name = "", avatar = null)
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
                 result = userRepo.getUserById(id)
             } catch (_: Exception) {

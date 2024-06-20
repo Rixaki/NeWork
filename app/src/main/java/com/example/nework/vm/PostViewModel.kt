@@ -117,12 +117,12 @@ class PostViewModel @AssistedInject constructor(
         get() = _newerCount
 
     fun checkNewer() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
-                _newerCount.value = repository.getNewerCount(remoteKeyDao.max()!!)
-                    .asLiveData(Dispatchers.Default).value
+                _newerCount.postValue(repository.getNewerCount(remoteKeyDao.max()!!)
+                    .asLiveData(Dispatchers.Default).value)
             } catch (e: Exception) {
-                _newerCount.value = 0
+                _newerCount.postValue(0)
             }
         }
     }
@@ -156,13 +156,13 @@ class PostViewModel @AssistedInject constructor(
         _list.postValue(noList)
     }
 
-    private fun load() = viewModelScope.launch {
+    private fun load() = viewModelScope.launch(Dispatchers.Default) {
         try {
-            _state.value = FeedModelState(loading = true)
+            _state.postValue(FeedModelState(loading = true))
             //repository.stream.cachedIn(viewModelScope).
-            _state.value = FeedModelState()
+            _state.postValue(FeedModelState())
         } catch (e: Exception) {
-            _state.value = FeedModelState(error = true)
+            _state.postValue(FeedModelState(error = true))
         }
     }
 
@@ -173,19 +173,19 @@ class PostViewModel @AssistedInject constructor(
      */
 
     fun cancelEdit() {
-        edited.value = empty
+        edited.postValue(empty)
         _postCancelled.postValue(Unit)
     }
 
     fun save() {
         edited.value?.let {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.Default) {
                 try {
                     repository.save(
                         post = it,
                         upload = _photo.value?.uri?.let { MediaUpload(it.toFile()) }
                     )
-                    _postCreated.value = Unit
+                    _postCreated.postValue (Unit)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -206,7 +206,7 @@ class PostViewModel @AssistedInject constructor(
         if (oldPredicated) {
             return
         }
-        edited.value = if (isPostModelEmpty)
+        edited.postValue ( if (isPostModelEmpty)
             edited.value?.copy(content = content)
         else
             edited.value?.copy(
@@ -214,8 +214,9 @@ class PostViewModel @AssistedInject constructor(
                 coords = coords.value,
                 mentionIds = list.value ?: emptyList()
             )
+        )
         edited.value?.let { editedPost ->
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.Default) {
                 try {
                     when (_photo.value) {
                         noPhoto -> {
@@ -230,14 +231,14 @@ class PostViewModel @AssistedInject constructor(
                     }
                     _postCreated.postValue(Unit)
                 } catch (e: Exception) {
-                    _state.value = FeedModelState(
+                    _state.postValue (FeedModelState(
                         error = true,
                         lastErrorAction =
                         if (editedPost.id == 0)
                             "Error with add post."
                         else
                             "Error with edit post."
-                    )
+                    ))
                     _postCancelled.postValue(Unit)
                 }
             }
@@ -253,38 +254,38 @@ class PostViewModel @AssistedInject constructor(
     fun clearMentionList() = _list.postValue(noList)
 
     fun likeById(id: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             val post =
                 repository.getPostById(id)//antisticking before request answer (only with throw id, not post)
             if (post?.isLikeLoading == false) {
                 try {
                     repository.likeById(id)//like and unlike in 1
                 } catch (e: Exception) {
-                    _state.value = FeedModelState(
+                    _state.postValue ( FeedModelState(
                         error = true,
                         lastErrorAction = "Error with like/unlike post."
-                    )
+                    ))
                 }
             } else {
-                _state.value = FeedModelState(
+                _state.postValue ( FeedModelState(
                     error = true,
                     lastErrorAction = "Still no response of like/unlike act."
-                )
+                ))
             }
         }
     }
 
     fun removeById(id: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
-                _state.value = FeedModelState(loading = true)
+                _state.postValue ( FeedModelState(loading = true))
                 repository.removeById(id)
-                _state.value = FeedModelState()
+                _state.postValue ( FeedModelState())
             } catch (e: Exception) {
-                _state.value = FeedModelState(
+                _state.postValue ( FeedModelState(
                     error = true,
                     lastErrorAction = "Error with delete post."
-                )
+                ))
             }
         }
     }
