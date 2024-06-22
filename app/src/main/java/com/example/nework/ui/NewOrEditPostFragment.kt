@@ -58,10 +58,6 @@ class NewOrEditPostFragment : Fragment() {
                 geometry = p1
                 setIcon(imageProvider)
             }
-            toast(
-                message = getString(R.string.push_bottom_map_button_to_save_point),
-                period = Toast.LENGTH_SHORT
-            )
         }
 
         override fun onMapLongTap(p0: Map, p1: Point) {
@@ -89,24 +85,18 @@ class NewOrEditPostFragment : Fragment() {
             .fromResource(requireContext(), R.drawable.baseline_location_pin_48)
         val inputListener = object : InputListener {
             override fun onMapTap(p0: Map, p1: Point) {
-                println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
+                //println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
                 viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
                 p0.mapObjects.addPlacemark().apply {
                     geometry = p1
                     setIcon(imageProvider)
                 }
-                toast(
-                    message = getString(R.string.push_bottom_map_button_to_save_point),
-                    period = Toast.LENGTH_SHORT
-                )
             }
 
             override fun onMapLongTap(p0: Map, p1: Point) {
                 onMapTap(p0, p1)
             }
         }
-
-        //MAPKIT BLOCK 2
         mapView = binding.mapView
         val map = mapView.mapWindow?.map
         /*
@@ -146,11 +136,10 @@ class NewOrEditPostFragment : Fragment() {
         binding.mapLocker.setOnClickListener {
             val startState = binding.mapLocker.isSelected
             binding.mapLocker.isSelected = !startState
-            if (startState) {
+            if (!startState) {
                 binding.mapView.visibility = View.GONE
             } else {
                 binding.mapView.visibility = View.VISIBLE
-                //map?.addInputListener(inputListener)
             }
         }
 
@@ -178,7 +167,7 @@ class NewOrEditPostFragment : Fragment() {
 
         //binding.eventGroup.visibility = View.GONE
         binding.eventTime.visibility = View.GONE
-        binding.pickStartDate.visibility = View.GONE
+        binding.pickEventDay.visibility = View.GONE
         binding.pickClock.visibility = View.GONE
         binding.list2Iv.visibility = View.GONE
         binding.eventType.visibility = View.GONE

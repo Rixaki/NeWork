@@ -2,7 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/scroll_48" />
+        android:drawable="@drawable/scroll_48"
+        android:state_selected="false"/>
 
     <item
         android:drawable="@drawable/scroll_lock_24"

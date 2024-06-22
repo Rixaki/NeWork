@@ -12,6 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
@@ -33,7 +35,11 @@ import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.map.MapObjectTapListener
+import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.StringArg
 import ru.netology.nmedia.util.toast
@@ -55,11 +61,29 @@ class NewOrEditEventFragment : Fragment() {
         var Bundle.textArg: String? by StringArg
     }
 
+    private lateinit var mapView: MapView //for set lifecycle
+    /*
+    private lateinit var imageProvider: com.yandex.runtime.image.ImageProvider
+    private val inputListener = object : InputListener {
+        override fun onMapTap(p0: Map, p1: Point) {
+            p0.mapObjects.addPlacemark().apply {
+                geometry = p1
+                setIcon(imageProvider)
+            }
+        }
+
+        override fun onMapLongTap(p0: Map, p1: Point) {
+            onMapTap(p0, p1)
+        }
+    }
+     */
+/*
     private val placemarkTapListener = MapObjectTapListener { _, point ->
         toast("Tapped the point (${point.longitude}, ${point.latitude})")
         viewModel.changeCoords(Coords(point.latitude, point.longitude))
         true
     }
+ */
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onCreateView(
@@ -68,6 +92,7 @@ class NewOrEditEventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val eventEdited = viewModel.edited.value
+        val startLocation: Coords? = eventEdited?.coords
         //val isEdited = postEdited?.id != 0
         val binding = FragmentNewOrEditPostOrEventBinding.inflate(
             layoutInflater,
@@ -75,14 +100,90 @@ class NewOrEditEventFragment : Fragment() {
             false
         )
 
+        //MAP_KIT BLOCK
+        val imageProvider = com.yandex.runtime.image.ImageProvider
+            .fromResource(requireContext(), R.drawable.baseline_location_pin_48)
+        val inputListener = object : InputListener {
+            override fun onMapTap(p0: Map, p1: Point) {
+                //println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
+                viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
+                p0.mapObjects.addPlacemark().apply {
+                    geometry = p1
+                    setIcon(imageProvider)
+                }
+            }
+
+            override fun onMapLongTap(p0: Map, p1: Point) {
+                onMapTap(p0, p1)
+            }
+        }
+        mapView = binding.mapView
+        val map = mapView.mapWindow?.map
+        map?.addInputListener(inputListener)
+        if (eventEdited?.coords != null) {
+            binding.position.setText(
+                getString(
+                    R.string.position,
+                    "%.4f".format(eventEdited.coords.lat),
+                    "%.4f".format(eventEdited.coords.long)
+                )
+            )
+        } else {
+            binding.position.setText(getString(R.string.no_map_point))
+        }
+        binding.clearLocation.setOnClickListener {
+            viewModel.clearCoords()
+            map?.deselectGeoObject()
+        }
+        binding.prevLocation.setOnClickListener {
+            viewModel.changeCoords(startLocation)
+            if (startLocation == null) {
+                map?.deselectGeoObject()
+                toast(
+                    getString(R.string.there_was_not_previous_location),
+                    period = Toast.LENGTH_SHORT
+                )
+            }
+        }
+        binding.mapLocker.setOnClickListener {
+            val startState = binding.mapLocker.isSelected
+            binding.mapLocker.isSelected = !startState
+            if (!startState) {
+                binding.mapView.visibility = View.GONE
+            } else {
+                binding.mapView.visibility = View.VISIBLE
+            }
+        }
+
+        //SCROLL_SETTING_BLOCK
+        binding.scrollView.isScrollable = true
+        binding.scrollLocker.setOnClickListener {
+            val startState = binding.scrollView.isScrollable
+            val selectState = binding.scrollLocker.isSelected
+            binding.scrollView.isScrollable = !startState
+            binding.scrollLocker.isSelected = !selectState
+            if (startState) {
+                //now locked
+                toast(
+                    message = "Scroll is locked.",
+                    period = Toast.LENGTH_SHORT
+                )
+            } else {
+                //now avaliable scroll
+                toast(
+                    message = "Scroll is unlocked.",
+                    period = Toast.LENGTH_SHORT
+                )
+            }
+        }
+
         //binding.eventGroup.visibility = View.VISIBLE
         binding.eventTime.visibility = View.VISIBLE
-        binding.pickStartDate.visibility = View.VISIBLE
+        binding.pickEventDay.visibility = View.VISIBLE
         binding.pickClock.visibility = View.VISIBLE
         binding.list2Iv.visibility = View.VISIBLE
         binding.eventType.visibility = View.VISIBLE
 
-        binding.eventTime.setText(eventEdited?.datetime ?: "no time")
         binding.videoLink.setText(eventEdited?.videoLink ?: "")
         binding.list1Iv.setText((countToString(eventEdited?.participantsIds?.size ?: 0)))
         binding.list2Iv.setText(getString(R.string.select_speakers))
@@ -131,7 +232,6 @@ class NewOrEditEventFragment : Fragment() {
                 val formatter = SimpleDateFormat("dd-MM-yyyy")
                 val formattedStr = formatter.format(utc.time)
                 viewModel.changeEventDate(formattedStr)
-                binding.eventTime.setText("${viewModel.eventDate}T${viewModel.eventTime}" + ":00.000Z")
             }
         }
         val timePicker =
@@ -144,42 +244,39 @@ class NewOrEditEventFragment : Fragment() {
         timePicker.addOnPositiveButtonClickListener {
             val hh = timePicker.hour
             val mm = timePicker.minute
-            viewModel.changeEventTime("$hh:$mm")
-            binding.eventTime.setText("${viewModel.eventDate}T${viewModel.eventTime}" + ":00.000Z")
+            viewModel.changeEventTime("${if (hh<10) "0$hh" else hh}:${if (mm<10) "0$mm" else mm}")
         }
-        binding.pickStartDate.setOnClickListener {
-            datePicker
-                .show(requireActivity().supportFragmentManager, "Date picker")
+        binding.pickEventDay.setOnClickListener {
+            datePicker.show(requireActivity().supportFragmentManager, "Date picker")
         }
-        binding.eventTime.setOnClickListener {
+        binding.pickClock.setOnClickListener {
             timePicker.show(requireActivity().supportFragmentManager, "Time picker")
+        }
+        binding.eventTime.isClickable = false
+        val boardStartTxt = getString(R.string.date_time)
+        lifecycleScope.launch {
+            viewModel.eventTimeBoardText.observe(viewLifecycleOwner) { boardText ->
+                binding.eventTime.text = "$boardStartTxt $boardText"
+            }
+        }
+        //"so called DEBUG"
+        viewModel.eventDate.observe(viewLifecycleOwner){ date->
+            println("DATE: $date")
+        }
+        viewModel.eventTime.observe(viewLifecycleOwner){ time->
+            println("TIME: $time")
         }
         //END TIME SETTING ZONE
 
-        //val mapPlacemark = binding.mapView.mapWindow?.map?.mapObjects?.addPlacemark()
-        val map = binding.mapView.mapWindow?.map
-        val imageProvider = com.yandex.runtime.image.ImageProvider
-            .fromResource(requireContext(), R.drawable.baseline_location_pin_48)
-        val inputListener = object : InputListener {
-            override fun onMapTap(p0: Map, p1: Point) {
-                viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
-            }
-
-            override fun onMapLongTap(p0: Map, p1: Point) {
-                onMapTap(p0, p1)
-            }
-        }
-        map?.addInputListener(inputListener)
-
-        viewModel.coords.observe(viewLifecycleOwner) {
-            val lat = eventEdited?.coords?.lat
-            val long = eventEdited?.coords?.long
-            if (eventEdited?.coords != null) {
+        viewModel.coords.observe(viewLifecycleOwner) { value ->
+            val lat = value?.lat
+            val long = value?.long
+            if (value != null) {
                 binding.position.setText(
                     getString(
                         R.string.position,
-                        "%.4f".format(eventEdited.coords.lat),
-                        "%.4f".format(eventEdited.coords.long)
+                        "%.4f".format(value.lat),
+                        "%.4f".format(value.long)
                     )
                 )
             } else {
@@ -191,17 +288,12 @@ class NewOrEditEventFragment : Fragment() {
                         Point(lat, long), 17.0f, 150.0f, 30.0f
                     )
                 )
-                if (map != null) {
-                    //adding map point
-                    map.mapObjects.addPlacemark().apply {
-                        geometry = Point(lat, long)
-                        setIcon(imageProvider)
-                    }
+                map.mapObjects.addPlacemark().apply {
+                    geometry = Point(lat, long)
+                    setIcon(imageProvider)
                 }
             } else {
-                toast(getString(R.string.button_for_map_opening_in_the_bottom))
-                binding.mapView.visibility = View.GONE
-                map?.mapObjects?.addPlacemark()?.removeTapListener(placemarkTapListener)
+                //map?.mapObjects?.addPlacemark()?.removeTapListener(placemarkTapListener)
                 if (map == null) {
                     toast(
                         getString(R.string.erroneous_absence_of_map_display),
@@ -328,9 +420,16 @@ class NewOrEditEventFragment : Fragment() {
             toast(getString(R.string.action_saved))
             findNavController().navigateUp()
         }
-
-
-
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onStop() {
+        mapView.onStop()
+        super.onStop()
     }
 }

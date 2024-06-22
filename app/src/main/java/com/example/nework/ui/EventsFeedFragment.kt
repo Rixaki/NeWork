@@ -167,7 +167,7 @@ class EventsFeedFragment : Fragment() {
 
         binding.newPostButton.setOnClickListener {
             if (authModel.authenticated) {
-                findNavController().navigate(R.id.action_postsFeedFragment_to_newOrEditPostFragment)
+                findNavController().navigate(R.id.action_eventsFeedFragment_to_newOrEditEventFragment)
             } else {
                 Toast.makeText(
                     requireContext(),

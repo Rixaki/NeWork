@@ -59,7 +59,7 @@
                 android:focusable="false"/>
 
             <Button
-                android:id="@+id/pickStartDate"
+                android:id="@+id/pickEventDay"
                 style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,19 +118,6 @@
                 android:backgroundTint="#ddd"
                 android:contentDescription="@string/lock_or_unlock_map"
                 app:icon="@drawable/ic_map_selector"
-                app:iconGravity="textStart"
-                android:layout_weight="1"
-                app:iconTint="@color/black" />
-
-            <Button
-                android:id="@+id/scrollLocker"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/defaultMargin"
-                android:backgroundTint="#ddd"
-                android:contentDescription="@string/lock_or_unlock_scrolling"
-                app:icon="@drawable/ic_scroll_selector"
                 app:iconGravity="textStart"
                 android:layout_weight="1"
                 app:iconTint="@color/black" />
@@ -309,6 +296,24 @@
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             android:layout_weight="101" />
+
+        <Button
+            android:id="@+id/scrollLocker"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:insetLeft="10dp"
+            android:insetTop="10dp"
+            android:insetRight="10dp"
+            android:insetBottom="10dp"
+            android:backgroundTint="?colorOnPrimary"
+            android:contentDescription="@string/lock_or_unlock_scrolling"
+            app:icon="@drawable/ic_scroll_selector"
+            app:iconGravity="textStart"
+            app:iconTint="?colorPrimary"
+            app:layout_anchor="@id/bottomAppBar" />
 
         <Button
             android:id="@+id/takePhoto"

@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
@@ -32,6 +33,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
@@ -113,6 +115,20 @@ class EventViewModel @Inject constructor(
     val eventTime: LiveData<String>
         get() = _eventTime
 
+    /*
+    val eventTimeBoardText : Flow<String> = flowOf(
+        "${eventDate.value ?: "__.__.____"} ${eventTime.value ?: "__:__"}"
+    )
+     */
+
+    val eventTimeBoardText : LiveData<String> = combine(
+        eventDate.asFlow(), eventTime.asFlow()
+    ){ date, time ->
+        val dateTxt = date.ifEmpty { "__.__.____" }
+        val timeTxt = time.ifEmpty { "__:__" }
+        "$dateTxt $timeTxt"
+    }.asLiveData(Dispatchers.Default)
+
     private val _isOnline = MutableLiveData<Boolean>()
     val isOnline: LiveData<Boolean>
         get() = _isOnline
@@ -132,12 +148,12 @@ class EventViewModel @Inject constructor(
         get() = _newerCount
 
     fun checkNewer() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
-                _newerCount.value = repository.getNewerCount(remoteKeyDao.max()!!)
-                    .asLiveData(Dispatchers.Default).value
+                _newerCount.postValue ( repository.getNewerCount(remoteKeyDao.max()!!)
+                    .asLiveData(Dispatchers.Default).value )
             } catch (e: Exception) {
-                _newerCount.value = 0
+                _newerCount.postValue ( 0 )
             }
         }
     }
@@ -161,31 +177,31 @@ class EventViewModel @Inject constructor(
         _isOnline.postValue(false)
     }
 
-    private fun load() = viewModelScope.launch {
+    private fun load() = viewModelScope.launch(Dispatchers.Default) {
         try {
-            _state.value = FeedModelState(loading = true)
+            _state.postValue (FeedModelState(loading = true) )
             // repository.stream.cachedIn(viewModelScope).
-            _state.value = FeedModelState()
+            _state.postValue (FeedModelState() )
         } catch (e: Exception) {
-            _state.value = FeedModelState(error = true)
+            _state.postValue (FeedModelState(error = true) )
         }
     }
 
     fun cancelEdit() {
-        edited.value = empty
+        edited.postValue(empty)
         clearModels()
         _eventCancelled.postValue(Unit)
     }
 
     fun save() {
         edited.value?.let {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.Default) {
                 try {
                     repository.save(
                         event = it,
                         upload = _photo.value?.uri?.let { MediaUpload(it.toFile()) }
                     )
-                    _eventCreated.value = Unit
+                    _eventCreated.postValue (Unit)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -226,12 +242,12 @@ class EventViewModel @Inject constructor(
                 videoLink = videoLink,
                 coords = coords.value,
                 speakerIds = speakers.value ?: noList,
-                datetime = "${eventDate.value} ${eventTime.value}",
+                datetime = "${eventDate.value}T${eventTime.value}:00.000Z",
                 type = if (isOnline.value == true)
                     EventType.ONLINE else EventType.OFFLINE
             )
         edited.value?.let { editedEvent ->
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.Default) {
                 try {
                     when (_photo.value) {
                         noPhoto -> {
@@ -246,14 +262,14 @@ class EventViewModel @Inject constructor(
                     }
                     _eventCreated.postValue(Unit)
                 } catch (e: Exception) {
-                    _state.value = FeedModelState(
+                    _state.postValue( FeedModelState(
                         error = true,
                         lastErrorAction =
                         if (editedEvent.id == 0)
                             "Error with add event."
                         else
                             "Error with edit event."
-                    )
+                    ) )
                     _eventCancelled.postValue(Unit)
                 }
             }
@@ -277,60 +293,60 @@ class EventViewModel @Inject constructor(
     //fun clearEventTime() = _eventTime.postValue(noTime)
 
     fun likeById(id: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             val event =
                 repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
             if (event?.isLikeLoading == false) {
                 try {
                     repository.likeById(id)//like and unlike in 1
                 } catch (e: Exception) {
-                    _state.value = FeedModelState(
+                    _state.postValue ( FeedModelState(
                         error = true,
                         lastErrorAction = "Error with like/unlike event."
-                    )
+                    ) )
                 }
             } else {
-                _state.value = FeedModelState(
+                _state.postValue ( FeedModelState(
                     error = true,
                     lastErrorAction = "Still no response of like/unlike act."
-                )
+                ) )
             }
         }
     }
 
     fun takePartById(id: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             val event =
                 repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
             if (event?.isLikeLoading == false) {
                 try {
                     repository.participateById(id)//like and unlike in 1
                 } catch (e: Exception) {
-                    _state.value = FeedModelState(
+                    _state.postValue ( FeedModelState(
                         error = true,
                         lastErrorAction = "Error with taking/cancel to take part event."
-                    )
+                    ) )
                 }
             } else {
-                _state.value = FeedModelState(
+                _state.postValue ( FeedModelState(
                     error = true,
                     lastErrorAction = "Still no response of taking/cancel to take part act."
-                )
+                ) )
             }
         }
     }
 
     fun removeById(id: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             try {
-                _state.value = FeedModelState(loading = true)
+                _state.postValue ( FeedModelState(loading = true) )
                 repository.removeById(id)
-                _state.value = FeedModelState()
+                _state.postValue ( FeedModelState() )
             } catch (e: Exception) {
-                _state.value = FeedModelState(
+                _state.postValue ( FeedModelState(
                     error = true,
                     lastErrorAction = "Error with delete event."
-                )
+                ) )
             }
         }
     }

@@ -61,7 +61,7 @@
     <string name="company_link">Company link</string>
     <string name="error_with_creating_map">Error with creating map.</string>
     <string name="error_with_list_user_display">Error with list user display.</string>
-    <string name="position">position: %1$s / %2$s</string>
+    <string name="position">Map point to save: %1$s / %2$s</string>
     <string name="you_participants_in_this_event">You participants in this event.</string>
     <string name="job_menu">Job menu</string>
     <string name="sign_in_for_sending_post">Sign In for sending post.</string>
@@ -111,9 +111,9 @@
     <string name="failure_with_users_info_error_code">Failure with users info, error code: \"%1$s\"</string>
     <string name="add_post">add post</string>
     <string name="add_job">add job</string>
-    <string name="push_bottom_map_button_to_save_point">Push BOTTOM map button to save point.</string>
     <string name="lock_or_unlock_scrolling">lock or unlock scrolling</string>
     <string name="lock_or_unlock_map">lock or unlock map</string>
     <string name="there_was_not_previous_location">There was NOT previous location.</string>
+    <string name="date_time">"Date time:"</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
