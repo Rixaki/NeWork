@@ -25,7 +25,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     style="@style/Widget.AppTheme.LikeButton"
-                    android:id="@+id/eventTime"
+                    android:id="@+id/eventBoardTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"

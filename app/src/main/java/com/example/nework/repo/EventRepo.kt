@@ -11,11 +11,11 @@ import kotlinx.coroutines.flow.Flow
 interface EventRepo {
     val data: Flow<PagingData<FeedItem>>
 
-    fun getNewerCount(id: Int): Flow<Int>
+    fun getNewerCount(id: Long): Flow<Int>
     suspend fun save(event: Event, upload: MediaUpload? = null)
-    fun getEventById(id: Int): Event?
-    suspend fun removeById(id: Int)
-    suspend fun likeById(id: Int)
-    suspend fun participateById(id: Int)
+    fun getEventById(id: Long): Event?
+    suspend fun removeById(id: Long)
+    suspend fun likeById(id: Long)
+    suspend fun participateById(id: Long)
     suspend fun upload(upload: MediaUpload): Media
 }

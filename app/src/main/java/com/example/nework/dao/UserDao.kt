@@ -23,7 +23,7 @@ interface UserDao {
     //manual create pagingSource NOT! recommended
 
     @Query("SELECT * FROM UserEntity WHERE id = :id")
-    fun getUserById(id: Int): UserEntity
+    fun getUserById(id: Long): UserEntity
 
     @Query("SELECT COUNT(*) FROM UserEntity")
     fun getSize(): Int
@@ -35,7 +35,7 @@ interface UserDao {
     suspend fun insert(posts: List<UserEntity>)
 
     @Query("DELETE FROM UserEntity WHERE id = :id")
-    suspend fun removeById(id: Int)
+    suspend fun removeById(id: Long)
 
     @Query("DELETE FROM UserEntity")
     suspend fun clear()

@@ -27,7 +27,7 @@ import com.example.nework.databinding.FragmentUserBinding
 import com.example.nework.dto.Job
 import com.example.nework.dto.Post
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
-import com.example.nework.ui.PostFragment.Companion.intArg
+import com.example.nework.ui.PostFragment.Companion.longArg
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.JobViewModel
 import com.example.nework.vm.JobViewModelFactory
@@ -43,16 +43,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.util.IntArg
+import ru.netology.nmedia.util.LongArg
 import ru.netology.nmedia.util.load
-import ru.netology.nmedia.util.loadAvatar
 import ru.netology.nmedia.util.toast
 
 @AndroidEntryPoint
 class UserFragment : Fragment() {
     companion object {
         const val USER_ID = "USER_ID"
-        var Bundle.USER_ID: Int by IntArg//for value by main_activity
+        var Bundle.USER_ID: Long by LongArg//for value by main_activity
 
         //maybe set value in viewmodel
         fun createArgs(id: Int): Bundle =
@@ -77,7 +76,7 @@ class UserFragment : Fragment() {
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<PostByUserViewModelFactory> { factory ->
                 @Suppress("DEPRECATION")
-                factory.create(requireArguments().getSerializable(USER_ID) as Int)
+                factory.create(requireArguments().getSerializable(USER_ID) as Long)
             }
         }
     )
@@ -87,7 +86,7 @@ class UserFragment : Fragment() {
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<JobViewModelFactory> { factory ->
                 @Suppress("DEPRECATION")
-                factory.create(requireArguments().getSerializable(USER_ID) as Int)
+                factory.create(requireArguments().getSerializable(USER_ID) as Long)
             }
         }
     )
@@ -112,7 +111,7 @@ class UserFragment : Fragment() {
         binding.addJob.isVisible = false
         binding.addPost.isVisible = false
 
-        if (userId != 0) {
+        if (userId != 0L) {
             val user = userModel.getUserById(userId)//for binding info
 
             val wallAdapter = PostAdapter(object : OnIterationPostListener {
@@ -166,7 +165,7 @@ class UserFragment : Fragment() {
                     findNavController().navigate(
                         R.id.action_postsFeedFragment_to_postFragment,
                         Bundle().apply {
-                            intArg = post.id
+                            longArg = post.id
                         })
                 }
 

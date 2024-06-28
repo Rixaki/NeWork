@@ -115,5 +115,10 @@
     <string name="lock_or_unlock_map">lock or unlock map</string>
     <string name="there_was_not_previous_location">There was NOT previous location.</string>
     <string name="date_time">"Date time:"</string>
+    <string name="event_time_must_be_defined_fully">Event time must be defined fully (day and time).</string>
+    <string name="empty_message_or_event_time_is_not_defined">Empty message or event time is not defined.</string>
+    <string name="fix_is_needs">Fix is needs</string>
+    <string name="continue_to_fix">Continue to fix</string>
+    <string name="exit_without_fix">Exit without fix</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

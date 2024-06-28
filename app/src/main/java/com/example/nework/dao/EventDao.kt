@@ -19,7 +19,7 @@ interface EventDao {
     //manual create pagingSource NOT! recommended
 
     @Query("SELECT * FROM EventEntity WHERE id = :id")
-    fun getEventById(id: Int): EventEntity
+    fun getEventById(id: Long): EventEntity
 
     @Query("SELECT COUNT(*) FROM EventEntity")
     fun getSize(): Int
@@ -31,7 +31,7 @@ interface EventDao {
     suspend fun insert(events: List<EventEntity>)
 
     @Query("DELETE FROM EventEntity WHERE id = :id")
-    suspend fun removeById(id: Int)
+    suspend fun removeById(id: Long)
 
     @Query(
         """
@@ -41,7 +41,7 @@ interface EventDao {
                 WHERE id = :id;
             """
     )
-    suspend fun likeEventById(id: Int)
+    suspend fun likeEventById(id: Long)
 
     @Query(
         """
@@ -50,7 +50,7 @@ interface EventDao {
                 WHERE id = :id;
             """
     )
-    suspend fun changeLikeLoadingById(id: Int)
+    suspend fun changeLikeLoadingById(id: Long)
 
     @Query(
         """
@@ -60,15 +60,15 @@ interface EventDao {
                 WHERE id = :id;
             """
     )
-    suspend fun takePartEventById(id: Int)
+    suspend fun takePartEventById(id: Long)
 
     //for paging
     @Query("SELECT COUNT(*) == 0 FROM EventEntity")
     suspend fun isEmpty(): Boolean
 
     @Query("SELECT max(id) FROM EventEntity")
-    suspend fun max(): Int?
+    suspend fun max(): Long?
 
     @Query("SELECT min(id) FROM EventEntity")
-    suspend fun min(): Int?
+    suspend fun min(): Long?
 }

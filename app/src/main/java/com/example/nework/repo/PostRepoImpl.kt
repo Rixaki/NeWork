@@ -109,15 +109,15 @@ class PostRepoImpl @Inject constructor(
             }
             //AD adding
             .insertSeparators { before: FeedItem?, _ ->
-                if (before?.id?.rem(5) == 0 && before !is TimeHeader) {
-                    return@insertSeparators Ad(0, "figma.jpg")
+                if (before?.id?.rem(5) == 0L && before !is TimeHeader) {
+                    return@insertSeparators Ad(0L, "figma.jpg")
                 } else {
                     return@insertSeparators null
                 }
             }
     }
 
-    override fun getNewerCount(id: Int): Flow<Int> = flow {
+    override fun getNewerCount(id: Long): Flow<Int> = flow {
         while (true) {
             delay(10_000L)
             val response = appApi.getNewerPost(id)
@@ -132,7 +132,7 @@ class PostRepoImpl @Inject constructor(
     }.catch { flowOf(value = 0) }
     //.flowOn(Dispatchers.Default)//default in viewmodel
 
-    override fun getPostById(id: Int): Post? = postDao.getPostById(id).toDto()
+    override fun getPostById(id: Long): Post? = postDao.getPostById(id).toDto()
 
     override suspend fun save(
         post: Post,
@@ -174,7 +174,7 @@ class PostRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeById(id: Int) {
+    override suspend fun removeById(id: Long) {
         try {
             postDb.withTransaction {
                 val response = appApi.deletePostById(id)//api delete
@@ -197,7 +197,7 @@ class PostRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun likeById(id: Int) {
+    override suspend fun likeById(id: Long) {
         val postEnt = postDao.getPostById(id)
         try {
             //postDao.insert(postEnt.copy(isLikeLoading = true))

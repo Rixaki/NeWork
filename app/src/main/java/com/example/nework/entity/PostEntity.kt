@@ -8,12 +8,13 @@ import com.example.nework.dto.Attachment
 import com.example.nework.dto.AttachmentType
 import com.example.nework.dto.Coords
 import com.example.nework.dto.Post
+import com.example.nework.dto.UserPreview
 
 @Entity
 @TypeConverters(BaseTypeConverter::class)
 data class PostEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val authorId: Int,
+    @PrimaryKey(autoGenerate = true) val id: Long,
+    val authorId: Long,
     val author: String,
     val authorJob: String?,
     val authorAvatar: String?,
@@ -21,12 +22,12 @@ data class PostEntity(
     val published: String,
     @Embedded val coords: Coords?,
     val link: String?,
-    val mentionIds: List<Int> = emptyList(),
+    val mentionIds: List<Long> = emptyList(),
     val mentionedMe: Boolean,
-    val likeOwnerIds: List<Int> = emptyList(),
+    val likeOwnerIds: List<Long> = emptyList(),
     val likedByMe: Boolean,
     @Embedded(prefix = "att_") val attachment: AttachmentEmbeddable? = null,
-    val users: List<UserPreviewEntity> = emptyList(),
+    val users: Map<Long, UserPreviewEntity> = emptyMap(),
 
     val ownedByMe: Boolean = false,
     val isLikeLoading: Boolean = false,
@@ -47,7 +48,7 @@ data class PostEntity(
         likeOwnerIds = likeOwnerIds,
         likedByMe = likedByMe,
         attachment = attachment?.toDto(),
-        users = users.map { it.toDto() },
+        users = users.mapValues { it.component2().toDto() },
 
         ownedByMe = ownedByMe,
         isLikeLoading = isLikeLoading,
@@ -70,7 +71,7 @@ data class PostEntity(
                 mentionedMe = mentionedMe,
                 likeOwnerIds = likeOwnerIds,
                 likedByMe = likedByMe,
-                users = users.map { UserPreviewEntity.fromDto(it) },
+                users = users.mapValues { UserPreviewEntity.fromDto(it.component2()) },
                 attachment = attachment?.let {
                     AttachmentEmbeddable.fromDto(it)
                 },

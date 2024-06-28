@@ -19,7 +19,7 @@ interface PostDao {
     //manual create pagingSource NOT! recommended
 
     @Query("SELECT * FROM PostEntity WHERE id = :id")
-    fun getPostById(id: Int): PostEntity
+    fun getPostById(id: Long): PostEntity
 
     @Query("SELECT COUNT(*) FROM PostEntity")
     fun getSize(): Int
@@ -31,7 +31,7 @@ interface PostDao {
     suspend fun insert(posts: List<PostEntity>)
 
     @Query("DELETE FROM PostEntity WHERE id = :id")
-    suspend fun removeById(id: Int)
+    suspend fun removeById(id: Long)
 
     @Query(
         """
@@ -41,7 +41,7 @@ interface PostDao {
                 WHERE id = :id;
             """
     )
-    suspend fun likePostById(id: Int)
+    suspend fun likePostById(id: Long)
 
     @Query(
         """
@@ -50,7 +50,7 @@ interface PostDao {
                 WHERE id = :id;
             """
     )
-    suspend fun changeLikeLoadingById(id: Int)
+    suspend fun changeLikeLoadingById(id: Long)
 
     //for paging
     @Query("SELECT COUNT(*) == 0 FROM PostEntity")
@@ -58,11 +58,11 @@ interface PostDao {
 
     //for paging
     @Query("SELECT max(id) FROM PostEntity")
-    suspend fun max(): Int?
+    suspend fun max(): Long?
 
     //for paging
     @Query("SELECT min(id) FROM PostEntity")
-    suspend fun min(): Int?
+    suspend fun min(): Long?
 }
 //RECYCLE BIN
 /*

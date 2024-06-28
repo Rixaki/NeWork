@@ -16,6 +16,7 @@ import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
 import com.example.nework.dto.Coords
 import com.example.nework.ui.SelectUserListByPostFragment.Companion.titleArg
+import com.example.nework.util.DrawableImageProvider
 import com.example.nework.vm.PostViewModel
 import com.example.nework.vm.PostViewModelFactory
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -81,8 +82,7 @@ class NewOrEditPostFragment : Fragment() {
         )
 
         //MAP_KIT BLOCK
-        val imageProvider = com.yandex.runtime.image.ImageProvider
-            .fromResource(requireContext(), R.drawable.baseline_location_pin_48)
+        val imageProvider = DrawableImageProvider(requireContext(), R.drawable.baseline_location_pin_48)
         val inputListener = object : InputListener {
             override fun onMapTap(p0: Map, p1: Point) {
                 //println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
@@ -166,7 +166,7 @@ class NewOrEditPostFragment : Fragment() {
         }
 
         //binding.eventGroup.visibility = View.GONE
-        binding.eventTime.visibility = View.GONE
+        binding.eventBoardTime.visibility = View.GONE
         binding.pickEventDay.visibility = View.GONE
         binding.pickClock.visibility = View.GONE
         binding.list2Iv.visibility = View.GONE

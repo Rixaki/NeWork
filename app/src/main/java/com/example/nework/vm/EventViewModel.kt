@@ -29,6 +29,7 @@ import com.example.nework.model.FeedModelState
 import com.example.nework.model.PhotoModel
 import com.example.nework.model.PostModel
 import com.example.nework.repo.EventRepo
+import com.example.nework.util.BoardLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -49,17 +50,15 @@ private val empty = Event(
     authorJob = null,
     authorAvatar = null,
     content = "",
-    published = "",
     coords = null,
     videoLink = null,
     likedByMe = false,
     attachment = null,
-    datetime = "",
     participatedByMe = false,
 )
 
 private val noPhoto = PhotoModel()
-private val noList = emptyList<Int>()
+private val noList = emptyList<Long>()
 private val noTime = ""
 
 //@OptIn(ExperimentalCoroutinesApi::class)
@@ -87,7 +86,7 @@ class EventViewModel @Inject constructor(
             }
         }
 
-    fun getEventById(id: Int): Event {
+    fun getEventById(id: Long): Event {
         var result = empty
         cached.map { pagingData ->
             result = pagingData.filter { it is Event }.filter { event -> event.id == id } as Event
@@ -103,8 +102,8 @@ class EventViewModel @Inject constructor(
     val coords: LiveData<Coords?>
         get() = _coords
 
-    private val _speakers = MutableLiveData<List<Int>>()
-    val speakers: LiveData<List<Int>>
+    private val _speakers = MutableLiveData<List<Long>>()
+    val speakers: LiveData<List<Long>>
         get() = _speakers
 
     private val _eventDate = MutableLiveData<String>()
@@ -116,11 +115,6 @@ class EventViewModel @Inject constructor(
         get() = _eventTime
 
     /*
-    val eventTimeBoardText : Flow<String> = flowOf(
-        "${eventDate.value ?: "__.__.____"} ${eventTime.value ?: "__:__"}"
-    )
-     */
-
     val eventTimeBoardText : LiveData<String> = combine(
         eventDate.asFlow(), eventTime.asFlow()
     ){ date, time ->
@@ -128,6 +122,12 @@ class EventViewModel @Inject constructor(
         val timeTxt = time.ifEmpty { "__:__" }
         "$dateTxt $timeTxt"
     }.asLiveData(Dispatchers.Default)
+     */
+
+    val eventTimeBoardText = BoardLiveData(
+        daySource = eventDate,
+        timeSource = eventTime
+    )
 
     private val _isOnline = MutableLiveData<Boolean>()
     val isOnline: LiveData<Boolean>
@@ -265,7 +265,7 @@ class EventViewModel @Inject constructor(
                     _state.postValue( FeedModelState(
                         error = true,
                         lastErrorAction =
-                        if (editedEvent.id == 0)
+                        if (editedEvent.id == 0L)
                             "Error with add event."
                         else
                             "Error with edit event."
@@ -279,7 +279,7 @@ class EventViewModel @Inject constructor(
 
     fun changePhoto(uri: Uri?) = _photo.postValue(PhotoModel(uri))
     fun changeCoords(coords: Coords? = null) = _coords.postValue(coords)
-    fun changeSpeakersList(list: List<Int>) = _speakers.postValue(list)
+    fun changeSpeakersList(list: List<Long>) = _speakers.postValue(list)
     fun changeEventDate(date: String) = _eventDate.postValue(date)
     fun changeEventTime(time: String) = _eventTime.postValue(time)
     fun changeType() {
@@ -292,7 +292,7 @@ class EventViewModel @Inject constructor(
     //fun clearEventDate() = _eventDate.postValue(noTime)
     //fun clearEventTime() = _eventTime.postValue(noTime)
 
-    fun likeById(id: Int) {
+    fun likeById(id: Long) {
         viewModelScope.launch(Dispatchers.Default) {
             val event =
                 repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
@@ -314,7 +314,7 @@ class EventViewModel @Inject constructor(
         }
     }
 
-    fun takePartById(id: Int) {
+    fun takePartById(id: Long) {
         viewModelScope.launch(Dispatchers.Default) {
             val event =
                 repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
@@ -336,7 +336,7 @@ class EventViewModel @Inject constructor(
         }
     }
 
-    fun removeById(id: Int) {
+    fun removeById(id: Long) {
         viewModelScope.launch(Dispatchers.Default) {
             try {
                 _state.postValue ( FeedModelState(loading = true) )

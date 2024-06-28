@@ -30,7 +30,7 @@ class UsersViewModel @AssistedInject constructor(
     private val appApi: AppApi,
     private val userRepo: UserRepo,
     private val userDao: UserDao,
-    @Assisted private val userIds: List<Int> = emptyList(),
+    @Assisted private val userIds: List<Long> = emptyList(),
 ) : ViewModel() {
     private val _state = MutableStateFlow(ResponceState())
     val state = _state.asStateFlow()
@@ -67,7 +67,7 @@ class UsersViewModel @AssistedInject constructor(
         }
     }
 
-    private fun loadUsersByIds(listIds: List<Int>) {
+    private fun loadUsersByIds(listIds: List<Long>) {
         viewModelScope.launch(Dispatchers.Default) {
             try {
                 val result = listIds.map {
@@ -88,8 +88,8 @@ class UsersViewModel @AssistedInject constructor(
         }
     }
 
-    fun getUserById(id: Int): User {
-        var result = User(id = 0, login = "", name = "", avatar = null)
+    fun getUserById(id: Long): User {
+        var result = User(id = 0L, login = "", name = "", avatar = null)
         viewModelScope.launch {
             try {
                 result = userRepo.getUserById(id)
@@ -117,5 +117,5 @@ class UsersViewModel @AssistedInject constructor(
 
 @AssistedFactory
 interface UsersViewModelFactory {
-    fun create(date: List<Int>): UsersViewModel
+    fun create(date: List<Long>): UsersViewModel
 }

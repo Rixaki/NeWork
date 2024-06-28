@@ -10,7 +10,7 @@ val DATE_FORMAT_JOB = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT)
 
 data class Job(
     @SerializedName("id")
-    val id: Int,
+    val id: Long,
     @SerializedName("name")
     val name: String,
     @SerializedName("position")

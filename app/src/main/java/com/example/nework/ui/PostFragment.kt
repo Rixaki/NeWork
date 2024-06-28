@@ -28,12 +28,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import ru.netology.nmedia.util.IntArg
+import ru.netology.nmedia.util.LongArg
 
 @AndroidEntryPoint
 class PostFragment : Fragment() {
     companion object {
-        var Bundle.intArg: Int by IntArg
+        var Bundle.longArg: Long by LongArg
     }
 
     private val viewModel: PostViewModel by activityViewModels(
@@ -54,7 +54,7 @@ class PostFragment : Fragment() {
         val binding =
             FragmentPostOrEventBinding.inflate(layoutInflater, container, false)
 
-        val id = requireArguments().intArg
+        val id = requireArguments().longArg
 
         //val adapter = PostsAdapter(object : OnIterationListener {
         val viewHolder = PostInCardViewHolder(binding, object : OnIterationPostListener {

@@ -9,6 +9,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
+import com.example.nework.util.DrawableImageProvider
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.*
 import com.yandex.mapkit.mapview.MapView
@@ -26,6 +27,10 @@ class MapDialogFragment(
 
     private var _mapView: MapView? = null
     private var _boardView: Button? = null
+
+    private val imageProvider by lazy {
+        DrawableImageProvider(requireContext(), R.drawable.baseline_location_pin_48)
+    }
 
     //@SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -74,6 +79,10 @@ class MapDialogFragment(
                     zoom, azimut, tilt
                 )
             )
+            map.mapObjects.addPlacemark().apply {
+                geometry = Point(lat, long)
+                setIcon(imageProvider)
+            }
             try {
                 _boardView!!.setText(
                     getString(
@@ -84,6 +93,7 @@ class MapDialogFragment(
                 )
             } catch (e: Exception) {
                 errorDestroy()
+                if (!e.message.isNullOrBlank()) {println ("ERROR MESSAGE: ${e.message}")}
             }
         } else {
             errorDestroy()

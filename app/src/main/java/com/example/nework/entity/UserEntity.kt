@@ -8,7 +8,7 @@ import com.example.nework.dto.User
 @Entity
 @TypeConverters(BaseTypeConverter::class)
 data class UserEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     val login: String,
     val name: String,
     val avatar: String?

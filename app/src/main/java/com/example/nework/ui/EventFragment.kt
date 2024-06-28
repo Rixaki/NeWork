@@ -20,7 +20,6 @@ import com.example.nework.adapter.OnIterationEventListener
 import com.example.nework.databinding.FragmentPostOrEventBinding
 import com.example.nework.dto.Event
 import com.example.nework.dto.EventType
-import com.example.nework.dto.Post
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.EventViewModel
@@ -28,12 +27,12 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import ru.netology.nmedia.util.IntArg
+import ru.netology.nmedia.util.LongArg
 
 @AndroidEntryPoint
 class EventFragment : Fragment() {
     companion object {
-        var Bundle.intArg: Int by IntArg
+        var Bundle.longArg: Long by LongArg
     }
 
     private val viewModel: EventViewModel by activityViewModels()
@@ -47,7 +46,7 @@ class EventFragment : Fragment() {
         val binding =
             FragmentPostOrEventBinding.inflate(layoutInflater, container, false)
 
-        val id = requireArguments().intArg
+        val id = requireArguments().longArg
 
         val viewHolder = EventInCardViewHolder(binding, object : OnIterationEventListener {
             override fun onLikeLtn(event: Event) {

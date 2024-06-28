@@ -12,21 +12,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
 import com.example.nework.dto.Coords
 import com.example.nework.dto.DATE_FORMAT
-import com.example.nework.dto.EventType
 import com.example.nework.ui.SelectUserListByPostFragment.Companion.titleArg
+import com.example.nework.util.DrawableImageProvider
 import com.example.nework.util.countToString
 import com.example.nework.vm.EventViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -34,23 +33,13 @@ import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
-import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.StringArg
 import ru.netology.nmedia.util.toast
-import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
-import java.util.TimeZone
-import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
 
 @AndroidEntryPoint
 class NewOrEditEventFragment : Fragment() {
@@ -61,7 +50,21 @@ class NewOrEditEventFragment : Fragment() {
         var Bundle.textArg: String? by StringArg
     }
 
+    private var dialogMsg : String = getString(R.string.empty_message_or_event_time_is_not_defined)
+    private val errorDialog = MaterialAlertDialogBuilder(requireContext())
+        .setTitle(getString(R.string.fix_is_needs))
+        .setMessage(dialogMsg)
+        .setIcon(R.drawable.baseline_auto_fix_high_48)
+        .setNegativeButton(getString(R.string.continue_to_fix), null)
+        .setPositiveButton(getString(R.string.exit_without_fix)) { _, _ ->
+            findNavController().navigateUp()
+        }
+
     private lateinit var mapView: MapView //for set lifecycle
+    private val imageProvider by lazy {
+        DrawableImageProvider(requireContext(), R.drawable.baseline_location_pin_48)
+    }
+
     /*
     private lateinit var imageProvider: com.yandex.runtime.image.ImageProvider
     private val inputListener = object : InputListener {
@@ -77,13 +80,6 @@ class NewOrEditEventFragment : Fragment() {
         }
     }
      */
-/*
-    private val placemarkTapListener = MapObjectTapListener { _, point ->
-        toast("Tapped the point (${point.longitude}, ${point.latitude})")
-        viewModel.changeCoords(Coords(point.latitude, point.longitude))
-        true
-    }
- */
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onCreateView(
@@ -99,10 +95,9 @@ class NewOrEditEventFragment : Fragment() {
             container,
             false
         )
+        //TODO: TIME BELT
 
         //MAP_KIT BLOCK
-        val imageProvider = com.yandex.runtime.image.ImageProvider
-            .fromResource(requireContext(), R.drawable.baseline_location_pin_48)
         val inputListener = object : InputListener {
             override fun onMapTap(p0: Map, p1: Point) {
                 //println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
@@ -152,6 +147,7 @@ class NewOrEditEventFragment : Fragment() {
                 binding.mapView.visibility = View.GONE
             } else {
                 binding.mapView.visibility = View.VISIBLE
+                map?.addInputListener(inputListener)
             }
         }
 
@@ -178,7 +174,7 @@ class NewOrEditEventFragment : Fragment() {
         }
 
         //binding.eventGroup.visibility = View.VISIBLE
-        binding.eventTime.visibility = View.VISIBLE
+        binding.eventBoardTime.visibility = View.VISIBLE
         binding.pickEventDay.visibility = View.VISIBLE
         binding.pickClock.visibility = View.VISIBLE
         binding.list2Iv.visibility = View.VISIBLE
@@ -201,16 +197,18 @@ class NewOrEditEventFragment : Fragment() {
 
         //TIME SETTING ZONE
         //default listener in MaterialDatePicker, MaterialTimePicker = dismiss()
-        var startDate = 0L
+        val startDate = (DATE_FORMAT.parse(eventEdited!!.datetime))!!.time
         //val hourFormat = SimpleDateFormat("HH")
         //val minuteFormat = SimpleDateFormat("mm")
         var startHours = 0
         var startMinute = 0
+        /*
         try {
             startDate = (DATE_FORMAT.parse(eventEdited!!.datetime))!!.time
         } catch (e: Exception) {
             startDate = MaterialDatePicker.todayInUtcMilliseconds()
         }
+         */
         try {
             val millisecsInDay = (Date(startDate).time % 86400000).toInt()
             startHours = millisecsInDay / (1000 * 60 * 60)
@@ -225,14 +223,10 @@ class NewOrEditEventFragment : Fragment() {
                 //.setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .setSelection(startDate)
                 .build()
-        datePicker.addOnPositiveButtonClickListener {
-            MaterialPickerOnPositiveButtonClickListener<Long> { selection ->
-                val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-                utc.timeInMillis = selection
-                val formatter = SimpleDateFormat("dd-MM-yyyy")
-                val formattedStr = formatter.format(utc.time)
-                viewModel.changeEventDate(formattedStr)
-            }
+        datePicker.addOnPositiveButtonClickListener { selection ->
+            val formatter = SimpleDateFormat("dd-MM-yyyy")
+            val formattedStr = formatter.format(selection)
+            viewModel.changeEventDate(formattedStr)
         }
         val timePicker =
             MaterialTimePicker.Builder()
@@ -252,13 +246,21 @@ class NewOrEditEventFragment : Fragment() {
         binding.pickClock.setOnClickListener {
             timePicker.show(requireActivity().supportFragmentManager, "Time picker")
         }
-        binding.eventTime.isClickable = false
+        binding.eventBoardTime.isClickable = false
+        binding.eventBoardTime.setText( "Set day and time of the date." )
         val boardStartTxt = getString(R.string.date_time)
+        /*
         lifecycleScope.launch {
             viewModel.eventTimeBoardText.observe(viewLifecycleOwner) { boardText ->
-                binding.eventTime.text = "$boardStartTxt $boardText"
+                binding.eventBoardTime.text = "$boardStartTxt $boardText"
             }
         }
+         */
+        viewModel.eventTimeBoardText.observe(viewLifecycleOwner){ boardText ->
+            binding.eventBoardTime.text = "$boardStartTxt $boardText"
+        }
+        //END TIME SETTING ZONE
+        /*
         //"so called DEBUG"
         viewModel.eventDate.observe(viewLifecycleOwner){ date->
             println("DATE: $date")
@@ -266,7 +268,8 @@ class NewOrEditEventFragment : Fragment() {
         viewModel.eventTime.observe(viewLifecycleOwner){ time->
             println("TIME: $time")
         }
-        //END TIME SETTING ZONE
+         */
+
 
         viewModel.coords.observe(viewLifecycleOwner) { value ->
             val lat = value?.lat
@@ -398,11 +401,19 @@ class NewOrEditEventFragment : Fragment() {
         binding.save.setOnClickListener {
             val text = binding.content.text.toString()
             if (text.isBlank()) {
-                toast(getString(R.string.newAndEdit_toast_empty))
-            } else {
-                toast(getString(R.string.newAndEdit_toast_request))
-                viewModel.changeEventAndSave(text)
+                dialogMsg = getString(R.string.newAndEdit_toast_empty)
+                errorDialog.show()
+                return@setOnClickListener
             }
+            with (viewModel.eventTimeBoardText.value) {
+                if (this.isNullOrBlank() || this.contains(char = '_')) {
+                    dialogMsg = getString(R.string.event_time_must_be_defined_fully)
+                    errorDialog.show()
+                    return@setOnClickListener
+                }
+            }
+            toast(getString(R.string.newAndEdit_toast_request))
+            viewModel.changeEventAndSave(text)
             findNavController().navigateUp()
         }
 

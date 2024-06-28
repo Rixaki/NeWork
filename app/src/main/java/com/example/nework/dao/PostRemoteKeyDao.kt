@@ -9,10 +9,10 @@ import com.example.nework.entity.PostRemoteKeyEntity
 @Dao
 interface PostRemoteKeyDao {
     @Query("SELECT max(id) FROM PostRemoteKeyEntity")
-    suspend fun max(): Int?
+    suspend fun max(): Long?
 
     @Query("SELECT min(id) FROM PostRemoteKeyEntity")
-    suspend fun min(): Int?
+    suspend fun min(): Long?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(postRemoteKeyEntity: PostRemoteKeyEntity)

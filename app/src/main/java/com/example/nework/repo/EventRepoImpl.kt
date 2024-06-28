@@ -99,7 +99,7 @@ class EventRepoImpl @Inject constructor(
             }
     }
 
-    override fun getNewerCount(id: Int): Flow<Int> = flow {
+    override fun getNewerCount(id: Long): Flow<Int> = flow {
         while (true) {
             delay(10_000L)
             val response = appApi.getNewerEvent(id)
@@ -113,7 +113,7 @@ class EventRepoImpl @Inject constructor(
         }
     }.catch { flowOf(value = 0) }
 
-    override fun getEventById(id: Int): Event? = eventDao.getEventById(id).toDto()
+    override fun getEventById(id: Long): Event? = eventDao.getEventById(id).toDto()
 
     override suspend fun save(event: Event, upload: MediaUpload?) {
         try {
@@ -152,7 +152,7 @@ class EventRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeById(id: Int) {
+    override suspend fun removeById(id: Long) {
         try {
             val response = appApi.deletePostById(id)//api delete
             if (!response.isSuccessful) {
@@ -173,7 +173,7 @@ class EventRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun likeById(id: Int) {
+    override suspend fun likeById(id: Long) {
         val eventEnt = eventDao.getEventById(id)
         try {
             //eventDao.insert(eventEnt.copy(isLikeLoading = true))
@@ -205,7 +205,7 @@ class EventRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun participateById(id: Int) {
+    override suspend fun participateById(id: Long) {
         val eventEnt = eventDao.getEventById(id)
         try {
             eventDao.insert(eventEnt.copy(isTakingPartLoading = true))

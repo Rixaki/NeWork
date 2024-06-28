@@ -9,7 +9,7 @@ interface UserRepo {
     val data: Flow<List<User>>
 
     suspend fun getAll()
-    suspend fun getUserPreviewById(id: Int): UserPreview
-    suspend fun getUserById(id: Int): User
+    suspend fun getUserPreviewById(id: Long): UserPreview
+    suspend fun getUserById(id: Long): User
     suspend fun clear()
 }

@@ -44,19 +44,19 @@ class BaseTypeConverter {
     // fun listToJson(list: List<Int>?): String defined in com.example.nework.entity.BaseTypeConverter
     //JSON CONVERTERS
     @TypeConverter
-    fun listIntToJson(list: List<Int>?): String = Gson().toJson(list)
+    fun listLongToJson(list: List<Long>?): String = Gson().toJson(list)
 
     @TypeConverter
-    fun jsonToListInt(json: String?): List<Int> =
-        Gson().fromJson(json, object : TypeToken<List<Int>>() {}.type) ?: emptyList()
+    fun jsonToListLong(json: String?): List<Long> =
+        Gson().fromJson(json, object : TypeToken<List<Long>>() {}.type) ?: emptyList()
 
     //identifiable not need due to non-primitive type in list (maybe?)
     @TypeConverter
-    fun listUsersToJson(list: List<UserPreviewEntity>?): String = Gson().toJson(list)
+    fun mapUsersToJson(map: Map<Long, UserPreviewEntity>): String = Gson().toJson(map)
 
     @TypeConverter
-    fun jsonToListUser(json: String): List<UserPreviewEntity> =
-        Gson().fromJson(json, object : TypeToken<List<UserPreviewEntity>>() {}.type) ?: emptyList()
+    fun jsonToMapUser(json: String): Map<Long, UserPreviewEntity> =
+        Gson().fromJson(json, object : TypeToken<Map<Long, UserPreviewEntity>>() {}.type) ?: emptyMap()
 
     //EVENT CONVERTERS
     @TypeConverter

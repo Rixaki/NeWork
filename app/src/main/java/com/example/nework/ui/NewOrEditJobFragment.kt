@@ -29,10 +29,10 @@ class NewOrEditJobFragment : Fragment() {
     /*
     companion object {
         private const val USER_ID = "USER_ID"
-        var Bundle.USER_ID: Int by IntArg//for value by main_activity
+        var Bundle.USER_ID: Long by LongArg//for value by main_activity
 
         //maybe set value in viewmodel
-        fun createArgs(id: Int): Bundle =
+        fun createArgs(id: Long): Bundle =
             bundleOf(USER_ID to id)
     }
      */
@@ -43,7 +43,7 @@ class NewOrEditJobFragment : Fragment() {
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<JobViewModelFactory> { factory ->
                 @Suppress("DEPRECATION")
-                factory.create(requireArguments().getSerializable(USER_ID) as Int)
+                factory.create(requireArguments().getSerializable(USER_ID) as Long)
             }
         }
     )

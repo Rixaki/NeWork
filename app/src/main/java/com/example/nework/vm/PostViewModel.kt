@@ -42,7 +42,6 @@ private val empty = Post(
     authorJob = null,
     authorAvatar = null,
     content = "",
-    published = "",
     coords = null,
     videoLink = null,
     likedByMe = false,
@@ -51,7 +50,7 @@ private val empty = Post(
 )
 
 private val noPhoto = PhotoModel()
-private val noList = emptyList<Int>()
+private val noList = emptyList<Long>()
 
 @HiltViewModel(assistedFactory = PostViewModelFactory::class)
 @SuppressLint("CheckResult")//suppression warning
@@ -82,7 +81,7 @@ class PostViewModel @AssistedInject constructor(
             }
         }
 
-    fun getPostById(id: Int): Post {
+    fun getPostById(id: Long): Post {
         var result = empty
         cached.map { pagingData ->
             result = pagingData.filter { it is Post }.filter { post -> post.id == id } as Post
@@ -98,8 +97,8 @@ class PostViewModel @AssistedInject constructor(
     val coords: LiveData<Coords?>
         get() = _coords
 
-    private val _list = MutableLiveData<List<Int>>()
-    val list: LiveData<List<Int>>
+    private val _list = MutableLiveData<List<Long>>()
+    val list: LiveData<List<Long>>
         get() = _list
 
     val edited = MutableLiveData(empty)
@@ -234,7 +233,7 @@ class PostViewModel @AssistedInject constructor(
                     _state.postValue (FeedModelState(
                         error = true,
                         lastErrorAction =
-                        if (editedPost.id == 0)
+                        if (editedPost.id == 0L)
                             "Error with add post."
                         else
                             "Error with edit post."
@@ -248,12 +247,12 @@ class PostViewModel @AssistedInject constructor(
 
     fun changePhoto(uri: Uri?) = _photo.postValue(PhotoModel(uri))
     fun changeCoords(coords: Coords? = null) = _coords.postValue(coords)
-    fun changeMentionList(list: List<Int>) = _list.postValue(list)
+    fun changeMentionList(list: List<Long>) = _list.postValue(list)
     fun clearCoords() = _coords.postValue(null)
     fun clearPhoto() = _photo.postValue(noPhoto)
     fun clearMentionList() = _list.postValue(noList)
 
-    fun likeById(id: Int) {
+    fun likeById(id: Long) {
         viewModelScope.launch(Dispatchers.Default) {
             val post =
                 repository.getPostById(id)//antisticking before request answer (only with throw id, not post)
@@ -275,7 +274,7 @@ class PostViewModel @AssistedInject constructor(
         }
     }
 
-    fun removeById(id: Int) {
+    fun removeById(id: Long) {
         viewModelScope.launch(Dispatchers.Default) {
             try {
                 _state.postValue ( FeedModelState(loading = true))

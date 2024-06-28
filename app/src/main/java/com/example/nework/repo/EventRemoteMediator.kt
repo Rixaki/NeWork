@@ -137,7 +137,7 @@ class EventRemoteMediator(
             //reachable with only non-empty body
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: Exception) {
-            println("ERROR MESSAGE: ${e.message}")
+            if (!e.message.isNullOrBlank()) { println("ERROR MESSAGE: ${e.message}") }
             return MediatorResult.Error(e)
         }
     }

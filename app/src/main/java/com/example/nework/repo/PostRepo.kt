@@ -13,10 +13,10 @@ interface PostRepo {
     val data: Flow<PagingData<FeedItem>>
 
     //suspend fun getAll() //useless with paging
-    fun getNewerCount(id: Int): Flow<Int>
-    fun getPostById(id: Int): Post?
+    fun getNewerCount(id: Long): Flow<Int>
+    fun getPostById(id: Long): Post?
     suspend fun save(post: Post, upload: MediaUpload? = null)
-    suspend fun removeById(id: Int)
-    suspend fun likeById(id: Int)
+    suspend fun removeById(id: Long)
+    suspend fun likeById(id: Long)
     suspend fun upload(upload: MediaUpload): Media
 }

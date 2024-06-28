@@ -42,7 +42,7 @@ private val empty = Post(
 @SuppressLint("CheckResult")//suppression warning
 class PostByUserViewModel @AssistedInject constructor(
     private val repository: PostRepo,
-    @Assisted private val userId: Int,
+    @Assisted private val userId: Long,
     private val appAuth: AppAuth,
 ) : ViewModel() {
     private val cached = repository
@@ -67,5 +67,5 @@ class PostByUserViewModel @AssistedInject constructor(
 
 @AssistedFactory
 interface PostByUserViewModelFactory {
-    fun create(id: Int): PostByUserViewModel
+    fun create(id: Long): PostByUserViewModel
 }

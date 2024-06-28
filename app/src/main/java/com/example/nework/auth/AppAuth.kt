@@ -30,11 +30,11 @@ class AppAuth @Inject constructor(
     }
 
     init {
-        val id = prefs.getInt(KEY_ID, 0)
+        val id = prefs.getLong(KEY_ID, 0L)
         val token = prefs.getString(KEY_TOKEN, null)
         val avatar = prefs.getString(KEY_AVATAR, null)
 
-        if (id == 0 || token == null) {
+        if (id == 0L || token == null) {
             _authState = MutableStateFlow(AuthState())
             with(prefs.edit()) {
                 clear()
@@ -48,10 +48,10 @@ class AppAuth @Inject constructor(
     val authState: StateFlow<AuthState> = _authState.asStateFlow()
 
     @Synchronized
-    fun setAuth(id: Int, token: String?, avatar: String? = null) {
+    fun setAuth(id: Long, token: String?, avatar: String? = null) {
         _authState.value = AuthState(id, token, avatar)
         with(prefs.edit()) {
-            putInt(KEY_ID, id)
+            putLong(KEY_ID, id)
             putString(KEY_TOKEN, token)
             putString(KEY_AVATAR, avatar)
             apply()
@@ -70,7 +70,7 @@ class AppAuth @Inject constructor(
 }
 
 data class AuthState(
-    @SerializedName("id") val id: Int = 0,
+    @SerializedName("id") val id: Long = 0L,
     @SerializedName("token") val token: String? = null,
     @SerializedName("avatar") val avatarUrl: String? = null,
 )

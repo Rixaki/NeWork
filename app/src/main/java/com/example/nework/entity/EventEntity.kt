@@ -12,8 +12,8 @@ import com.example.nework.dto.UserPreview
 @Entity
 @TypeConverters(BaseTypeConverter::class)
 data class EventEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val authorId: Int,
+    @PrimaryKey(autoGenerate = true) val id: Long,
+    val authorId: Long,
     val author: String,
     val authorJob: String?,
     val authorAvatar: String?,
@@ -22,14 +22,14 @@ data class EventEntity(
     val published: String,
     @Embedded val coords: Coords?,
     val type: EventTypeEntity = EventTypeEntity.OFFLINE,
-    val likeOwnerIds: List<Int> = emptyList(),
+    val likeOwnerIds: List<Long> = emptyList(),
     val likedByMe: Boolean,
-    val speakerIds: List<Int> = emptyList(),
-    val participantsIds: List<Int> = emptyList(),
+    val speakerIds: List<Long> = emptyList(),
+    val participantsIds: List<Long> = emptyList(),
     val participatedByMe: Boolean,
     @Embedded(prefix = "att_") val attachment: AttachmentEmbeddable?,
     val link: String?,
-    val users: List<UserPreviewEntity> = emptyList(),
+    val users: Map<Long, UserPreviewEntity> = emptyMap(),
 
     val ownedByMe: Boolean = false,
     val isLikeLoading: Boolean = false,
@@ -56,7 +56,7 @@ data class EventEntity(
         participatedByMe = participatedByMe,
         attachment = attachment?.toDto(),
         videoLink = link,
-        users = users.map { it.toDto() },
+        users = users.mapValues { it.component2().toDto() },
 
         ownedByMe = ownedByMe,
         isLikeLoading = isLikeLoading,
@@ -89,7 +89,7 @@ data class EventEntity(
                     AttachmentEmbeddable.fromDto(it)
                 },
                 link = videoLink,
-                users = users.map { UserPreviewEntity.fromDto(it) },
+                users = users.mapValues { UserPreviewEntity.fromDto(it.component2()) },
 
                 ownedByMe = ownedByMe,
                 isLikeLoading = isLikeLoading,

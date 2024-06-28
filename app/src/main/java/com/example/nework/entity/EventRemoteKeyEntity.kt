@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class EventRemoteKeyEntity(
     @PrimaryKey val type: KeyType,
-    val id: Int,
+    val id: Long,
 ) {
     enum class KeyType {
         AFTER, //upper post

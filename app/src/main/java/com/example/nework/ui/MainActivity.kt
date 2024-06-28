@@ -1,20 +1,19 @@
 package com.example.nework.ui
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -23,20 +22,26 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.nework.BuildConfig
 import com.example.nework.R
 import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.ActivityMainBinding
 import com.example.nework.ui.UserFragment.Companion.USER_ID
+import com.example.nework.util.MenuItemTarget
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationBarView
 import com.yandex.mapkit.MapKitFactory
+import com.yandex.runtime.connectivity.internal.ConnectivitySubscription
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -50,6 +55,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            com.yandex.runtime.Runtime.getApplicationContext().registerReceiver(
+                ConnectivitySubscription(), IntentFilter(), RECEIVER_EXPORTED/RECEIVER_NOT_EXPORTED);
+        } else {
+            com.yandex.runtime.Runtime.getApplicationContext().registerReceiver(
+                ConnectivitySubscription(), IntentFilter());
+        }
 
         /*
         val receiver = object : BroadcastReceiver() {
@@ -101,30 +114,23 @@ class MainActivity : AppCompatActivity() {
         if (authModel.authenticated) {
             with(navBottomView.menu.findItem(R.id.my_profile)) {
                 this.isVisible = true
-                /*
-                Glide
-                    .with(this@MainActivity)
-                    .asDrawable()
-                    .load(authModel.data.asLiveData(Dispatchers.Default).value?.avatarUrl ?: "404")
-                    .placeholder(R.drawable.baseline_account_circle_48)
-                    .error(R.drawable.baseline_account_circle_48)
-                    .apply(
-                        RequestOptions.circleCropTransform()
-                    )
-                    .into(object :
-                        CustomTarget<Bitmap>(findViewById<View>(R.id.my_profile).layoutParams.width, findViewById<View>(R.id.my_profile).layoutParams.height) {
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            navBottomView.menu.findItem(R.id.my_profile).icon = BitmapDrawable(resources, resource)
-                        }
 
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            navBottomView.menu.findItem(R.id.my_profile).icon = placeholder
-                        }
-                        })
-                //println("HxW: ${navBottomView.findViewById<View>(R.id.my_profile).height}x${navBottomView.findViewById<View>(R.id.my_profile).width}")
-                //val icon = navBottomView.get(R.id.my_profile) as ImageView//it is NOT ImageView
-                //icon.loadAvatar(authModel.data.asLiveData(Dispatchers.Default).value?.avatarUrl ?: "404")
-                 */
+                //avatar icon in BottomNavigationView (draft)
+                //https://habr.com/ru/articles/697578/
+                lifecycleScope.launch(Dispatchers.Default) {
+                    //supervisorScope { //is it mem-leakable?
+                        Glide.with(this@MainActivity)
+                            .asBitmap()
+                            .load(authModel.data.asLiveData(Dispatchers.Default)
+                                .value?.avatarUrl ?: "404")
+                            .placeholder(R.drawable.baseline_account_circle_48)
+                            .error(R.drawable.baseline_account_circle_48)
+                            .apply(
+                                RequestOptions.circleCropTransform()
+                            )
+                            .into(MenuItemTarget(this@MainActivity, this@with))
+                    //}
+                }
             }
         }
         navBottomView.setOnItemSelectedListener { item ->

@@ -24,7 +24,7 @@ import com.example.nework.adapter.PostAdapter
 import com.example.nework.databinding.FragmentFeedPostOrEventBinding
 import com.example.nework.dto.Post
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
-import com.example.nework.ui.PostFragment.Companion.intArg
+import com.example.nework.ui.PostFragment.Companion.longArg
 import com.example.nework.util.countToString
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.PostViewModel
@@ -120,7 +120,7 @@ class PostsFeedFragment : Fragment() {
                 findNavController().navigate(
                     R.id.action_postsFeedFragment_to_postFragment,
                     Bundle().apply {
-                        intArg = post.id
+                        longArg = post.id
                     })
             }
 

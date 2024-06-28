@@ -35,7 +35,7 @@ class UserRepoImpl @Inject constructor(
         userDao.insert(body.map { UserEntity.fromDto(it) })
     }
 
-    override suspend fun getUserPreviewById(id: Int): UserPreview {
+    override suspend fun getUserPreviewById(id: Long): UserPreview {
         val user = userDao.getUserById(id)
         return UserPreview(
             avatar = user.avatar ?: "404",
@@ -43,7 +43,7 @@ class UserRepoImpl @Inject constructor(
         )
     }
 
-    override suspend fun getUserById(id: Int): User {
+    override suspend fun getUserById(id: Long): User {
         return userDao.getUserById(id).toDto()
     }
 

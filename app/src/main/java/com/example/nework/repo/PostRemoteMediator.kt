@@ -150,7 +150,7 @@ class PostRemoteMediator(
             //reachable with only non-empty body
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: Exception) {
-            println("ERROR MESSAGE: ${e.message}")
+            if (!e.message.isNullOrBlank()) { println("ERROR MESSAGE: ${e.message}") }
             return MediatorResult.Error(e)
         }
     }
@@ -162,7 +162,7 @@ data class KeyDaoMediator(
     private val postKeyDao: PostRemoteKeyDao,
     private val wallKeyDao: WallByUserRemoteKeyDao,
 ) {
-    suspend fun max(): Int? {
+    suspend fun max(): Long? {
         return if (isWall) {
             wallKeyDao.max()
         } else {
@@ -170,7 +170,7 @@ data class KeyDaoMediator(
         }
     }
 
-    suspend fun min(): Int? {
+    suspend fun min(): Long? {
         return if (isWall) {
             wallKeyDao.min()
         } else {

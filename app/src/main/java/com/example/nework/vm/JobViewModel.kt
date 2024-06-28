@@ -34,7 +34,7 @@ private val noList = emptyList<Job>()
 @HiltViewModel(assistedFactory = JobViewModelFactory::class)
 class JobViewModel @AssistedInject constructor(
     private val appApi: AppApi,
-    @Assisted private val userId: Int
+    @Assisted private val userId: Long
 ) : ViewModel() {
     val isActiveView = MutableLiveData<Boolean>(false)
 
@@ -79,7 +79,7 @@ class JobViewModel @AssistedInject constructor(
         loadJobsById(userId)
     }
 
-    fun loadJobsById(id: Int) {
+    fun loadJobsById(id: Long) {
         _state.update {
             it.copy(loading = true)
         }
@@ -171,7 +171,7 @@ class JobViewModel @AssistedInject constructor(
         }
     }
 
-    fun removeById(id: Int) {
+    fun removeById(id: Long) {
         viewModelScope.launch {
             try {
                 val response = appApi.deleteJob(id)
@@ -215,5 +215,5 @@ class JobViewModel @AssistedInject constructor(
 
 @AssistedFactory
 interface JobViewModelFactory {
-    fun create(id: Int): JobViewModel
+    fun create(id: Long): JobViewModel
 }

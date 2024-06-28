@@ -28,7 +28,7 @@ import com.example.nework.dto.Job
 import com.example.nework.dto.Post
 import com.example.nework.dto.User
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
-import com.example.nework.ui.PostFragment.Companion.intArg
+import com.example.nework.ui.PostFragment.Companion.longArg
 import com.example.nework.ui.UserFragment.Companion.USER_ID
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.JobViewModel
@@ -55,10 +55,10 @@ class MyProfileFragment : Fragment() {
     /*
     companion object {
         private const val USER_ID = "USER_ID"
-        var Bundle.USER_ID: Int by IntArg//for value by main_activity
+        var Bundle.USER_ID: Long by LongArg//for value by main_activity
 
         //maybe set value in viewmodel
-        fun createArgs(id: Int): Bundle =
+        fun createArgs(id: Long): Bundle =
             bundleOf(USER_ID to id)
     }
      */
@@ -113,7 +113,7 @@ class MyProfileFragment : Fragment() {
 
         val myId = authModel.userId
 
-        if ((authModel.authenticated) && (myId != null) && (myId != 0)) {
+        if ((authModel.authenticated) && (myId != null) && (myId != 0L)) {
             val user = try {
                 userModel.getUserById(myId)
             } catch (_: Exception) {
@@ -197,7 +197,7 @@ class MyProfileFragment : Fragment() {
                     findNavController().navigate(
                         R.id.action_postsFeedFragment_to_postFragment,
                         Bundle().apply {
-                            intArg = post.id
+                            longArg = post.id
                         })
                 }
 
@@ -248,8 +248,8 @@ class MyProfileFragment : Fragment() {
             with(binding) {
                 avatar.loadAvatar(user.avatar ?: "404")
                 nameAndLogin.text = "${user.name} / ${user.login}"
-                println ("text: ${user.name} / ${user.login}")
-                println ("ava: ${user.avatar}")
+                //println ("text: ${user.name} / ${user.login}")
+                //println ("ava: ${user.avatar}")
 
                 wall.setOnClickListener {
                     swiperefreshPost.isVisible = true

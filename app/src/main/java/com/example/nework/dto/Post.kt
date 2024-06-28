@@ -4,18 +4,22 @@ import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 sealed interface FeedItem {
-    val id: Int
+    val id: Long
 }
 
-val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ROOT)
+//val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ROOT)
+val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ROOT).apply {
+    timeZone = TimeZone.getTimeZone("UTC")
+}
 
 data class Post(
     @SerializedName("id")
-    override val id: Int,
+    override val id: Long,
     @SerializedName("authorId")
-    val authorId: Int,
+    val authorId: Long,
     @SerializedName("author")
     val author: String,
     @SerializedName("authorJob")
@@ -25,24 +29,24 @@ data class Post(
     @SerializedName("content")
     val content: String,
     @SerializedName("published")
-    val published: String,
+    val published: String = DATE_FORMAT.format(Date()),
     @SerializedName("coords")
     val coords: Coords?,
     @SerializedName("link")
     val videoLink: String?,
     @SerializedName("mentionIds")
-    val mentionIds: List<Int> = emptyList(),
+    val mentionIds: List<Long> = emptyList(),
     @SerializedName("mentionedMe")
     val mentionedMe: Boolean,
     @SerializedName("likeOwnerIds")
-    val likeOwnerIds: List<Int> = emptyList(),
+    val likeOwnerIds: List<Long> = emptyList(),
     @SerializedName("likedByMe")
     val likedByMe: Boolean,
     //ONLY 1 ATTACHMENT IN API SCHEMA
     @SerializedName("attachment")
     val attachment: Attachment? = null,
     @SerializedName("users")
-    val users: List<UserPreview> = emptyList(),
+    val users: Map<Long, UserPreview> = emptyMap(),
 
     val ownedByMe: Boolean = false,
     val isLikeLoading: Boolean = false,
@@ -51,6 +55,7 @@ data class Post(
     fun toEpoch(): Long =
         (DATE_FORMAT.parse(this.published)!!.time) / 1000L
 
+    /*
     companion object {
         //https://stackoverflow.com/questions/47250263/kotlin-convert-timestamp-to-datetime
         fun fromEpoch(epoch: Long): String {
@@ -63,6 +68,7 @@ data class Post(
             }
         }
     }
+     */
 }
 
 data class Attachment(
@@ -85,12 +91,12 @@ data class Coords(
 )
 
 data class Ad(
-    override val id: Int,
+    override val id: Long,
     val image: String
 ) : FeedItem
 
 data class TimeHeader(
-    override val id: Int,
+    override val id: Long,
     val type: TimeType,
     val title: String = "SOME TIME AGO"
 ) : FeedItem

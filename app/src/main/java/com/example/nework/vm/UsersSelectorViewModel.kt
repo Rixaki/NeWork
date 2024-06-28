@@ -64,7 +64,7 @@ class UsersSelectorViewModel @Inject constructor(
         }
     }
 
-    fun setAllSelectorList(ids: List<Int>) {
+    fun setAllSelectorList(ids: List<Long>) {
         viewModelScope.launch(Dispatchers.Default) {
             val result = users.value?.map {
                 SelectableUser(
@@ -106,7 +106,7 @@ class UsersSelectorViewModel @Inject constructor(
     }
 
     //for post/event edit
-    fun getPickedIdsList(list: List<SelectableUser>): List<Int> {
+    fun getPickedIdsList(list: List<SelectableUser>): List<Long> {
         return list.filter { it.isPicked }.map { it.id }
     }
 

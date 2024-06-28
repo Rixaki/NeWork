@@ -31,17 +31,17 @@ interface AppApi {
 
     //POST COMMANDS
     @GET("posts/{id}/newer")
-    suspend fun getNewerPost(@Path("id") id: Int): Response<List<Post>>
+    suspend fun getNewerPost(@Path("id") id: Long): Response<List<Post>>
 
     @GET("posts/{id}/before")
     suspend fun getBeforePost(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Query("count") count: Int
     ): Response<List<Post>>
 
     @GET("posts/{id}/after")
     suspend fun getAfterPost(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Query("count") count: Int
     ): Response<List<Post>>
 
@@ -49,16 +49,16 @@ interface AppApi {
     suspend fun savePost(@Body post: Post): Response<Post>
 
     @GET("posts/{id}")
-    suspend fun getPostById(@Path("id") id: Int): Response<Post>
+    suspend fun getPostById(@Path("id") id: Long): Response<Post>
 
     @DELETE("posts/{id}")
-    suspend fun deletePostById(@Path("id") id: Int): Response<Unit>
+    suspend fun deletePostById(@Path("id") id: Long): Response<Unit>
 
     @POST("posts/{id}/likes")
-    suspend fun likePost(@Path("id") id: Int): Response<Post>
+    suspend fun likePost(@Path("id") id: Long): Response<Post>
 
     @DELETE("posts/{id}/likes")
-    suspend fun unlikePost(@Path("id") id: Int): Response<Post>
+    suspend fun unlikePost(@Path("id") id: Long): Response<Post>
 
     @GET("posts/latest")
     suspend fun getLatestPost(@Query("count") count: Int): Response<List<Post>>
@@ -76,17 +76,17 @@ interface AppApi {
 
     //EVENT COMMANDS
     @GET("events/{id}/newer")
-    suspend fun getNewerEvent(@Path("id") id: Int): Response<List<Event>>
+    suspend fun getNewerEvent(@Path("id") id: Long): Response<List<Event>>
 
     @GET("events/{id}/before")
     suspend fun getBeforeEvent(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Query("count") count: Int
     ): Response<List<Event>>
 
     @GET("events/{id}/after")
     suspend fun getAfterEvent(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Query("count") count: Int
     ): Response<List<Event>>
 
@@ -94,22 +94,22 @@ interface AppApi {
     suspend fun saveEvent(@Body event: Event): Response<Event>
 
     @GET("events/{id}")
-    suspend fun getEventById(@Path("id") id: Int): Response<Event>
+    suspend fun getEventById(@Path("id") id: Long): Response<Event>
 
     @DELETE("events/{id}")
-    suspend fun deleteEventById(@Path("id") id: Int): Response<Unit>
+    suspend fun deleteEventById(@Path("id") id: Long): Response<Unit>
 
     @POST("events/{id}/likes")
-    suspend fun likeEvent(@Path("id") id: Int): Response<Event>
+    suspend fun likeEvent(@Path("id") id: Long): Response<Event>
 
     @DELETE("events/{id}/likes")
-    suspend fun unlikeEvent(@Path("id") id: Int): Response<Event>
+    suspend fun unlikeEvent(@Path("id") id: Long): Response<Event>
 
     @POST("events/{id}/participants")
-    suspend fun takePartEvent(@Path("id") id: Int): Response<Event>
+    suspend fun takePartEvent(@Path("id") id: Long): Response<Event>
 
     @DELETE("events/{id}/participants")
-    suspend fun leaveEvent(@Path("id") id: Int): Response<Event>
+    suspend fun leaveEvent(@Path("id") id: Long): Response<Event>
 
     @GET("events/latest")
     suspend fun getLatestEvent(@Query("count") count: Int): Response<List<Event>>
@@ -117,39 +117,39 @@ interface AppApi {
     /*
     //WALL COMMAND
     @GET("{authorId}/wall")
-    suspend fun getWall(@Path("authorId") authorId: Int): Response<List<Post>>
+    suspend fun getWall(@Path("authorId") authorId: Long): Response<List<Post>>
      */
 
     //WALL COMMANDS
     @GET("{authorId}/wall/{postId}/newer")
     suspend fun getNewerWall(
-        @Path("authorId") authorId: Int,
-        @Path("postId") postId: Int,
+        @Path("authorId") authorId: Long,
+        @Path("postId") postId: Long,
     ): Response<Post>
 
     @GET("{authorId}/wall/{postId}/before")
     suspend fun getBeforeWall(
-        @Path("authorId") authorId: Int,
-        @Path("postId") postId: Int,
+        @Path("authorId") authorId: Long,
+        @Path("postId") postId: Long,
         @Query("count") count: Int
     ): Response<List<Post>>
 
     @GET("{authorId}/wall/{postId}/after")
     suspend fun getAfterWall(
-        @Path("authorId") authorId: Int,
-        @Path("postId") postId: Int,
+        @Path("authorId") authorId: Long,
+        @Path("postId") postId: Long,
         @Query("count") count: Int
     ): Response<List<Post>>
 
     @GET("{authorId}/wall/{postId}")
     suspend fun getPostWallById(
-        @Path("authorId") authorId: Int,
-        @Path("postId") postId: Int
+        @Path("authorId") authorId: Long,
+        @Path("postId") postId: Long
     ): Response<Post>
 
     @GET("{authorId}/wall/latest")
     suspend fun getLatestWall(
-        @Path("authorId") authorId: Int,
+        @Path("authorId") authorId: Long,
         @Query("count") count: Int
     ): Response<List<Post>>
 
@@ -162,24 +162,24 @@ interface AppApi {
     //MY_WALL COMMANDS
     @GET("my/wall/{id}/newer")
     suspend fun getNewerMyWall(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
     ): Response<Post>
 
     @GET("my/wall/{id}/before")
     suspend fun getBeforeMyWall(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Query("count") count: Int
     ): Response<List<Post>>
 
     @GET("my/wall/{id}/after")
     suspend fun getAfterMyWall(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
         @Query("count") count: Int
     ): Response<List<Post>>
 
     @GET("my/wall/{id}")
     suspend fun getPostMyWallById(
-        @Path("id") id: Int,
+        @Path("id") id: Long,
     ): Response<Post>
 
     @GET("my/wall/latest")
@@ -190,13 +190,13 @@ interface AppApi {
     suspend fun getMyJobs(): Response<List<Job>>
 
     @GET("{id}/jobs")
-    suspend fun getJobsByUser(@Path("id") id: Int): Response<List<Job>>
+    suspend fun getJobsByUser(@Path("id") id: Long): Response<List<Job>>
 
     @POST("my/jobs")
     suspend fun saveJob(@Body job: Job): Response<Job>
 
     @DELETE("my/jobs/{id}")
-    suspend fun deleteJob(@Path("id") id: Int): Response<Unit>
+    suspend fun deleteJob(@Path("id") id: Long): Response<Unit>
 
     //ATTACHMENT COMMAND
     @Multipart
@@ -210,7 +210,7 @@ interface AppApi {
     suspend fun getUsers(): Response<List<User>>
 
     @GET("users/{id}")
-    suspend fun getUserById(@Path("id") id: Int): Response<User>
+    suspend fun getUserById(@Path("id") id: Long): Response<User>
 
 
     //USER ACCESS COMMANDS

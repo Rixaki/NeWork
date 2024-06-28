@@ -23,8 +23,8 @@ import com.example.nework.adapter.ItemLoadingStateAdapter
 import com.example.nework.adapter.OnIterationEventListener
 import com.example.nework.databinding.FragmentFeedPostOrEventBinding
 import com.example.nework.dto.Event
+import com.example.nework.ui.EventFragment.Companion.longArg
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
-import com.example.nework.ui.PostFragment.Companion.intArg
 import com.example.nework.util.countToString
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.EventViewModel
@@ -123,7 +123,7 @@ class EventsFeedFragment : Fragment() {
                 findNavController().navigate(
                     R.id.action_eventsFeedFragment_to_eventFragment,
                     Bundle().apply {
-                        intArg = event.id
+                        longArg = event.id
                     })
             }
 

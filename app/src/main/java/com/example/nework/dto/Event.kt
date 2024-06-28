@@ -1,12 +1,13 @@
 package com.example.nework.dto
 
 import com.google.gson.annotations.SerializedName
+import java.util.Date
 
 data class Event(
     @SerializedName("id")
-    override val id: Int,
+    override val id: Long,
     @SerializedName("authorId")
-    val authorId: Int,
+    val authorId: Long,
     @SerializedName("author")
     val author: String,
     @SerializedName("authorJob")
@@ -16,21 +17,21 @@ data class Event(
     @SerializedName("content")
     val content: String,
     @SerializedName("datetime")
-    val datetime: String,
+    val datetime: String = DATE_FORMAT.format(Date()),
     @SerializedName("published")
-    val published: String,
+    val published: String = DATE_FORMAT.format(Date()),
     @SerializedName("coords")
     val coords: Coords?,
     @SerializedName("type")
     val type: EventType = EventType.OFFLINE,
     @SerializedName("likeOwnerIds")
-    val likeOwnerIds: List<Int> = emptyList(),
+    val likeOwnerIds: List<Long> = emptyList(),
     @SerializedName("likedByMe")
     val likedByMe: Boolean,
     @SerializedName("speakerIds")
-    val speakerIds: List<Int> = emptyList(),
+    val speakerIds: List<Long> = emptyList(),
     @SerializedName("participantsIds")
-    val participantsIds: List<Int> = emptyList(),
+    val participantsIds: List<Long> = emptyList(),
     @SerializedName("participatedByMe")
     val participatedByMe: Boolean,
     @SerializedName("attachment")
@@ -39,7 +40,7 @@ data class Event(
     val videoLink: String?,
     //TODO: WHAT USERS? SPEAKERS? PARTS? ALL?
     @SerializedName("users")
-    val users: List<UserPreview> = emptyList(),
+    val users: Map<Long, UserPreview> = emptyMap(),
 
     val ownedByMe: Boolean = false,
     val isLikeLoading: Boolean = false,
