@@ -30,7 +30,13 @@ class AppAuth @Inject constructor(
     }
 
     init {
-        val id = prefs.getLong(KEY_ID, 0L)
+        var id = 0L
+        try {
+            id = prefs.getLong(KEY_ID, 0L)
+        } catch (_: Exception) { //ClassCastException
+            val int = prefs.getInt(KEY_ID, 0)
+            id = if (int == 0) 0L else int.toLong()
+        }
         val token = prefs.getString(KEY_TOKEN, null)
         val avatar = prefs.getString(KEY_AVATAR, null)
 

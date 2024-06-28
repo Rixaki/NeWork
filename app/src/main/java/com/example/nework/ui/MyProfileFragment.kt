@@ -37,11 +37,13 @@ import com.example.nework.vm.PostByUserViewModel
 import com.example.nework.vm.PostByUserViewModelFactory
 import com.example.nework.vm.PostViewModel
 import com.example.nework.vm.PostViewModelFactory
+import com.example.nework.vm.UserViewModel
 import com.example.nework.vm.UsersViewModel
 import com.example.nework.vm.UsersViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
+import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.Dispatchers
@@ -92,6 +94,9 @@ class MyProfileFragment : Fragment() {
             }
         }
     )
+
+    private val userModel by viewModels<UserViewModel>()
+    /*
     private val userModel by viewModels<UsersViewModel>(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<UsersViewModelFactory> { factory ->
@@ -100,6 +105,7 @@ class MyProfileFragment : Fragment() {
             }
         }
     )
+     */
 
     @SuppressLint("StringFormatMatches")
     override fun onCreateView(
@@ -114,11 +120,15 @@ class MyProfileFragment : Fragment() {
         val myId = authModel.userId
 
         if ((authModel.authenticated) && (myId != null) && (myId != 0L)) {
+            /*
             val user = try {
                 userModel.getUserById(myId)
             } catch (_: Exception) {
                 User(id=0, name = "", login = "", avatar = "404")//for none throwable
             }
+             */
+            userModel.setUserById(myId)
+
             userModel.state.asLiveData(Dispatchers.Default).observe(viewLifecycleOwner){ state ->
                 if(state.error){
                     toast(
@@ -136,7 +146,7 @@ class MyProfileFragment : Fragment() {
                 findNavController().navigate(
                     R.id.action_myProfileFragment_to_newOrEditJobFragment,
                     Bundle().apply {
-                        USER_ID = user.id
+                        USER_ID = authModel.userId
                     })
             }
 
@@ -245,12 +255,16 @@ class MyProfileFragment : Fragment() {
                 }
             })//job_adapter
 
-            with(binding) {
-                avatar.loadAvatar(user.avatar ?: "404")
-                nameAndLogin.text = "${user.name} / ${user.login}"
-                //println ("text: ${user.name} / ${user.login}")
-                //println ("ava: ${user.avatar}")
+            binding.nameAndLogin.text = "... loading user (id ${authModel.userId})"
+            userModel.user.observe(viewLifecycleOwner) {
+                val user = userModel.user.value
+                with(binding) {
+                    avatar.loadAvatar(user?.avatar ?: "404")
+                    nameAndLogin.text = "${user?.name} / ${user?.login}"
+                }
+            }
 
+            with(binding) {
                 wall.setOnClickListener {
                     swiperefreshPost.isVisible = true
                     wallModel.isActiveView.value = true
