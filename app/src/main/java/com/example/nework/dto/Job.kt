@@ -5,8 +5,11 @@ import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
-val DATE_FORMAT_JOB = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT)
+val DATE_FORMAT_JOB = SimpleDateFormat("dd-MM-yyyy", Locale.ROOT).apply {
+    timeZone = TimeZone.getTimeZone("UTC")
+}
 
 data class Job(
     @SerializedName("id")
@@ -16,14 +19,15 @@ data class Job(
     @SerializedName("position")
     val position: String,
     @SerializedName("start")
-    val start: String,
+    val start: String = DATE_FORMAT_JOB.format(Date()),
     @SerializedName("finish")
-    val finish: String?,
+    val finish: String? = null,
     @SerializedName("link")
-    val link: String?,
+    val link: String? = null,
 
     val ownedByMe: Boolean = false,
 ) {
+    /*
     fun toEpoch(str: String): Long =
         (DATE_FORMAT.parse(str)!!.time) / 1000L
 
@@ -49,4 +53,5 @@ data class Job(
             }
         }
     }
+     */
 }

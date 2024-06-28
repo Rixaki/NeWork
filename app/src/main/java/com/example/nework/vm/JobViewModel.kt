@@ -23,9 +23,8 @@ private val empty = Job(
     link = "",
     name = "",
     position = "",
-    start = "",
-    finish = ""
 )
+
 private val noState = ResponceState()
 private val noStr = ""
 private val noList = emptyList<Job>()
@@ -118,7 +117,7 @@ class JobViewModel @AssistedInject constructor(
     fun changeName(str: String) = _name.postValue(str)
     fun changePosition(str: String) = _position.postValue(str)
     fun changeStart(str: String) = _start.postValue(str)
-    fun changeFinish(str: String) = _finish.postValue(str)
+    fun changeFinish(str: String?) = _finish.postValue(str)
     fun changeLink(str: String) = _link.postValue(str)
 
     fun save() {
@@ -137,8 +136,8 @@ class JobViewModel @AssistedInject constructor(
                     name = if (name.value.isNullOrBlank()) job.value.name else name.value!!,
                     position = if (position.value.isNullOrBlank()) job.value.position else position.value!!,
                     start = if (start.value.isNullOrBlank()) job.value.start else start.value!!,
-                    finish = if (finish.value.isNullOrBlank()) job.value.finish else finish.value!!,
-                    link = if (link.value.isNullOrBlank()) job.value.link else link.value!!
+                    finish = finish.value,
+                    link = link.value
                 )
             )
             _job.value.let { job ->

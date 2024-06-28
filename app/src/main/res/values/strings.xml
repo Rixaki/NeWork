@@ -120,5 +120,6 @@
     <string name="fix_is_needs">Fix is needs</string>
     <string name="continue_to_fix">Continue to fix</string>
     <string name="exit_without_fix">Exit without fix</string>
+    <string name="take_work_finish_date_to_present">Take work finish date to present.</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

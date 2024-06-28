@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditJobBinding
 import com.example.nework.dto.DATE_FORMAT
+import com.example.nework.dto.DATE_FORMAT_JOB
 import com.example.nework.ui.UserFragment.Companion.USER_ID
 import com.example.nework.vm.JobViewModel
 import com.example.nework.vm.JobViewModelFactory
@@ -18,10 +20,12 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
+import kotlinx.coroutines.Dispatchers
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.toast
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.TimeZone
 
 @AndroidEntryPoint
@@ -49,7 +53,7 @@ class NewOrEditJobFragment : Fragment() {
     )
 
     @SuppressLint("SimpleDateFormat")
-    private val formatter = SimpleDateFormat("dd-MM-yyyy")
+    private val formatter = DATE_FORMAT_JOB
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -62,14 +66,19 @@ class NewOrEditJobFragment : Fragment() {
         val jobEdited = viewModel.job.value
         binding.companyName.setText(jobEdited.name)
         binding.position.setText(jobEdited.position)
-        binding.startTime.setText(jobEdited.start)
-        binding.finishTime.setText(jobEdited.finish ?: "no time")
+        binding.startTime.setText("Set day")
+        binding.finishTime.setText("Set day/to present")
         binding.link.setText(jobEdited.link ?: "")
 
         //TIME SETTING ZONE
         //default listener in MaterialDatePicker = dismiss()
-        var startDate = 0L
-        var finishDate = 0L
+        val startDate = if (jobEdited.start.isNotBlank()) {
+            (DATE_FORMAT_JOB.parse(jobEdited.start))!!.time
+        } else {
+            Date().time
+        }
+        val finishDate = (jobEdited.finish?.let { DATE_FORMAT_JOB.parse(it) })?.time ?: 0L
+        /*
         try {
             startDate = (DATE_FORMAT.parse(jobEdited.start))!!.time
             if (!jobEdited.finish.isNullOrEmpty()) {
@@ -78,6 +87,7 @@ class NewOrEditJobFragment : Fragment() {
         } catch (e: Exception) {
             startDate = MaterialDatePicker.todayInUtcMilliseconds()
         }
+         */
         val startDatePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(getString(R.string.select_start_date))
@@ -90,23 +100,32 @@ class NewOrEditJobFragment : Fragment() {
                 //.setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .setSelection(finishDate)
                 .build()
-        startDatePicker.addOnPositiveButtonClickListener {
-            MaterialPickerOnPositiveButtonClickListener<Long> { selection ->
-                val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-                utc.timeInMillis = selection
-                val formattedStr = formatter.format(utc.time)
+        startDatePicker.addOnPositiveButtonClickListener { selection ->
+            //MaterialPickerOnPositiveButtonClickListener<Long> { selection ->
+                //val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                //utc.timeInMillis = selection
+                val formattedStr = formatter.format(Date(selection))
                 viewModel.changeStart(formattedStr)
-                binding.startTime.setText("${viewModel.start}")
-            }
+                //binding.startTime.setText(viewModel.start.value)
+                //println("formattedStr $formattedStr")
+            //}
         }
-        finishDatePicker.addOnPositiveButtonClickListener {
-            MaterialPickerOnPositiveButtonClickListener<Long> { selection ->
-                val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-                utc.timeInMillis = selection
-                val formattedStr = formatter.format(utc.time)
+        finishDatePicker.addOnPositiveButtonClickListener { selection ->
+            //MaterialPickerOnPositiveButtonClickListener<Long> { selection ->
+                //val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                //utc.timeInMillis = selection
+                val formattedStr = formatter.format(Date(selection))
                 viewModel.changeFinish(formattedStr)
-                binding.finishTime.setText("${viewModel.finish}")
-            }
+                //binding.finishTime.setText(viewModel.finish.value ?: "to present")
+                //println("formattedStr $formattedStr")
+            //}
+            (jobEdited.finish ?: "to present")
+        }
+        viewModel.start.observe(viewLifecycleOwner){
+            binding.startTime.setText(viewModel.start.value)
+        }
+        viewModel.finish.observe(viewLifecycleOwner){
+            binding.finishTime.setText(viewModel.finish.value ?: "to present")
         }
         binding.pickStartDate.setOnClickListener {
             startDatePicker
@@ -122,7 +141,11 @@ class NewOrEditJobFragment : Fragment() {
                     "Finish date picker"
                 )
         }
+        binding.pickPresent.setOnClickListener {
+            viewModel.changeFinish(null)
+        }
         //END TIME SETTING ZONE
+        "to present"
 
         binding.save.setOnClickListener {
             viewModel.changeName(binding.companyName.text.toString())

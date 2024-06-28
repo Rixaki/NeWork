@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
         val navBottomView: NavigationBarView = binding.bottomNavigation
         navBottomView.setupWithNavController(navController)
-        println("ID: ${authModel.userId}")
+        //println("ID: ${authModel.userId}")
         if (authModel.authenticated) {
             with(navBottomView.menu.findItem(R.id.my_profile)) {
                 this.isVisible = true

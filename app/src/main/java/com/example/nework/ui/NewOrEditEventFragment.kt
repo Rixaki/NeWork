@@ -17,6 +17,7 @@ import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
 import com.example.nework.dto.Coords
 import com.example.nework.dto.DATE_FORMAT
+import com.example.nework.dto.DATE_FORMAT_JOB
 import com.example.nework.ui.SelectUserListByPostFragment.Companion.titleArg
 import com.example.nework.util.DrawableImageProvider
 import com.example.nework.util.countToString
@@ -224,8 +225,8 @@ class NewOrEditEventFragment : Fragment() {
                 .setSelection(startDate)
                 .build()
         datePicker.addOnPositiveButtonClickListener { selection ->
-            val formatter = SimpleDateFormat("dd-MM-yyyy")
-            val formattedStr = formatter.format(selection)
+            val formatter = DATE_FORMAT_JOB
+            val formattedStr = formatter.format(Date(selection))
             viewModel.changeEventDate(formattedStr)
         }
         val timePicker =
