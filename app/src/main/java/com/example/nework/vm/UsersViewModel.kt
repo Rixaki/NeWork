@@ -89,7 +89,7 @@ class UsersViewModel @AssistedInject constructor(
     }
 
     fun getUserById(id: Long): User {
-        var result = User(id = 0L, login = "", name = "", avatar = null)
+        var result = User(id = 0L, login = "", name = "")
         viewModelScope.launch {
             try {
                 result = userRepo.getUserById(id)

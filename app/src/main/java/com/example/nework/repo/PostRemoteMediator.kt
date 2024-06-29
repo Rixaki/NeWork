@@ -108,7 +108,7 @@ class PostRemoteMediator(
                         println("trans refresh")
                         //postDao.clear()//old version
                         keyDao.insert(
-                            listOf(
+                            //listOf(
                                 PostRemoteKeyEntity(
                                     PostRemoteKeyEntity.KeyType.AFTER,
                                     max(body.first().id, postDao.max() ?: body.first().id)
@@ -117,7 +117,7 @@ class PostRemoteMediator(
                                     PostRemoteKeyEntity.KeyType.BEFORE,
                                     min(body.last().id, postDao.min() ?: body.last().id)
                                 )
-                            )
+                            //)
                         )
                     }
 
@@ -150,6 +150,7 @@ class PostRemoteMediator(
             //reachable with only non-empty body
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: Exception) {
+            //throw e
             if (!e.message.isNullOrBlank()) { println("ERROR MESSAGE: ${e.message}") }
             return MediatorResult.Error(e)
         }

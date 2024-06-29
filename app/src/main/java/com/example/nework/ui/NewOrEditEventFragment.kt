@@ -25,7 +25,6 @@ import com.example.nework.vm.EventViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -34,13 +33,14 @@ import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
+import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.StringArg
 import ru.netology.nmedia.util.toast
-import java.text.SimpleDateFormat
 import java.util.Date
+
 
 @AndroidEntryPoint
 class NewOrEditEventFragment : Fragment() {
@@ -51,21 +51,11 @@ class NewOrEditEventFragment : Fragment() {
         var Bundle.textArg: String? by StringArg
     }
 
-    private var dialogMsg : String = getString(R.string.empty_message_or_event_time_is_not_defined)
-    private val errorDialog = MaterialAlertDialogBuilder(requireContext())
-        .setTitle(getString(R.string.fix_is_needs))
-        .setMessage(dialogMsg)
-        .setIcon(R.drawable.baseline_auto_fix_high_48)
-        .setNegativeButton(getString(R.string.continue_to_fix), null)
-        .setPositiveButton(getString(R.string.exit_without_fix)) { _, _ ->
-            findNavController().navigateUp()
-        }
-
     private lateinit var mapView: MapView //for set lifecycle
     private val imageProvider by lazy {
         DrawableImageProvider(requireContext(), R.drawable.baseline_location_pin_48)
     }
-
+    private var geoposition: PlacemarkMapObject? = null
     /*
     private lateinit var imageProvider: com.yandex.runtime.image.ImageProvider
     private val inputListener = object : InputListener {
@@ -88,6 +78,17 @@ class NewOrEditEventFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        var dialogMsg : String = getString(R.string.empty_message_or_event_time_is_not_defined)
+        val errorDialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.fix_is_needs))
+            .setMessage(dialogMsg)
+            .setIcon(R.drawable.baseline_auto_fix_high_48)
+            .setNegativeButton(getString(R.string.continue_to_fix), null)
+            .setPositiveButton(getString(R.string.exit_without_fix)) { _, _ ->
+                viewModel.cancelEdit()
+                findNavController().navigateUp()
+            }
+
         val eventEdited = viewModel.edited.value
         val startLocation: Coords? = eventEdited?.coords
         //val isEdited = postEdited?.id != 0
@@ -96,16 +97,22 @@ class NewOrEditEventFragment : Fragment() {
             container,
             false
         )
-        //TODO: TIME BELT
 
         //MAP_KIT BLOCK
         val inputListener = object : InputListener {
             override fun onMapTap(p0: Map, p1: Point) {
-                //println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
                 viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
-                p0.mapObjects.addPlacemark().apply {
-                    geometry = p1
-                    setIcon(imageProvider)
+                if (geoposition == null) {
+                    geoposition = p0.mapObjects.addPlacemark().apply {
+                        geometry = p1
+                        setIcon(imageProvider)
+                    }
+                } else {
+                    p0.mapObjects.remove(geoposition!!)
+                    geoposition = p0.mapObjects.addPlacemark().apply {
+                        geometry = p1
+                        setIcon(imageProvider)
+                    }
                 }
             }
 
@@ -129,12 +136,14 @@ class NewOrEditEventFragment : Fragment() {
         }
         binding.clearLocation.setOnClickListener {
             viewModel.clearCoords()
-            map?.deselectGeoObject()
+            //map?.deselectGeoObject()
+            geoposition = null
         }
         binding.prevLocation.setOnClickListener {
             viewModel.changeCoords(startLocation)
             if (startLocation == null) {
-                map?.deselectGeoObject()
+                //map?.deselectGeoObject()
+                geoposition = null
                 toast(
                     getString(R.string.there_was_not_previous_location),
                     period = Toast.LENGTH_SHORT

@@ -5,8 +5,8 @@ import com.example.nework.dto.UserPreview
 
 @Entity
 data class UserPreviewEntity(
-    val avatar: String,
-    val name: String?
+    val avatar: String?,
+    val name: String
 ) {
     fun toDto(): UserPreview = UserPreview(
         avatar = avatar,

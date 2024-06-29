@@ -60,14 +60,14 @@ class NewOrEditJobFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentNewOrEditJobBinding.inflate(inflater, container, false)
 
         val jobEdited = viewModel.job.value
         binding.companyName.setText(jobEdited.name)
         binding.position.setText(jobEdited.position)
-        binding.startTime.setText("Set day")
-        binding.finishTime.setText("Set day/to present")
+        binding.startTime.text = getString(R.string.set_day)
+        binding.finishTime.text = getString(R.string.set_day_to_present)
         binding.link.setText(jobEdited.link ?: "")
 
         //TIME SETTING ZONE
@@ -122,10 +122,14 @@ class NewOrEditJobFragment : Fragment() {
             (jobEdited.finish ?: "to present")
         }
         viewModel.start.observe(viewLifecycleOwner){
-            binding.startTime.setText(viewModel.start.value)
+            if (isResumed) {
+                binding.startTime.setText(viewModel.start.value)
+            }
         }
         viewModel.finish.observe(viewLifecycleOwner){
-            binding.finishTime.setText(viewModel.finish.value ?: "to present")
+            if (isResumed) {
+                binding.finishTime.setText(viewModel.finish.value ?: "to present")
+            }
         }
         binding.pickStartDate.setOnClickListener {
             startDatePicker
@@ -145,7 +149,6 @@ class NewOrEditJobFragment : Fragment() {
             viewModel.changeFinish(null)
         }
         //END TIME SETTING ZONE
-        "to present"
 
         binding.save.setOnClickListener {
             viewModel.changeName(binding.companyName.text.toString())

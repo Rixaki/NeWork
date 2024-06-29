@@ -87,7 +87,7 @@
         android:clickable="false"
         app:layout_constraintTop_toBottomOf="@id/link"
         app:layout_constraintStart_toStartOf="@id/link"
-        tools:text="01.06.2024" />
+        android:text="01.06.2024" />
 
     <Button
         android:id="@+id/pickStartDate"
@@ -119,7 +119,7 @@
         android:clickable="false"
         app:layout_constraintStart_toStartOf="@id/startTime"
         app:layout_constraintTop_toBottomOf="@id/startTime"
-        tools:text="05.07.2029" />
+        android:text="05.07.2029" />
 
     <Button
         android:id="@+id/pickFinishDate"

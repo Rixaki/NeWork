@@ -114,11 +114,11 @@ class JobViewModel @AssistedInject constructor(
         _job.value = newJob
     }
 
-    fun changeName(str: String) = _name.postValue(str)
-    fun changePosition(str: String) = _position.postValue(str)
-    fun changeStart(str: String) = _start.postValue(str)
-    fun changeFinish(str: String?) = _finish.postValue(str)
-    fun changeLink(str: String) = _link.postValue(str)
+    fun changeName(str: String) { _name.value = str }
+    fun changePosition(str: String) { _position.value = str }
+    fun changeStart(str: String) { _start.value = str }
+    fun changeFinish(str: String?) { _finish.value = str }
+    fun changeLink(str: String) { _link.value = str }
 
     fun save() {
         val isOld = ((job.value.name == name.value) &&
@@ -136,10 +136,11 @@ class JobViewModel @AssistedInject constructor(
                     name = if (name.value.isNullOrBlank()) job.value.name else name.value!!,
                     position = if (position.value.isNullOrBlank()) job.value.position else position.value!!,
                     start = if (start.value.isNullOrBlank()) job.value.start else start.value!!,
-                    finish = finish.value,
-                    link = link.value
+                    finish = finish.value ?: "",
+                    link = link.value ?: ""
                 )
             )
+            println("names - ${_job.value.name}, ${name.value}")
             _job.value.let { job ->
                 viewModelScope.launch {
                     try {
