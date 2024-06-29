@@ -147,12 +147,22 @@ class EventInFeedViewHolder(
         with(binding) {
             eventGroup.visibility = View.VISIBLE
 
+            val timeText : String = with (event.datetime) {
+                this.take(10) + " " + this.take(16).drop(11) + " UTC"
+            }
+            eventTime.text = timeText
+
+            val yesTextId = R.string.you_participants_in_this_event
+            val noTextId = R.string.your_participation_not_been_noted
+            participantStatus.isSelected = event.participatedByMe
+            participantStatus.setText(if (participantStatus.isSelected) yesTextId else noTextId)
             participantStatus.setOnClickListener {
-                val yesTextId = R.string.you_participants_in_this_event
-                val noTextId = R.string.your_participation_not_been_noted
-                participantStatus.setText(if (event.participatedByMe) noTextId else yesTextId)
+                val startState = binding.participantStatus.isSelected
+                participantStatus.isSelected = !startState
+                participantStatus.setText(if (!startState) yesTextId else noTextId)
                 onIterationEventListener.onParticipantLtn(event)
             }
+
             val isOnline = event.type == EventType.ONLINE
             binding.eventType.isSelected = isOnline
             binding.eventType.setText(if (isOnline)

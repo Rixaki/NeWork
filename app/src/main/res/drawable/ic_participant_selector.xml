@@ -3,10 +3,11 @@
 
     <item
         android:drawable="@drawable/baseline_event_available_48"
-        android:state_checked="true"/>
+        android:state_selected="true"/>
 
     <item
-        android:drawable="@drawable/baseline_event_busy_48"/>
+        android:drawable="@drawable/baseline_event_busy_48"
+        android:state_selected="false"/>
 
 
 </selector>
