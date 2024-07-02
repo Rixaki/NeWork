@@ -55,7 +55,7 @@ class NewOrEditEventFragment : Fragment() {
     private val imageProvider by lazy {
         DrawableImageProvider(requireContext(), R.drawable.baseline_location_pin_48)
     }
-    private var geoposition: PlacemarkMapObject? = null
+    //private var geoposition: PlacemarkMapObject? = null
     /*
     private lateinit var imageProvider: com.yandex.runtime.image.ImageProvider
     private val inputListener = object : InputListener {
@@ -102,6 +102,7 @@ class NewOrEditEventFragment : Fragment() {
         val inputListener = object : InputListener {
             override fun onMapTap(p0: Map, p1: Point) {
                 viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
+                /*
                 if (geoposition == null) {
                     geoposition = p0.mapObjects.addPlacemark().apply {
                         geometry = p1
@@ -114,6 +115,7 @@ class NewOrEditEventFragment : Fragment() {
                         setIcon(imageProvider)
                     }
                 }
+                 */
             }
 
             override fun onMapLongTap(p0: Map, p1: Point) {
@@ -137,13 +139,13 @@ class NewOrEditEventFragment : Fragment() {
         binding.clearLocation.setOnClickListener {
             viewModel.clearCoords()
             //map?.deselectGeoObject()
-            geoposition = null
+            //geoposition = null
         }
         binding.prevLocation.setOnClickListener {
             viewModel.changeCoords(startLocation)
             if (startLocation == null) {
                 //map?.deselectGeoObject()
-                geoposition = null
+                //geoposition = null
                 toast(
                     getString(R.string.there_was_not_previous_location),
                     period = Toast.LENGTH_SHORT
@@ -301,6 +303,7 @@ class NewOrEditEventFragment : Fragment() {
                         Point(lat, long), 17.0f, 150.0f, 30.0f
                     )
                 )
+                map.mapObjects.clear()
                 map.mapObjects.addPlacemark().apply {
                     geometry = Point(lat, long)
                     setIcon(imageProvider)
@@ -312,6 +315,8 @@ class NewOrEditEventFragment : Fragment() {
                         getString(R.string.erroneous_absence_of_map_display),
                         period = Toast.LENGTH_SHORT
                     )
+                } else {
+                    map.mapObjects.clear()
                 }
             }
         }
@@ -410,7 +415,7 @@ class NewOrEditEventFragment : Fragment() {
 
         binding.save.setOnClickListener {
             val text = binding.content.text.toString()
-            if (text.isBlank()) {
+            if (text.isNullOrBlank()) {
                 dialogMsg = getString(R.string.newAndEdit_toast_empty)
                 errorDialog.show()
                 return@setOnClickListener

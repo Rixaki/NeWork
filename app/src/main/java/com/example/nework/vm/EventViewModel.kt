@@ -150,8 +150,9 @@ class EventViewModel @Inject constructor(
     fun checkNewer() {
         viewModelScope.launch(Dispatchers.Default) {
             try {
-                _newerCount.postValue ( repository.getNewerCount(remoteKeyDao.max()!!)
-                    .asLiveData(Dispatchers.Default).value )
+                val max = remoteKeyDao.max() ?: return@launch
+                _newerCount.postValue (repository.getNewerCount(max)
+                    .asLiveData(Dispatchers.Default).value)
             } catch (e: Exception) {
                 _newerCount.postValue ( 0 )
             }

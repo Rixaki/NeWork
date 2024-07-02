@@ -81,7 +81,6 @@ class MainActivity : AppCompatActivity() {
         MapKitFactory.getInstance().onStart()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -112,26 +111,24 @@ class MainActivity : AppCompatActivity() {
         val navBottomView: NavigationBarView = binding.bottomNavigation
         navBottomView.setupWithNavController(navController)
         //println("ID: ${authModel.userId}")
+
+        //avatar icon in BottomNavigationView (draft)
+        //https://habr.com/ru/articles/697578/
+        authModel.data.asLiveData(Dispatchers.Default).observe(this) { authState ->
+            val profileItem = navBottomView.menu.findItem(R.id.my_profile)
+            profileItem.isVisible = authModel.authenticated
+
+            Glide.with(this)
+                .asBitmap()
+                .load(authState.avatarUrl)
+                .placeholder(R.drawable.baseline_account_circle_48)
+                .apply(RequestOptions.circleCropTransform())
+                .into(MenuItemTarget(this, profileItem))
+        }
+
         if (authModel.authenticated) {
             with(navBottomView.menu.findItem(R.id.my_profile)) {
                 this.isVisible = true
-
-                //avatar icon in BottomNavigationView (draft)
-                //https://habr.com/ru/articles/697578/
-                lifecycleScope.launch(Dispatchers.Default) {
-                    //supervisorScope { //is it mem-leakable?
-                        Glide.with(this@MainActivity)
-                            .asBitmap()
-                            .load(authModel.data.asLiveData(Dispatchers.Default)
-                                .value?.avatarUrl ?: "404")
-                            .placeholder(R.drawable.baseline_account_circle_48)
-                            .error(R.drawable.baseline_account_circle_48)
-                            .apply(
-                                RequestOptions.circleCropTransform()
-                            )
-                            .into(MenuItemTarget(this@MainActivity, this@with))
-                    //}
-                }
             }
         }
         navBottomView.setOnItemSelectedListener { item ->

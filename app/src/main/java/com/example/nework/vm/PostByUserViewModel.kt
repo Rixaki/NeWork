@@ -9,11 +9,9 @@ import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
 import com.example.nework.auth.AppAuth
-import com.example.nework.dao.PostRemoteKeyDao
 import com.example.nework.dto.FeedItem
 import com.example.nework.dto.Post
 import com.example.nework.repo.PostRepo
-import com.example.nework.repo.PostRepoImpl
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -21,7 +19,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 private val empty = Post(
     id = 0,

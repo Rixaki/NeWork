@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -184,6 +185,9 @@ class PostsFeedFragment : Fragment() {
             binding.statusText.isVisible = state.loading
             binding.errorGroup.isVisible = state.error
         }
+        binding.retry.setOnClickListener {
+            adapter.retry()
+        }
 
         //NEWER BUTTON
         binding.freshPosts.visibility = View.GONE
@@ -194,10 +198,18 @@ class PostsFeedFragment : Fragment() {
             }
         }
         viewModel.newerCount.observe(viewLifecycleOwner) { count ->
-            binding.freshPosts.text =
-                getString(R.string.fresh_posts, countToString(count))
-            binding.freshPosts.visibility =
-                if (count == 0) View.GONE else View.VISIBLE
+            try { //this throwable
+                binding.freshPosts.text =
+                    getString(R.string.fresh_posts, countToString(count))
+                val paddingTopPixels = if (count != 0) {
+                    getResources().getDimensionPixelOffset(R.dimen.paddingListTop)
+                } else 0
+                binding.list.updatePadding(top = paddingTopPixels)
+                binding.freshPosts.visibility =
+                    if (count == 0) View.GONE else View.VISIBLE
+            } catch (e: Exception) {
+                binding.freshPosts.visibility = View.GONE
+            }
         }
 
         binding.swiperefresh.setOnRefreshListener(adapter::refresh)

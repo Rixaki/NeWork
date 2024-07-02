@@ -123,5 +123,9 @@
     <string name="take_work_finish_date_to_present">Take work finish date to present.</string>
     <string name="set_day">Set day</string>
     <string name="set_day_to_present">Set day/to present</string>
+    <string name="require_value_s_in_job_was_were_not_defined">Require value(s) in job was(were) NOT defined.</string>
+    <string name="company_name_must_not_be_empty">Company name must NOT be empty.</string>
+    <string name="position_name_must_not_be_empty">Position name must NOT be empty.</string>
+    <string name="start_date_must_be_defined">Start date must be defined.</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

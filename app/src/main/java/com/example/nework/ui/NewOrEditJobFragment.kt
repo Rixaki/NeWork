@@ -18,6 +18,7 @@ import com.example.nework.vm.JobViewModel
 import com.example.nework.vm.JobViewModelFactory
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +62,17 @@ class NewOrEditJobFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        var dialogMsg : String = getString(R.string.require_value_s_in_job_was_were_not_defined)
+        val errorDialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.fix_is_needs))
+            .setMessage(dialogMsg)
+            .setIcon(R.drawable.baseline_auto_fix_high_48)
+            .setNegativeButton(getString(R.string.continue_to_fix), null)
+            .setPositiveButton(getString(R.string.exit_without_fix)) { _, _ ->
+                viewModel.cancelEdit()
+                findNavController().navigateUp()
+            }
+
         val binding = FragmentNewOrEditJobBinding.inflate(inflater, container, false)
 
         val jobEdited = viewModel.job.value
@@ -151,9 +163,27 @@ class NewOrEditJobFragment : Fragment() {
         //END TIME SETTING ZONE
 
         binding.save.setOnClickListener {
-            viewModel.changeName(binding.companyName.text.toString())
-            viewModel.changePosition(binding.position.text.toString())
-            viewModel.changeLink(binding.link.text.toString())
+            val company = binding.companyName.text.toString()
+            val position = binding.position.text.toString()
+            val link = binding.link.text.toString()
+            if (company.isNullOrBlank()){
+                dialogMsg = getString(R.string.company_name_must_not_be_empty)
+                errorDialog.show()
+                return@setOnClickListener
+            }
+            if (position.isNullOrBlank()){
+                dialogMsg = getString(R.string.position_name_must_not_be_empty)
+                errorDialog.show()
+                return@setOnClickListener
+            }
+            if (binding.startTime.text == getString(R.string.set_day)){
+                dialogMsg = getString(R.string.start_date_must_be_defined)
+                errorDialog.show()
+                return@setOnClickListener
+            }
+            viewModel.changeName(company)
+            viewModel.changePosition(position)
+            viewModel.changeLink(link)
             viewModel.save()
         }
         viewModel.JobCreated.observe(viewLifecycleOwner) {
@@ -163,7 +193,7 @@ class NewOrEditJobFragment : Fragment() {
         }
 
         binding.cancel.setOnClickListener {
-            viewModel.cancel()
+            viewModel.cancelEdit()
         }
         viewModel.JobCanceled.observe(viewLifecycleOwner) {
             AndroidUtils.hideKeyBoard(requireView())
