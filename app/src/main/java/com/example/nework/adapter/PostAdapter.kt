@@ -45,11 +45,23 @@ class PostAdapter(
 ) : PagingDataAdapter<FeedItem, RecyclerView.ViewHolder>(ItemDiffPostCallBack) {
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is Ad -> R.layout.card_ad
-            is TimeHeader -> R.layout.card_time_header
-            is Post -> R.layout.item_in_feed_post_or_event
-            null -> error("unknown item type")
-            else -> error("unknown item type")
+            is Ad -> {
+                //println("pos $position type Ad")
+                R.layout.card_ad
+            }
+            is TimeHeader -> {
+                //println("pos $position type TimeHeader")
+                R.layout.card_time_header
+            }
+            is Post -> {
+                //println("pos $position type Post")
+                R.layout.item_in_feed_post_or_event
+            }
+            //null -> error("unknown item type")
+            else -> {
+                //println("pos $position type Error")
+                error("unknown item type")
+            }
         }
     }
 
@@ -108,7 +120,11 @@ class PostAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(ad: Ad) {
             binding.apply {
-                image.load("${BuildConfig.BASE_URL}/media/${ad.image}")
+                image.load(
+                    url = "${BuildConfig.BASE_URL}/media/${ad.image}",
+                    placeholderIndex = R.drawable.ad_placemarker_48,
+                    errorIndex = R.drawable.ad_placemarker_48
+                )
             }
         }
     }
@@ -130,13 +146,24 @@ class PostAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PostInFeedViewHolder {
-        val view = ItemInFeedPostOrEventBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return PostInFeedViewHolder(view, onIterationPostListener)
+    //): PostInFeedViewHolder {
+    ): RecyclerView.ViewHolder = when (viewType) {
+        R.layout.card_ad -> {
+            val view = CardAdBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            AdViewHolder(view)
+        }
+        R.layout.card_time_header -> {
+            val view = CardTimeHeaderBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            TimeHeaderViewHolder(view)
+        }
+        R.layout.item_in_feed_post_or_event -> {
+            val view = ItemInFeedPostOrEventBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            PostInFeedViewHolder(view, onIterationPostListener)
+        }
+        else -> error("unknown item type: $viewType")
     }
 
 

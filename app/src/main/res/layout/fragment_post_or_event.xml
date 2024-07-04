@@ -13,6 +13,15 @@
         android:padding="@dimen/defaultMargin"
         tools:context=".activity.AppActivity">
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/publishedTime" />
+
         <ImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/avatarDimen"
@@ -136,6 +145,7 @@
             android:id="@+id/participantStatus"
             style="@style/Widget.AppTheme.ParticipantButton"
             android:layout_height="wrap_content"
+            android:layout_width="0dp"
             android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
             app:icon="@drawable/ic_participant_selector"
             android:singleLine="true"

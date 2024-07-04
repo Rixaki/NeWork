@@ -62,6 +62,7 @@
     <string name="error_with_creating_map">Error with creating map.</string>
     <string name="error_with_list_user_display">Error with list user display.</string>
     <string name="position">Map point to save: %1$s / %2$s</string>
+    <string name="show_position">Map point: %1$s / %2$s</string>
     <string name="you_participants_in_this_event">You participants in this event.</string>
     <string name="job_menu">Job menu</string>
     <string name="sign_in_for_sending_post">Sign In for sending post.</string>

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -29,6 +30,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 import ru.netology.nmedia.util.LongArg
+import ru.netology.nmedia.util.toast
 
 @AndroidEntryPoint
 class PostFragment : Fragment() {
@@ -114,11 +116,20 @@ class PostFragment : Fragment() {
             }
         })// val viewHolder
 
-        val post = viewModel.getPostById(id)
-        if (post.published == "") { //null value
-            findNavController().navigateUp()
-        } else {
-            viewHolder.bind(post)
+        with (viewModel) {
+            getPostById(id)
+            state.observe(viewLifecycleOwner) { state ->
+                binding.progress.isVisible = state.loading
+            }
+            cardPost.observe(viewLifecycleOwner) { post ->
+                if (state.value?.error == true) { //null value
+                    findNavController().navigateUp()
+                    toast(state.value!!.lastErrorAction)
+                }
+                if (cardPost.value?.id == id) {
+                    viewHolder.bind(post)
+                }
+            }
         }
 
         val startForProfileImageResult =

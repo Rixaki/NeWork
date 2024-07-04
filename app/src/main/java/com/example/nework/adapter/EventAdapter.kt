@@ -6,12 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.example.nework.BuildConfig
@@ -25,7 +22,6 @@ import com.example.nework.dto.Ad
 import com.example.nework.dto.Event
 import com.example.nework.dto.EventType
 import com.example.nework.dto.FeedItem
-import com.example.nework.dto.Post
 import com.example.nework.dto.TimeHeader
 import com.example.nework.dto.TimeType
 import com.example.nework.ui.MapDialogFragment
@@ -57,7 +53,6 @@ class EventAdapter(
             is Ad -> R.layout.card_ad
             is TimeHeader -> R.layout.card_time_header
             is Event -> R.layout.item_in_feed_post_or_event
-            null -> error("unknown item type")
             else -> error("unknown item type")
         }
     }
@@ -107,7 +102,11 @@ class EventAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(ad: Ad) {
             binding.apply {
-                image.load("${BuildConfig.BASE_URL}/media/${ad.image}")
+                image.load(
+                    url = "${BuildConfig.BASE_URL}/media/${ad.image}",
+                    placeholderIndex = R.drawable.ad_placemarker_48,
+                    errorIndex = R.drawable.ad_placemarker_48
+                )
             }
         }
     }
@@ -129,14 +128,26 @@ class EventAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): EventInFeedViewHolder {
-        val view = ItemInFeedPostOrEventBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return EventInFeedViewHolder(view, onIterationEventListener)
+        //): EventInFeedViewHolder {
+    ): RecyclerView.ViewHolder = when (viewType) {
+        R.layout.card_ad -> {
+            val view = CardAdBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            AdViewHolder(view)
+        }
+        R.layout.card_time_header -> {
+            val view = CardTimeHeaderBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            TimeHeaderViewHolder(view)
+        }
+        R.layout.item_in_feed_post_or_event -> {
+            val view = ItemInFeedPostOrEventBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
+            EventInFeedViewHolder(view, onIterationEventListener)
+        }
+        else -> error("unknown item type: $viewType")
     }
+
 }
 
 class EventInFeedViewHolder(
@@ -187,7 +198,7 @@ class EventInFeedViewHolder(
 
             mapPoint.visibility = if (event.coords == null) View.GONE else View.VISIBLE
             mapPoint.setOnClickListener {
-                MapDialogFragment(event.coords?.lat, event.coords?.long)
+                MapDialogFragment(event.coords?.lat ?: 0.0, event.coords?.long ?: 0.0)
             }
 
             if (event.attachment != null) {

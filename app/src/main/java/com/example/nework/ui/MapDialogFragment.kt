@@ -21,8 +21,8 @@ import ru.netology.nmedia.util.toast
 //https://yandex.ru/dev/mapkit/doc/ru/android/generated/getting_started
 @AndroidEntryPoint
 class MapDialogFragment(
-    private val lat: Double?,
-    private val long: Double?
+    private val lat: Double,
+    private val long: Double
 ) : DialogFragment() {
 
     private var _mapView: MapView? = null
@@ -56,7 +56,7 @@ class MapDialogFragment(
 
         val okButton = dialog.findViewById<Button>(R.id.okButton)
         okButton.setOnClickListener {
-            this@MapDialogFragment.onDestroy()
+            this@MapDialogFragment.dismissNow()
         }
 
         setUpMap(lat, long)
@@ -65,14 +65,14 @@ class MapDialogFragment(
     }
 
     private fun setUpMap(
-        lat: Double?,
-        long: Double?,
+        lat: Double,
+        long: Double,
         zoom: Float = 17.0f,
         azimut: Float = 150.0f,
         tilt: Float = 30.0f
     ) {
         val map = _mapView?.mapWindow?.map
-        if (map != null && lat != null && long != null) {
+        if (map != null) {
             map.move(
                 CameraPosition(
                     Point(lat, long),
@@ -86,7 +86,7 @@ class MapDialogFragment(
             try {
                 _boardView!!.setText(
                     getString(
-                        R.string.position,
+                        R.string.show_position,
                         "%.4f".format(lat),
                         "%.4f".format(long)
                     )

@@ -20,6 +20,7 @@ import com.example.nework.dto.MediaUpload
 import com.example.nework.dto.Post
 import com.example.nework.model.FeedModelState
 import com.example.nework.model.PhotoModel
+import com.example.nework.model.ResponceState
 import com.example.nework.repo.PostRepo
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -51,6 +52,7 @@ private val empty = Post(
 
 private val noPhoto = PhotoModel()
 private val noList = emptyList<Long>()
+private val noState = FeedModelState()
 
 @HiltViewModel(assistedFactory = PostViewModelFactory::class)
 @SuppressLint("CheckResult")//suppression warning
@@ -81,23 +83,15 @@ class PostViewModel @AssistedInject constructor(
             }
         }
 
-    fun getPostById(id: Long): Post {
-        var result = empty
-        cached.map { pagingData ->
-            result = pagingData.filter { it is Post }.filter { post -> post.id == id } as Post
-        }
-        return result
-    }
-
-    private val _state = MutableLiveData<FeedModelState>()
+    private val _state = MutableLiveData<FeedModelState>(noState)
     val state: LiveData<FeedModelState>
         get() = _state
 
-    private val _coords = MutableLiveData<Coords?>()
+    private val _coords = MutableLiveData<Coords?>(null)
     val coords: LiveData<Coords?>
         get() = _coords
 
-    private val _list = MutableLiveData<List<Long>>()
+    private val _list = MutableLiveData<List<Long>>(noList)
     val list: LiveData<List<Long>>
         get() = _list
 
@@ -111,7 +105,33 @@ class PostViewModel @AssistedInject constructor(
     val postCancelled: LiveData<Unit>
         get() = _postCancelled
 
-    private val _newerCount = MutableLiveData<Int>()
+    //______________________________________________
+    //FOR CARD PAGE
+    private val _cardPost = MutableLiveData(empty)
+    val cardPost: LiveData<Post>
+        get() = _cardPost
+
+    val authenticated: Boolean
+        get() = appAuth.authState.value.id != 0L
+
+    fun getPostById(id: Long) {
+        _state.postValue(FeedModelState(loading = true))
+        val post = repository.getPostById(id)?.copy(ownedByMe = authenticated)
+        if (post != null) {
+            _state.postValue(noState)
+            _cardPost.postValue(post)
+        } else {
+            _state.postValue(
+                FeedModelState(
+                    error = true,
+                    lastErrorAction = "No response from post-repository with id $id."
+                )
+            )
+        }
+    }
+    //______________________________________________
+
+    private val _newerCount = MutableLiveData<Int>(0)
     val newerCount: LiveData<Int>
         get() = _newerCount
 

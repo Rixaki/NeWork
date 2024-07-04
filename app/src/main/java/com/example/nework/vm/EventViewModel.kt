@@ -60,6 +60,7 @@ private val empty = Event(
 private val noPhoto = PhotoModel()
 private val noList = emptyList<Long>()
 private val noTime = ""
+private val noState = FeedModelState()
 
 //@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
@@ -142,6 +143,32 @@ class EventViewModel @Inject constructor(
     private val _eventCancelled = SingleLiveEvent<Unit>()
     val eventCancelled: LiveData<Unit>
         get() = _eventCancelled
+
+    //______________________________________________
+    //FOR CARD PAGE
+    private val _cardEvent = MutableLiveData(empty)
+    val cardEvent: LiveData<Event>
+        get() = _cardEvent
+
+    val authenticated: Boolean
+        get() = appAuth.authState.value.id != 0L
+
+    fun getPostById(id: Long) {
+        _state.postValue(FeedModelState(loading = true))
+        val post = repository.getEventById(id)?.copy(ownedByMe = authenticated)
+        if (post != null) {
+            _state.postValue(noState)
+            _cardEvent.postValue(post)
+        } else {
+            _state.postValue(
+                FeedModelState(
+                    error = true,
+                    lastErrorAction = "No response from post-repository with id $id."
+                )
+            )
+        }
+    }
+    //______________________________________________
 
     private val _newerCount = MutableLiveData<Int>()
     val newerCount: LiveData<Int>

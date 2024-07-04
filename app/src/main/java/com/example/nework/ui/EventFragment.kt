@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -28,6 +29,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.util.LongArg
+import ru.netology.nmedia.util.toast
 
 @AndroidEntryPoint
 class EventFragment : Fragment() {
@@ -126,16 +128,25 @@ class EventFragment : Fragment() {
             }
         })// val viewHolder
 
-        val event = viewModel.getEventById(id)
-        if (event.published == "") {
-            findNavController().navigateUp()
-        } else {
-            viewHolder.bind(event)
+        with (viewModel) {
+            getPostById(id)
+            state.observe(viewLifecycleOwner) { state ->
+                binding.progress.isVisible = state.loading
+            }
+            cardEvent.observe(viewLifecycleOwner) { event ->
+                if (state.value?.error == true) { //null value
+                    toast(state.value!!.lastErrorAction)
+                    findNavController().navigateUp()
+                }
+                if (cardEvent.value?.id == id) {
+                    viewHolder.bind(event)
+                }
+                val isOnline = event.type == EventType.ONLINE
+                binding.eventType.isSelected = isOnline
+                binding.eventType.text = "  " + if (isOnline)
+                    getString(R.string.online) else getString(R.string.offline)
+            }
         }
-        val isOnline = event.type == EventType.ONLINE
-        binding.eventType.isSelected = isOnline
-        binding.eventType.text = "  " + if (isOnline)
-            getString(R.string.online) else getString(R.string.offline)
 
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
