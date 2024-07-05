@@ -2,18 +2,16 @@ package com.example.nework.ui
 
 import android.content.IntentFilter
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -22,8 +20,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.transition.Transition
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.CustomTarget
 import com.example.nework.BuildConfig
 import com.example.nework.R
 import com.example.nework.auth.AppAuth
@@ -38,10 +38,9 @@ import com.yandex.mapkit.MapKitFactory
 import com.yandex.runtime.connectivity.internal.ConnectivitySubscription
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -110,7 +109,6 @@ class MainActivity : AppCompatActivity() {
 
         val navBottomView: NavigationBarView = binding.bottomNavigation
         navBottomView.setupWithNavController(navController)
-        //println("ID: ${authModel.userId}")
 
         //avatar icon in BottomNavigationView (draft)
         //https://habr.com/ru/articles/697578/
@@ -118,12 +116,18 @@ class MainActivity : AppCompatActivity() {
             val profileItem = navBottomView.menu.findItem(R.id.my_profile)
             profileItem.isVisible = authModel.authenticated
 
-            Glide.with(this)
+            /*
+            override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+                return super.onPrepareOptionsMenu(menu)
+            }
+             */
+
+            Glide.with(this@MainActivity)
                 .asBitmap()
                 .load(authState.avatarUrl)
                 .placeholder(R.drawable.baseline_account_circle_48)
                 .apply(RequestOptions.circleCropTransform())
-                .into(MenuItemTarget(this, profileItem))
+                .into(MenuItemTarget(this@MainActivity, profileItem))
         }
 
         if (authModel.authenticated) {

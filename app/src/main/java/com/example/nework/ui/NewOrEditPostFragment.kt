@@ -87,10 +87,13 @@ class NewOrEditPostFragment : Fragment() {
             override fun onMapTap(p0: Map, p1: Point) {
                 //println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
                 viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
+                /*
+                p0.mapObjects.clear()
                 p0.mapObjects.addPlacemark().apply {
                     geometry = p1
                     setIcon(imageProvider)
                 }
+                 */
             }
 
             override fun onMapLongTap(p0: Map, p1: Point) {
@@ -195,6 +198,7 @@ class NewOrEditPostFragment : Fragment() {
                         Point(lat, long), 17.0f, 150.0f, 30.0f
                     )
                 )
+                map.mapObjects.clear()
                 map.mapObjects.addPlacemark().apply {
                     geometry = Point(lat, long)
                     setIcon(imageProvider)

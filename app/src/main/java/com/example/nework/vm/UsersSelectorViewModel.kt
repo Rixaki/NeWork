@@ -75,7 +75,7 @@ class UsersSelectorViewModel @Inject constructor(
                     ),
                     isPicked = ids.contains(it.id)
                 )
-            }
+            } ?: empty
             _list.postValue(result)
         }
     }
