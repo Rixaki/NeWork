@@ -89,7 +89,19 @@ class NewOrEditJobFragment : Fragment() {
         } else {
             Date().time
         }
-        val finishDate = (jobEdited.finish?.let { DATE_FORMAT_JOB.parse(it) })?.time ?: 0L
+        /*
+        val finishDate : Long = try {
+            (jobEdited.finish?.let { DATE_FORMAT_JOB.parse(it) })?.time ?: 0L
+        } catch ( _: Exception) {
+          0L
+        }
+         */
+        val finishDate = if (jobEdited.finish.isNullOrBlank()) {
+            Date().time
+        } else {
+            //println("finish time: ${jobEdited.finish}")
+            (DATE_FORMAT_JOB.parse(jobEdited.start))!!.time
+        }
         /*
         try {
             startDate = (DATE_FORMAT.parse(jobEdited.start))!!.time

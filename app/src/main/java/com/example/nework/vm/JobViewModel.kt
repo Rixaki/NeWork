@@ -20,10 +20,10 @@ import javax.inject.Inject
 
 private val empty = Job(
     id = 0,
-    link = "null",
+    link = "",
     name = "",
     position = "",
-    finish = "null"
+    finish = ""
 )
 
 private val noState = ResponceState()
@@ -137,8 +137,8 @@ class JobViewModel @AssistedInject constructor(
                     name = if (name.value.isNullOrBlank()) job.value.name else name.value!!,
                     position = if (position.value.isNullOrBlank()) job.value.position else position.value!!,
                     start = if (start.value.isNullOrBlank()) job.value.start else start.value!!,
-                    finish = finish.value ?: "null",
-                    link = link.value ?: "null"
+                    finish = if (finish.value.isNullOrBlank()) "null" else finish.value,
+                    link = if (link.value.isNullOrBlank()) "null" else link.value
                 )
             )
             //println("names - ${_job.value.name}, ${name.value}")
