@@ -8,6 +8,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.transition.Transition
 import com.bumptech.glide.request.target.CustomTarget
 
+//draft (avatar logo in bottom nav menu)
 internal class MenuItemTarget(
     private val context: Context,
     private val menuItem: MenuItem

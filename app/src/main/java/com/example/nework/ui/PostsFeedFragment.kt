@@ -181,12 +181,20 @@ class PostsFeedFragment : Fragment() {
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
-            binding.progress.isVisible = state.loading
-            binding.statusText.isVisible = state.loading
-            binding.errorGroup.isVisible = state.error
+            with (binding) {
+                progress.isVisible = state.loading
+                statusText.isVisible = state.loading
+                errorGroup.isVisible = state.error
+                errorText.text = getString(R.string.something_went_wrong) + " \n" +
+                        state.lastErrorAction
+            }
         }
         binding.retry.setOnClickListener {
             adapter.retry()
+            binding.errorGroup.isVisible = false
+            if (viewModel.state.value?.error == true) {
+                toast(viewModel.state.value?.lastErrorAction ?: getString(R.string.something_went_wrong))
+            }
         }
 
         //NEWER BUTTON

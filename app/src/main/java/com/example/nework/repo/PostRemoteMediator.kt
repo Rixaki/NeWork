@@ -64,7 +64,7 @@ class PostRemoteMediator(
 
                     val lastId = keyDao.max()
                         ?: return MediatorResult.Success(false)
-                    println("lastId $lastId")
+                    //println("lastId $lastId")
                     service.getAfterPost(
                         lastId,
                         state.config.pageSize

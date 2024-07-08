@@ -32,12 +32,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/white_screen"
+            android:layout_width="match_parent"
+            app:cornerRadius="0dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:translationZ="1dp"
+            android:elevation="1dp"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
         <TextView
             android:id="@+id/empty_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_posts"
             android:visibility="gone"
+            android:translationZ="1dp"
+            android:elevation="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,17 +65,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/something_went_wrong"
+            android:translationZ="1dp"
+            android:elevation="1dp"
+            android:textAlignment="center"
             app:layout_constraintBottom_toTopOf="@id/retry"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/retry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retry"
+            android:translationZ="2dp"
+            android:elevation="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,23 +91,25 @@
             android:id="@+id/error_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="retry, error_text" />
+            android:translationZ="1dp"
+            android:elevation="1dp"
+            android:visibility="visible"
+            app:constraint_referenced_ids="retry, error_text, white_screen" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="45dp">
+            tools:layout_editor_absoluteY="16dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/zeroDimen"
                 android:layout_alignParentTop="true"
+                android:translationZ="-1dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
