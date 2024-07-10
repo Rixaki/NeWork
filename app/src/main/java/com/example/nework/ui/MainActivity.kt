@@ -108,6 +108,7 @@ class MainActivity : AppCompatActivity() {
          */
 
         val navBottomView: NavigationBarView = binding.bottomNavigation
+        navBottomView.itemIconTintList = null //for none-grey icon
         navBottomView.setupWithNavController(navController)
 
         //avatar icon in BottomNavigationView (draft)
@@ -116,18 +117,22 @@ class MainActivity : AppCompatActivity() {
             val profileItem = navBottomView.menu.findItem(R.id.my_profile)
             profileItem.isVisible = authModel.authenticated
 
-            /*
-            override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-                return super.onPrepareOptionsMenu(menu)
-            }
-             */
+            println("avatar to bottom bar: ${authState.avatarUrl}")
+            //println("user id: ${authModel.data.asLiveData().value?.id}")
 
             Glide.with(this@MainActivity)
                 .asBitmap()
                 .load(authState.avatarUrl)
                 .placeholder(R.drawable.baseline_account_circle_48)
                 .apply(RequestOptions.circleCropTransform())
-                .into(MenuItemTarget(this@MainActivity, profileItem))
+                .into(
+                    MenuItemTarget(
+                        context = this@MainActivity,
+                        menuItem = profileItem,
+                        width = navBottomView.itemIconSize,
+                        height = navBottomView.itemIconSize,
+                    )
+                )
         }
 
         if (authModel.authenticated) {

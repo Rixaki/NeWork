@@ -29,6 +29,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -139,8 +140,8 @@ class PostViewModel @AssistedInject constructor(
         viewModelScope.launch(Dispatchers.Default) {
             try {
                 val max = remoteKeyDao.max() ?: return@launch
-                _newerCount.postValue(repository.getNewerCount(max)
-                    .asLiveData(Dispatchers.Default).value)
+                val newerCount = repository.getNewerCount(max).firstOrNull() ?: return@launch
+                _newerCount.postValue(newerCount)
             } catch (e: Exception) {
                 _newerCount.postValue(0)
             }

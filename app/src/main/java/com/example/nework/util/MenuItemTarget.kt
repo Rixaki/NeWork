@@ -11,8 +11,10 @@ import com.bumptech.glide.request.target.CustomTarget
 //draft (avatar logo in bottom nav menu)
 internal class MenuItemTarget(
     private val context: Context,
-    private val menuItem: MenuItem
-) : CustomTarget<Bitmap>() {
+    private val menuItem: MenuItem,
+    width: Int,
+    height: Int,
+) : CustomTarget<Bitmap>(width, height) {
     override fun onResourceReady(
         resource: Bitmap,
         transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?

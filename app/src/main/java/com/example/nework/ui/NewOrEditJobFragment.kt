@@ -12,22 +12,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditJobBinding
 import com.example.nework.dto.DATE_FORMAT
-import com.example.nework.dto.DATE_FORMAT_JOB
 import com.example.nework.ui.UserFragment.Companion.USER_ID
 import com.example.nework.vm.JobViewModel
 import com.example.nework.vm.JobViewModelFactory
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import kotlinx.coroutines.Dispatchers
 import ru.netology.nmedia.util.AndroidUtils
 import ru.netology.nmedia.util.toast
-import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
-import java.util.TimeZone
 
 @AndroidEntryPoint
 class NewOrEditJobFragment : Fragment() {
@@ -54,7 +48,7 @@ class NewOrEditJobFragment : Fragment() {
     )
 
     @SuppressLint("SimpleDateFormat")
-    private val formatter = DATE_FORMAT_JOB
+    private val formatter = DATE_FORMAT
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -85,7 +79,7 @@ class NewOrEditJobFragment : Fragment() {
         //TIME SETTING ZONE
         //default listener in MaterialDatePicker = dismiss()
         val startDate = if (jobEdited.start.isNotBlank()) {
-            (DATE_FORMAT_JOB.parse(jobEdited.start))!!.time
+            (DATE_FORMAT.parse(jobEdited.start))!!.time
         } else {
             Date().time
         }
@@ -100,7 +94,7 @@ class NewOrEditJobFragment : Fragment() {
             Date().time
         } else {
             //println("finish time: ${jobEdited.finish}")
-            (DATE_FORMAT_JOB.parse(jobEdited.start))!!.time
+            (DATE_FORMAT.parse(jobEdited.start))!!.time
         }
         /*
         try {
@@ -147,12 +141,12 @@ class NewOrEditJobFragment : Fragment() {
         }
         viewModel.start.observe(viewLifecycleOwner){
             if (isResumed) {
-                binding.startTime.setText(viewModel.start.value)
+                binding.startTime.setText(viewModel.start.value?.take(10))
             }
         }
         viewModel.finish.observe(viewLifecycleOwner){
             if (isResumed) {
-                binding.finishTime.setText(viewModel.finish.value ?: "to present")
+                binding.finishTime.setText(viewModel.finish.value?.take(10) ?: "to present")
             }
         }
         binding.pickStartDate.setOnClickListener {

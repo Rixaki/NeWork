@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.SingleLiveEvent
-import javax.inject.Inject
 
 private val empty = Job(
     id = 0,
@@ -137,8 +136,8 @@ class JobViewModel @AssistedInject constructor(
                     name = if (name.value.isNullOrBlank()) job.value.name else name.value!!,
                     position = if (position.value.isNullOrBlank()) job.value.position else position.value!!,
                     start = if (start.value.isNullOrBlank()) job.value.start else start.value!!,
-                    finish = if (finish.value.isNullOrBlank()) "null" else finish.value,
-                    link = if (link.value.isNullOrBlank()) "null" else link.value
+                    finish = if (finish.value.isNullOrBlank()) null else finish.value,
+                    link = if (link.value.isNullOrBlank()) null else link.value,
                 )
             )
             //println("names - ${_job.value.name}, ${name.value}")
@@ -156,7 +155,7 @@ class JobViewModel @AssistedInject constructor(
                         if (response.body() == null) {
                             _state.value = ResponceState(
                                 error = true,
-                                lastErrorAction = "Responce job is null."
+                                lastErrorAction = "Response job is null."
                             )
                         } else {
                             //responce is ok
