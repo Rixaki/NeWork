@@ -120,13 +120,7 @@ class MyProfileFragment : Fragment() {
         val myId = authModel.userId
 
         if ((authModel.authenticated) && (myId != null) && (myId != 0L)) {
-            /*
-            val user = try {
-                userModel.getUserById(myId)
-            } catch (_: Exception) {
-                User(id=0, name = "", login = "", avatar = "404")//for none throwable
-            }
-             */
+            println("My ID: $myId")
             userModel.setUserById(myId)
 
             userModel.state.asLiveData(Dispatchers.Default).observe(viewLifecycleOwner){ state ->
@@ -254,11 +248,13 @@ class MyProfileFragment : Fragment() {
                     jobModel.removeById(job.id)
                 }
             })//job_adapter
+            binding.listJob.adapter = jobAdapter
 
             binding.nameAndLogin.text = "... loading user (id ${authModel.userId})"
             userModel.user.observe(viewLifecycleOwner) {
                 val user = userModel.user.value
                 with(binding) {
+                    println("avatar to myprofile: ${user?.avatar}")
                     avatar.loadAvatar(user?.avatar ?: "404")
                     nameAndLogin.text = "${user?.name} / ${user?.login}"
                 }

@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.core.view.setPadding
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -77,7 +76,28 @@ class EventsFeedFragment : Fragment() {
 
             override fun onParticipantLtn(event: Event) {
                 if (authModel.authenticated) {
-                    viewModel.takePartById(event.id)
+                    if (event.participatedByMe) {
+                        toast( message = getString(
+                                R.string.trying_to_out_participating,
+                                event.author
+                            ),
+                            period = Toast.LENGTH_SHORT
+                        )
+                        toast(
+                            message = getString(R.string.wait_change_status_or_error_message),
+                            period = Toast.LENGTH_SHORT
+                        )
+                    } else {
+                        toast(
+                            message = getString(R.string.trying_to_in_participating, event.author),
+                            period = Toast.LENGTH_SHORT
+                        )
+                        toast(
+                            message = getString(R.string.wait_change_status_or_error_message),
+                            period = Toast.LENGTH_SHORT
+                        )
+                    }
+                    viewModel.takePartById(event.id)//part and out in 1
                 } else {
                     MaterialAlertDialogBuilder(requireContext())
                         .setTitle(getString(R.string.action_not_yet_available))

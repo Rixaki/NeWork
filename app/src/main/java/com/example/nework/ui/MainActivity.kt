@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
             val profileItem = navBottomView.menu.findItem(R.id.my_profile)
             profileItem.isVisible = authModel.authenticated
 
-            println("avatar to bottom bar: ${authState.avatarUrl}")
+            //println("avatar to bottom bar: ${authState.avatarUrl}")
             //println("user id: ${authModel.data.asLiveData().value?.id}")
 
             Glide.with(this@MainActivity)

@@ -128,5 +128,8 @@
     <string name="company_name_must_not_be_empty">Company name must NOT be empty.</string>
     <string name="position_name_must_not_be_empty">Position name must NOT be empty.</string>
     <string name="start_date_must_be_defined">Start date must be defined.</string>
+    <string name="trying_to_out_participating">Trying to out from participating in event by %1$s...</string>
+    <string name="trying_to_in_participating">Trying to participating in event by %1$s...</string>
+    <string name="wait_change_status_or_error_message">...wait change status or error message...</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nework.api.AppApi
 import com.example.nework.dao.UserDao
 import com.example.nework.dto.User
+import com.example.nework.entity.UserEntity
 import com.example.nework.model.ResponceState
 import com.example.nework.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,16 +35,30 @@ class UserViewModel @Inject constructor(
     fun setUserById(id: Long) {
         viewModelScope.launch {
             try {
-                _user.postValue(userRepo.getUserById(id))
+                val response = appApi.getUserById(id)
+                val user = response.body()
+                _user.postValue(user)
+                if (user != null) {userDao.insert(UserEntity.fromDto(user))}
+                //println("user info api: ${user?.id}, ${user?.name}, ${user?.login}, ${user?.avatar}")
             } catch (_: Exception) {
                 try {
-                    val response = appApi.getUserById(id)
-                    _user.postValue(response.body())
+                    _state.update {
+                        ResponceState(
+                            error = true,
+                            lastErrorAction = "Error with finding user in API (id ${id}). Trying to find user in local bd..."
+                        )
+                    }
+                    _state.update {
+                        ResponceState()
+                    }
+                    val user = userDao.getUserById(id).toDto()
+                    _user.postValue(user)
+                    //println("user info dao: ${user.id}, ${user.name}, ${user.login}, ${user.avatar}")
                 } catch (e: Exception) {
                     _state.update {
                         ResponceState(
                             error = true,
-                            lastErrorAction = "Api responce error with finding user (id ${id})."
+                            lastErrorAction = "Error with finding user in local bd (id ${id})."
                         )
                     }
                 }

@@ -168,9 +168,9 @@ class EventInFeedViewHolder(
             participantStatus.isSelected = event.participatedByMe
             participantStatus.setText(if (participantStatus.isSelected) yesTextId else noTextId)
             participantStatus.setOnClickListener {
-                val startState = binding.participantStatus.isSelected
-                participantStatus.isSelected = !startState
-                participantStatus.setText(if (!startState) yesTextId else noTextId)
+                //val startState = binding.participantStatus.isSelected
+                //participantStatus.isSelected = !startState
+                //participantStatus.setText(if (!startState) yesTextId else noTextId)
                 onIterationEventListener.onParticipantLtn(event)
             }
 

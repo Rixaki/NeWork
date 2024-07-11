@@ -45,6 +45,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.util.LongArg
 import ru.netology.nmedia.util.load
+import ru.netology.nmedia.util.loadAvatar
 import ru.netology.nmedia.util.toast
 
 @AndroidEntryPoint
@@ -212,6 +213,7 @@ class UserFragment : Fragment() {
                     jobModel.removeById(job.id)
                 }
             })//job_adapter
+            binding.listJob.adapter = jobAdapter
 
             with(binding) {
                 avatar.load(

@@ -349,7 +349,7 @@ class EventViewModel @Inject constructor(
                 repository.getEventById(id)//antisticking before request answer (only with throw id, not post)
             if (event?.isLikeLoading == false) {
                 try {
-                    repository.participateById(id)//like and unlike in 1
+                    repository.participateById(id)//part and out in 1
                 } catch (e: Exception) {
                     _state.postValue ( FeedModelState(
                         error = true,
