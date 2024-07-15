@@ -128,7 +128,6 @@ class EventAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-        //): EventInFeedViewHolder {
     ): RecyclerView.ViewHolder = when (viewType) {
         R.layout.card_ad -> {
             val view = CardAdBinding

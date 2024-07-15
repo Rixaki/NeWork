@@ -46,20 +46,15 @@ class PostAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
             is Ad -> {
-                //println("pos $position type Ad")
                 R.layout.card_ad
             }
             is TimeHeader -> {
-                //println("pos $position type TimeHeader")
                 R.layout.card_time_header
             }
             is Post -> {
-                //println("pos $position type Post")
                 R.layout.item_in_feed_post_or_event
             }
-            //null -> error("unknown item type")
             else -> {
-                //println("pos $position type Error")
                 error("unknown item type")
             }
         }
@@ -86,7 +81,6 @@ class PostAdapter(
             is Ad -> (holder as? AdViewHolder)?.bind(item)
             is TimeHeader -> (holder as? TimeHeaderViewHolder)?.bind(item)
             is Post -> {
-                //(holder as? PostViewHolder)?.bind(item)
                 if (payloads.isEmpty()) {
                     onBindViewHolder(holder as PostInFeedViewHolder, position)
                 } else {
@@ -101,18 +95,6 @@ class PostAdapter(
 
             else -> error("unknown item type")
         }
-        /*
-        if (payloads.isEmpty()) {
-            onBindViewHolder(holder, position)
-        } else {
-            val post = getItem(position)
-            payloads.forEach {
-                (it as? PayloadPost)?.let { payload ->
-                    holder.bind(payload, post.likes)
-                }
-            }
-        }
-         */
     }
 
     class AdViewHolder(
@@ -146,7 +128,6 @@ class PostAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    //): PostInFeedViewHolder {
     ): RecyclerView.ViewHolder = when (viewType) {
         R.layout.card_ad -> {
             val view = CardAdBinding
@@ -185,7 +166,6 @@ class PostInFeedViewHolder(
             likeIv.text = countToString(post.likes)
 
             likeIv.setOnClickListener {
-                //likeIv.isChecked = !post.likedByMe
                 likeIv.text =
                     countToString(post.likes + (if (post.likedByMe) -1 else 1))
                 onIterationPostListener.onLikeLtn(post)
@@ -193,7 +173,6 @@ class PostInFeedViewHolder(
 
             mapPoint.visibility = if (post.coords == null) View.GONE else View.VISIBLE
             mapPoint.setOnClickListener {
-                //MapDialogFragment(post.coords?.lat, post.coords?.long)
                 onIterationPostListener.onMapLtn(post)
             }
 
@@ -263,7 +242,6 @@ class PostInFeedViewHolder(
     fun bind(payloadPost: PayloadPost, startCount: Int) {
         payloadPost.likedByMe?.let { like ->
             binding.likeIv.setOnClickListener {
-                //likeIv.isChecked = !post.likedByMe
                 binding.likeIv.text =
                     countToString(startCount + (if (payloadPost.likedByMe) -1 else 1))
             }
