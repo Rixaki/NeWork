@@ -1,12 +1,8 @@
 package com.example.nework.auth
 
 import android.content.Context
-import com.example.nework.api.AppApi
 import com.google.gson.annotations.SerializedName
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

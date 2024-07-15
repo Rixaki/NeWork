@@ -1,8 +1,6 @@
 package com.example.nework.ui
 
 import android.content.IntentFilter
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.Menu
@@ -11,7 +9,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -20,10 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.transition.Transition
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.CustomTarget
 import com.example.nework.BuildConfig
 import com.example.nework.R
 import com.example.nework.auth.AppAuth
@@ -57,25 +52,11 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             com.yandex.runtime.Runtime.getApplicationContext().registerReceiver(
-                ConnectivitySubscription(), IntentFilter(), RECEIVER_EXPORTED/RECEIVER_NOT_EXPORTED);
+                ConnectivitySubscription(), IntentFilter(), RECEIVER_EXPORTED/RECEIVER_NOT_EXPORTED)
         } else {
             com.yandex.runtime.Runtime.getApplicationContext().registerReceiver(
-                ConnectivitySubscription(), IntentFilter());
+                ConnectivitySubscription(), IntentFilter())
         }
-
-        /*
-        val receiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                println("on receive") //do something with intent
-            }
-        }
-        ContextCompat.registerReceiver(
-            this,
-            receiver,
-            IntentFilter(),
-            ContextCompat.RECEIVER_EXPORTED
-        )
-         */
 
         MapKitFactory.getInstance().onStart()
     }
@@ -89,23 +70,7 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //val navHostFragment =
-        //    supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment
-        //val navController = navHostFragment.navController
         val navController = binding.myNavHostFragment.getFragment<Fragment>().findNavController()
-
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        /*
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.posts,
-                R.id.events,
-                R.id.users,
-                R.id.my_profile
-            )
-        )
-         */
 
         val navBottomView: NavigationBarView = binding.bottomNavigation
         navBottomView.itemIconTintList = null //for none-grey icon
@@ -116,9 +81,6 @@ class MainActivity : AppCompatActivity() {
         authModel.data.asLiveData(Dispatchers.Default).observe(this) { authState ->
             val profileItem = navBottomView.menu.findItem(R.id.my_profile)
             profileItem.isVisible = authModel.authenticated
-
-            //println("avatar to bottom bar: ${authState.avatarUrl}")
-            //println("user id: ${authModel.data.asLiveData().value?.id}")
 
             Glide.with(this@MainActivity)
                 .asBitmap()
@@ -193,7 +155,6 @@ class MainActivity : AppCompatActivity() {
 
         addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                //menu.clear();
                 menuInflater.inflate(R.menu.top_menu, menu)
 
                 menu.let {
@@ -243,9 +204,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         })//addMenuProvider
-
-        //setupActionBarWithNavController(navController, appBarConfiguration)
-        //navBottomView.setupWithNavController(navController)
     }
 
     override fun onStop() {

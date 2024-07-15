@@ -10,7 +10,6 @@ sealed interface FeedItem {
     val id: Long
 }
 
-//val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ROOT)
 val DATE_FORMAT = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ROOT).apply {
     timeZone = TimeZone.getTimeZone("UTC")
 }
@@ -101,7 +100,7 @@ data class TimeHeader(
     val title: String = "SOME TIME AGO"
 ) : FeedItem
 
-enum class TimeType() {
+enum class TimeType {
     TODAY,
     YESTERDAY,
     LAST_WEEK,

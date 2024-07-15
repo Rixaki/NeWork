@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.nework.api.AppApi
 import com.example.nework.dao.UserDao
 import com.example.nework.dto.SelectableUser
 import com.example.nework.dto.User
@@ -20,7 +19,6 @@ import javax.inject.Inject
 //SELECTING USER LIST
 @HiltViewModel
 class UsersSelectorViewModel @Inject constructor(
-    private val appApi: AppApi,
     private val userRepo: UserRepo,
     private val userDao: UserDao
 ) : ViewModel() {
@@ -41,7 +39,7 @@ class UsersSelectorViewModel @Inject constructor(
         getUsers()
     }
 
-    fun getUsers() {
+    private fun getUsers() {
         _usersState.postValue(
             ResponceState(
                 loading = true,
@@ -94,12 +92,6 @@ class UsersSelectorViewModel @Inject constructor(
             }
         }
     }
-
-    /*
-    fun changeList(newUserSelectableList: List<SelectableUser>) {
-        _list.value = newUserSelectableList.sortedBy { !it.isPicked }//picked first
-    }
-     */
 
     fun sortList() {
         _list.value = _list.value?.sortedBy { !it.isPicked }//picked first

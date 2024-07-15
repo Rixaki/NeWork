@@ -1,6 +1,5 @@
 package com.example.nework.ui
 
-import android.annotation.SuppressLint
 import com.example.nework.R
 import android.app.Dialog
 import android.os.Bundle
@@ -14,7 +13,7 @@ import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.*
 import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.toast
 
 //https://stackoverflow.com/questions/26586665/mapview-in-a-dialog
 //https://code.luasoftware.com/tutorials/android/android-google-maps-load-supportmapfragment-in-alertdialog-dialogfragment
@@ -38,12 +37,6 @@ class MapDialogFragment(
         val dialog = Dialog(requireContext())
         val inflater: LayoutInflater = this@MapDialogFragment.getLayoutInflater()
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-
-        /*
-            https://developer.android.com/guide/fragments/dialogs
-            root = null: onCreateDialog create dialog,
-                but there are NOT any facts about root view creating
-         */
         dialog.setContentView(R.layout.dialog_map)
 
         _mapView = dialog.findViewById<MapView>(R.id.mapView)
@@ -84,12 +77,10 @@ class MapDialogFragment(
                 setIcon(imageProvider)
             }
             try {
-                _boardView!!.setText(
-                    getString(
-                        R.string.show_position,
-                        "%.4f".format(lat),
-                        "%.4f".format(long)
-                    )
+                _boardView!!.text = getString(
+                    R.string.show_position,
+                    "%.4f".format(lat),
+                    "%.4f".format(long)
                 )
             } catch (e: Exception) {
                 errorDestroy()

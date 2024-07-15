@@ -26,18 +26,17 @@ class Login @Inject constructor(
                 )
             )
         } catch (e: Exception) {
-            //e.printStackTrace()
-            when (e) {
+            return when (e) {
                 is IOException -> {
-                    return Result.failure(IOException())
+                    Result.failure(IOException())
                 }
 
                 is ApiError -> {
-                    return Result.failure(ApiError())
+                    Result.failure(ApiError())
                 }
 
                 else -> {
-                    return Result.failure(UnknownError())
+                    Result.failure(UnknownError())
                 }
             }
         }

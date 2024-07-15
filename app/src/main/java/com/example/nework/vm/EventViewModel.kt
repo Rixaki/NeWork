@@ -6,16 +6,11 @@ import androidx.core.net.toFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.filter
 import androidx.paging.map
-import com.example.nework.api.AppApi
 import com.example.nework.auth.AppAuth
 import com.example.nework.dao.EventRemoteKeyDao
 import com.example.nework.dto.Coords
@@ -23,25 +18,18 @@ import com.example.nework.dto.Event
 import com.example.nework.dto.EventType
 import com.example.nework.dto.FeedItem
 import com.example.nework.dto.MediaUpload
-import com.example.nework.dto.Post
-import com.example.nework.model.EventModel
 import com.example.nework.model.FeedModelState
 import com.example.nework.model.PhotoModel
-import com.example.nework.model.PostModel
 import com.example.nework.repo.EventRepo
 import com.example.nework.util.BoardLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.util.SingleLiveEvent
+import com.example.nework.util.SingleLiveEvent
 import javax.inject.Inject
 
 private val empty = Event(
@@ -60,10 +48,9 @@ private val empty = Event(
 
 private val noPhoto = PhotoModel()
 private val noList = emptyList<Long>()
-private val noTime = ""
+private const val noTime = ""
 private val noState = FeedModelState()
 
-//@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 @SuppressLint("CheckResult")//suppression warning
 class EventViewModel @Inject constructor(
@@ -88,14 +75,6 @@ class EventViewModel @Inject constructor(
             }
         }
 
-    fun getEventById(id: Long): Event {
-        var result = empty
-        cached.map { pagingData ->
-            result = pagingData.filter { it is Event }.filter { event -> event.id == id } as Event
-        }
-        return result
-    }
-
     private val _state = MutableLiveData<FeedModelState>()
     val state: LiveData<FeedModelState>
         get() = _state
@@ -109,22 +88,12 @@ class EventViewModel @Inject constructor(
         get() = _speakers
 
     private val _eventDate = MutableLiveData<String>()
-    val eventDate: LiveData<String>
+    private val eventDate: LiveData<String>
         get() = _eventDate
 
     private val _eventTime = MutableLiveData<String>()
-    val eventTime: LiveData<String>
+    private val eventTime: LiveData<String>
         get() = _eventTime
-
-    /*
-    val eventTimeBoardText : LiveData<String> = combine(
-        eventDate.asFlow(), eventTime.asFlow()
-    ){ date, time ->
-        val dateTxt = date.ifEmpty { "__.__.____" }
-        val timeTxt = time.ifEmpty { "__:__" }
-        "$dateTxt $timeTxt"
-    }.asLiveData(Dispatchers.Default)
-     */
 
     val eventTimeBoardText = BoardLiveData(
         daySource = eventDate,
@@ -209,7 +178,6 @@ class EventViewModel @Inject constructor(
     private fun load() = viewModelScope.launch(Dispatchers.Default) {
         try {
             _state.postValue (FeedModelState(loading = true) )
-            // repository.stream.cachedIn(viewModelScope).
             _state.postValue (FeedModelState() )
         } catch (e: Exception) {
             _state.postValue (FeedModelState(error = true) )
@@ -280,12 +248,10 @@ class EventViewModel @Inject constructor(
                 try {
                     when (_photo.value) {
                         noPhoto -> {
-                            //println("no file")
                             repository.save(editedEvent)
                         }
 
                         else -> _photo.value?.file?.let { file ->
-                            //println("name: ${file.name}")
                             repository.save(editedEvent, MediaUpload(file))
                         }
                     }
@@ -317,9 +283,6 @@ class EventViewModel @Inject constructor(
     }
     fun clearCoords() = _coords.postValue(null)
     fun clearPhoto() = _photo.postValue(noPhoto)
-    //fun clearSpeakersList() = _speakers.postValue(noList)
-    //fun clearEventDate() = _eventDate.postValue(noTime)
-    //fun clearEventTime() = _eventTime.postValue(noTime)
 
     fun likeById(id: Long) {
         viewModelScope.launch(Dispatchers.Default) {
@@ -379,17 +342,4 @@ class EventViewModel @Inject constructor(
             }
         }
     }
-
-    /*
-    //refresh is NOT necessary due to paging
-    fun refresh() = viewModelScope.launch {
-        try {
-            _state.value = FeedModelState(refreshing = true)
-            //repository.getAll()
-            _state.value = FeedModelState()
-        } catch (e: Exception) {
-            _state.value = FeedModelState(error = true)
-        }
-    }
- */
 }

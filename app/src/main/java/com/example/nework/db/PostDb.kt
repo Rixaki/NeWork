@@ -21,13 +21,4 @@ abstract class PostDb : RoomDatabase() {
     abstract val postDao: PostDao
     abstract val postKeyDao: PostRemoteKeyDao
     abstract val wallKeyDao: WallByUserRemoteKeyDao
-
-    /*
-    companion object {
-        @Volatile
-        private var instance: PostDb? = null
-
-        //buildDatabase migrated to DI
-    }
-     */
 }

@@ -26,7 +26,6 @@ import com.example.nework.adapter.PostAdapter
 import com.example.nework.databinding.FragmentUserBinding
 import com.example.nework.dto.Job
 import com.example.nework.dto.Post
-import com.example.nework.dto.User
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.PostFragment.Companion.longArg
 import com.example.nework.ui.UserFragment.Companion.USER_ID
@@ -38,40 +37,25 @@ import com.example.nework.vm.PostByUserViewModelFactory
 import com.example.nework.vm.PostViewModel
 import com.example.nework.vm.PostViewModelFactory
 import com.example.nework.vm.UserViewModel
-import com.example.nework.vm.UsersViewModel
-import com.example.nework.vm.UsersViewModelFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.snackbar.Snackbar
-import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.util.loadAvatar
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.loadAvatar
+import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class MyProfileFragment : Fragment() {
-    /*
-    companion object {
-        private const val USER_ID = "USER_ID"
-        var Bundle.USER_ID: Long by LongArg//for value by main_activity
-
-        //maybe set value in viewmodel
-        fun createArgs(id: Long): Bundle =
-            bundleOf(USER_ID to id)
-    }
-     */
-
     private val authModel by viewModels<AuthViewModel>()
 
     //only for wall list
     private val jobModel: JobViewModel by activityViewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<JobViewModelFactory> { factory ->
-                @Suppress("DEPRECATION")
                 factory.create(authModel.userId)//checked by prev fragment
             }
         }
@@ -79,7 +63,6 @@ class MyProfileFragment : Fragment() {
     private val wallModel: PostByUserViewModel by viewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<PostByUserViewModelFactory> { factory ->
-                @Suppress("DEPRECATION")
                 factory.create(authModel.userId)//checked by prev fragment
             }
         }
@@ -89,23 +72,12 @@ class MyProfileFragment : Fragment() {
     private val postModel: PostViewModel by activityViewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<PostViewModelFactory> { factory ->
-                @Suppress("DEPRECATION")
                 factory.create(true)//wall
             }
         }
     )
 
     private val userModel by viewModels<UserViewModel>()
-    /*
-    private val userModel by viewModels<UsersViewModel>(
-        extrasProducer = {
-            defaultViewModelCreationExtras.withCreationCallback<UsersViewModelFactory> { factory ->
-                @Suppress("DEPRECATION")
-                factory.create(emptyList())
-            }
-        }
-    )
-     */
 
     @SuppressLint("StringFormatMatches")
     override fun onCreateView(
@@ -192,7 +164,7 @@ class MyProfileFragment : Fragment() {
                                 getString(R.string.video_play_error),
                                 Snackbar.LENGTH_SHORT
                             ).show()
-                            onPlayVideoLtn@ return
+                            return
                         }
                     }
                 }
@@ -217,7 +189,7 @@ class MyProfileFragment : Fragment() {
                         dialog.show(activity!!.supportFragmentManager, "Map dialog.")
                     } else {
                         toast("Map display error.")
-                        onMapLtn@ return
+                        return
                     }
                 }
             })//wall_adapter
@@ -240,7 +212,7 @@ class MyProfileFragment : Fragment() {
                             getString(R.string.link_does_not_lead_to_the_site),
                             Snackbar.LENGTH_SHORT
                         ).show()
-                        onPlayVideoLtn@ return
+                        return
                     }
                 }
 

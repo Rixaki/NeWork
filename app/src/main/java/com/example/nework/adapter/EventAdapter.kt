@@ -28,8 +28,8 @@ import com.example.nework.ui.MapDialogFragment
 import com.example.nework.util.countToString
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
-import ru.netology.nmedia.util.load
-import ru.netology.nmedia.util.loadAvatar
+import com.example.nework.util.load
+import com.example.nework.util.loadAvatar
 
 
 interface OnIterationEventListener {
@@ -103,7 +103,7 @@ class EventAdapter(
         fun bind(ad: Ad) {
             binding.apply {
                 image.load(
-                    url = "${BuildConfig.BASE_URL}/media/${ad.image}",
+                    url = "$BASE_URL/media/${ad.image}",
                     placeholderIndex = R.drawable.ad_placemarker_48,
                     errorIndex = R.drawable.ad_placemarker_48
                 )
@@ -168,9 +168,6 @@ class EventInFeedViewHolder(
             participantStatus.isSelected = event.participatedByMe
             participantStatus.setText(if (participantStatus.isSelected) yesTextId else noTextId)
             participantStatus.setOnClickListener {
-                //val startState = binding.participantStatus.isSelected
-                //participantStatus.isSelected = !startState
-                //participantStatus.setText(if (!startState) yesTextId else noTextId)
                 onIterationEventListener.onParticipantLtn(event)
             }
 
@@ -190,7 +187,6 @@ class EventInFeedViewHolder(
             likeIv.text = countToString(event.likes)
 
             likeIv.setOnClickListener {
-                //likeIv.isChecked = !event.likedByMe
                 likeIv.text =
                     countToString(event.likes + (if (event.likedByMe) -1 else 1))
                 onIterationEventListener.onLikeLtn(event)
@@ -271,7 +267,6 @@ class EventInFeedViewHolder(
     fun bind(payloadEvent: PayloadEvent, startCount: Int) {
         payloadEvent.likedByMe?.let { like ->
             binding.likeIv.setOnClickListener {
-                //likeIv.isChecked = !event.likedByMe
                 binding.likeIv.text =
                     countToString(startCount + (if (payloadEvent.likedByMe) -1 else 1))
             }
@@ -319,7 +314,7 @@ class EventInCardViewHolder(
             avatar.loadAvatar(url = event.authorAvatar ?: "404")
 
             author.text = event.author
-            publishedTime.setText(event.published)
+            publishedTime.text = event.published
             cardContent.text = event.content
 
             likeIv.isChecked = event.likedByMe

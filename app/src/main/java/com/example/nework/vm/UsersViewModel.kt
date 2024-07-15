@@ -1,13 +1,9 @@
 package com.example.nework.vm
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.paging.filter
 import com.example.nework.api.AppApi
 import com.example.nework.dao.UserDao
-import com.example.nework.dto.Event
 import com.example.nework.dto.User
 import com.example.nework.model.ResponceState
 import com.example.nework.repo.UserRepo
@@ -18,10 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 //ONLY SHOWING USER LIST
@@ -45,7 +39,7 @@ class UsersViewModel @AssistedInject constructor(
     }
 
     //get from api only for empty userRepo
-    fun getUsers() {
+    private fun getUsers() {
         _state.update {
             ResponceState(
                 loading = true,

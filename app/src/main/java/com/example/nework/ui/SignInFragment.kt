@@ -31,7 +31,7 @@ class SignInFragment : Fragment() {
 
         requireActivity().addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                //menu.clear()
+                //ignore//old version: menu.clear()
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -56,7 +56,7 @@ class SignInFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentSignInBinding
             .inflate(layoutInflater, container, false)
 

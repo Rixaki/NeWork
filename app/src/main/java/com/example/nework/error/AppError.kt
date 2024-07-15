@@ -14,7 +14,15 @@ sealed class AppError(var code: String) : RuntimeException() {
     }
 }
 
-class ApiError(val status: Int = 0, code: String = "unknown ApiError") : AppError(code)
-object NetworkError : AppError("error_network")
-object DbError : AppError("error_db")
-object UnknownError : AppError("error_unknown")
+class ApiError(status: Int = 0, code: String = "unknown ApiError") : AppError(code)
+data object NetworkError : AppError("error_network") {
+    private fun readResolve(): Any = NetworkError
+}
+
+data object DbError : AppError("error_db") {
+    private fun readResolve(): Any = DbError
+}
+
+data object UnknownError : AppError("error_unknown") {
+    private fun readResolve(): Any = UnknownError
+}

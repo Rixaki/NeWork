@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.adapter.OnIterationUserListener
 import com.example.nework.adapter.UserAdapter
 import com.example.nework.databinding.FragmentFeedUserBinding
 import com.example.nework.dto.User
-import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.UserFragment.Companion.USER_ID
 import com.example.nework.vm.UsersSelectorViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,7 +53,7 @@ class UserFeedFragment : Fragment() {
             adapter.submitList(list) {
                 binding.list.smoothScrollToPosition(0)
             }
-            binding.emptyText.isVisible = list.size == 0
+            binding.emptyText.isVisible = list.isEmpty()
         }
 
         usersViewModel.usersState.observe(viewLifecycleOwner) { state ->

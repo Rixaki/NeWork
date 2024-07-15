@@ -6,11 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nework.BuildConfig.BASE_URL
 import com.example.nework.databinding.ItemInFeedUserBinding
-import com.example.nework.dto.Post
 import com.example.nework.dto.User
-import ru.netology.nmedia.util.loadAvatar
+import com.example.nework.util.loadAvatar
 
 interface OnIterationUserListener {
     fun onRootLtn(user: User) {}

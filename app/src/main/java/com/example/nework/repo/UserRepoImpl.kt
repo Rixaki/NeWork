@@ -1,6 +1,5 @@
 package com.example.nework.repo
 
-import androidx.lifecycle.LiveData
 import com.example.nework.api.AppApi
 import com.example.nework.dao.UserDao
 import com.example.nework.dto.User
@@ -8,7 +7,6 @@ import com.example.nework.dto.UserPreview
 import com.example.nework.entity.UserEntity
 import com.example.nework.error.ApiError
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton

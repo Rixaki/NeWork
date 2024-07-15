@@ -29,8 +29,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import ru.netology.nmedia.util.LongArg
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.LongArg
+import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class PostFragment : Fragment() {
@@ -41,7 +41,6 @@ class PostFragment : Fragment() {
     private val viewModel: PostViewModel by activityViewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<PostViewModelFactory> { factory ->
-                @Suppress("DEPRECATION")
                 factory.create(false)//no wall
             }
         }
@@ -58,7 +57,6 @@ class PostFragment : Fragment() {
 
         val id = requireArguments().longArg
 
-        //val adapter = PostsAdapter(object : OnIterationListener {
         val viewHolder = PostInCardViewHolder(binding, object : OnIterationPostListener {
             override fun onLikeLtn(post: Post) {
                 if (authModel.authenticated) {
@@ -137,36 +135,29 @@ class PostFragment : Fragment() {
                 val resultCode = result.resultCode
                 val data = result.data
 
-                if (resultCode == Activity.RESULT_OK) {
-                    //Image Uri will not be null for RESULT_OK
-                    val fileUri = data?.data!!
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        //Image Uri will not be null for RESULT_OK
+                        val fileUri = data?.data!!
 
-                    binding.attachmentIv.setImageURI(fileUri)
-                } else if (resultCode == ImagePicker.RESULT_ERROR) {
-                    Snackbar.make(
-                        binding.root,
-                        ImagePicker.getError(data),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                } else {
-                    Snackbar.make(
-                        binding.root,
-                        "Image task Cancelled",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                        binding.attachmentIv.setImageURI(fileUri)
+                    }
+                    ImagePicker.RESULT_ERROR -> {
+                        Snackbar.make(
+                            binding.root,
+                            ImagePicker.getError(data),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    else -> {
+                        Snackbar.make(
+                            binding.root,
+                            "Image task Cancelled",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-
-        /*
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
-            val hasNewPost: Boolean = adapter.currentList.size < posts.size
-            adapter.submitList(posts) {// update
-                if (hasNewPost) {
-                    binding.list.smoothScrollToPosition(0)//submitlist is ansync!!!
-                }
-            }
-        }
-        */
 
         return binding.root
     }//onCreateView

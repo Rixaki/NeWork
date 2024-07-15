@@ -36,7 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class EventsFeedFragment : Fragment() {
@@ -250,7 +250,7 @@ class EventsFeedFragment : Fragment() {
                 binding.freshPosts.text =
                     getString(R.string.fresh_posts, countToString(count))
                 val paddingTopPixels = if (count != 0) {
-                    getResources().getDimensionPixelOffset(R.dimen.paddingListTop)
+                    resources.getDimensionPixelOffset(R.dimen.paddingListTop)
                 } else 0
                 binding.list.updatePadding(top = paddingTopPixels)
                 binding.freshPosts.visibility =

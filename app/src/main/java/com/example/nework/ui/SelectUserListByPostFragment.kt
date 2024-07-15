@@ -18,7 +18,7 @@ import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import ru.netology.nmedia.util.StringArg
+import com.example.nework.util.StringArg
 
 @AndroidEntryPoint
 class SelectUserListByPostFragment : Fragment() {
@@ -33,14 +33,6 @@ class SelectUserListByPostFragment : Fragment() {
     companion object {
         var Bundle.titleArg: String? by StringArg
     }
-
-    /*
-    //throws Fragment$InstantiationException (doubled in on_create_view)
-    init {
-        selectorModel.setAllSelectorList(viewModel.list.value ?: emptyList())
-        selectorModel.sortList()
-    }
-     */
 
     override fun onCreateView(
         inflater: LayoutInflater,

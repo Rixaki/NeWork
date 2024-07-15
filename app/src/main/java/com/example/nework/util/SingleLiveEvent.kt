@@ -1,4 +1,4 @@
-package ru.netology.nmedia.util
+package com.example.nework.util
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
@@ -17,9 +17,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         }
 
         super.observe(owner) {
-            //if (pending) {//*
             if (pending.compareAndSet(true, false)) {
-                //pending = false//*
                 observer.onChanged(it)
             }
         }

@@ -7,7 +7,6 @@ import androidx.room.TypeConverters
 import com.example.nework.dto.Coords
 import com.example.nework.dto.Event
 import com.example.nework.dto.EventType
-import com.example.nework.dto.UserPreview
 
 @Entity
 @TypeConverters(BaseTypeConverter::class)

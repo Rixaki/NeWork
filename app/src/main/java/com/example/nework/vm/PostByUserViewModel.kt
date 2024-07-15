@@ -20,27 +20,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 
-private val empty = Post(
-    id = 0,
-    authorId = 0,
-    author = "",
-    authorJob = null,
-    authorAvatar = null,
-    content = "",
-    published = "",
-    coords = null,
-    videoLink = null,
-    likedByMe = false,
-    attachment = null,
-    mentionedMe = false
-)
-
 @HiltViewModel(assistedFactory = PostByUserViewModelFactory::class)
 @SuppressLint("CheckResult")//suppression warning
 class PostByUserViewModel @AssistedInject constructor(
-    private val repository: PostRepo,
+    repository: PostRepo,
     @Assisted private val userId: Long,
-    private val appAuth: AppAuth,
+    appAuth: AppAuth,
 ) : ViewModel() {
     private val cached = repository
         .data

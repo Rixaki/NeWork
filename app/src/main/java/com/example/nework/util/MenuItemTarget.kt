@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.MenuItem
 import androidx.core.graphics.drawable.toDrawable
-import androidx.transition.Transition
 import com.bumptech.glide.request.target.CustomTarget
 
 //draft (avatar logo in bottom nav menu)

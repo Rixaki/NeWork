@@ -1,10 +1,7 @@
 package com.example.nework.entity
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.nework.dto.Attachment
-import com.example.nework.dto.AttachmentType
 
 @Entity
 data class WallByUserRemoteKeyEntity(

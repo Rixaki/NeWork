@@ -16,7 +16,7 @@ import com.example.nework.vm.EventViewModel
 import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import ru.netology.nmedia.util.StringArg
+import com.example.nework.util.StringArg
 
 @AndroidEntryPoint
 class SelectUserListByEventFragment : Fragment() {
@@ -60,7 +60,7 @@ class SelectUserListByEventFragment : Fragment() {
             }
         }
 
-        binding.title.setText(arguments?.titleArg ?: getString(R.string.select_users))
+        binding.title.text = arguments?.titleArg ?: getString(R.string.select_users)
 
         val adapter = UserSelectableAdapter()
         binding.list.adapter = adapter

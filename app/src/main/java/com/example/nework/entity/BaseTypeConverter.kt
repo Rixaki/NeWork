@@ -5,10 +5,7 @@ import com.example.nework.dto.Attachment
 import com.example.nework.dto.AttachmentType
 import com.example.nework.dto.EventType
 import com.google.gson.Gson
-import kotlinx.serialization.*
-import kotlinx.serialization.json.Json
 import com.google.gson.reflect.TypeToken
-import java.io.Serializable
 
 
 class BaseTypeConverter {
@@ -37,11 +34,6 @@ class BaseTypeConverter {
 
     //Coords do NOT need to be converted in the BaseTypeConverter... maybe...
 
-    //TODO: ERROR - Platform declaration clash:
-    // The following declarations have the same JVM signature
-    // (listToJson(Ljava/util/List;)Ljava/lang/String;):
-    // fun listToJson(list: List<UserPreviewEntity>?): String defined in com.example.nework.entity.BaseTypeConverter
-    // fun listToJson(list: List<Int>?): String defined in com.example.nework.entity.BaseTypeConverter
     //JSON CONVERTERS
     @TypeConverter
     fun listLongToJson(list: List<Long>?): String = Gson().toJson(list)

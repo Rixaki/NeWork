@@ -9,7 +9,6 @@ import com.example.nework.dao.UserDao
 import com.example.nework.dto.User
 import com.example.nework.entity.UserEntity
 import com.example.nework.model.ResponceState
-import com.example.nework.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +21,6 @@ val defUser = User(id = 0, login = "", name = "", avatar = "404")
 @HiltViewModel()
 class UserViewModel @Inject constructor(
     private val appApi: AppApi,
-    private val userRepo: UserRepo,
     private val userDao: UserDao,
 ) : ViewModel() {
     private val _state = MutableStateFlow(ResponceState())
@@ -39,7 +37,6 @@ class UserViewModel @Inject constructor(
                 val user = response.body()
                 _user.postValue(user)
                 if (user != null) {userDao.insert(UserEntity.fromDto(user))}
-                //println("user info api: ${user?.id}, ${user?.name}, ${user?.login}, ${user?.avatar}")
             } catch (_: Exception) {
                 try {
                     _state.update {
@@ -53,7 +50,6 @@ class UserViewModel @Inject constructor(
                     }
                     val user = userDao.getUserById(id).toDto()
                     _user.postValue(user)
-                    //println("user info dao: ${user.id}, ${user.name}, ${user.login}, ${user.avatar}")
                 } catch (e: Exception) {
                     _state.update {
                         ResponceState(

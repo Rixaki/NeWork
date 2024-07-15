@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditJobBinding
@@ -19,23 +18,12 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import ru.netology.nmedia.util.AndroidUtils
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.AndroidUtils
+import com.example.nework.util.toast
 import java.util.Date
 
 @AndroidEntryPoint
 class NewOrEditJobFragment : Fragment() {
-    /*
-    companion object {
-        private const val USER_ID = "USER_ID"
-        var Bundle.USER_ID: Long by LongArg//for value by main_activity
-
-        //maybe set value in viewmodel
-        fun createArgs(id: Long): Bundle =
-            bundleOf(USER_ID to id)
-    }
-     */
-
     //edited job in vm by prev fragment
     //user_id assisted for load jobs by user
     private val viewModel: JobViewModel by activityViewModels(
@@ -83,29 +71,12 @@ class NewOrEditJobFragment : Fragment() {
         } else {
             Date().time
         }
-        /*
-        val finishDate : Long = try {
-            (jobEdited.finish?.let { DATE_FORMAT_JOB.parse(it) })?.time ?: 0L
-        } catch ( _: Exception) {
-          0L
-        }
-         */
         val finishDate = if (jobEdited.finish.isNullOrBlank()) {
             Date().time
         } else {
             //println("finish time: ${jobEdited.finish}")
             (DATE_FORMAT.parse(jobEdited.start))!!.time
         }
-        /*
-        try {
-            startDate = (DATE_FORMAT.parse(jobEdited.start))!!.time
-            if (!jobEdited.finish.isNullOrEmpty()) {
-                finishDate = (DATE_FORMAT.parse(jobEdited.finish))!!.time
-            }
-        } catch (e: Exception) {
-            startDate = MaterialDatePicker.todayInUtcMilliseconds()
-        }
-         */
         val startDatePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(getString(R.string.select_start_date))
@@ -115,38 +86,25 @@ class NewOrEditJobFragment : Fragment() {
         val finishDatePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(getString(R.string.select_finish_date))
-                //.setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .setSelection(finishDate)
                 .build()
         startDatePicker.addOnPositiveButtonClickListener { selection ->
-            //MaterialPickerOnPositiveButtonClickListener<Long> { selection ->
-                //val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-                //utc.timeInMillis = selection
-                val formattedStr = formatter.format(Date(selection))
-                viewModel.changeStart(formattedStr)
-                //binding.startTime.setText(viewModel.start.value)
-                //println("formattedStr $formattedStr")
-            //}
+            val formattedStr = formatter.format(Date(selection))
+            viewModel.changeStart(formattedStr)
         }
         finishDatePicker.addOnPositiveButtonClickListener { selection ->
-            //MaterialPickerOnPositiveButtonClickListener<Long> { selection ->
-                //val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-                //utc.timeInMillis = selection
-                val formattedStr = formatter.format(Date(selection))
-                viewModel.changeFinish(formattedStr)
-                //binding.finishTime.setText(viewModel.finish.value ?: "to present")
-                //println("formattedStr $formattedStr")
-            //}
+            val formattedStr = formatter.format(Date(selection))
+            viewModel.changeFinish(formattedStr)
             (jobEdited.finish ?: "to present")
         }
         viewModel.start.observe(viewLifecycleOwner){
             if (isResumed) {
-                binding.startTime.setText(viewModel.start.value?.take(10))
+                binding.startTime.text = viewModel.start.value?.take(10)
             }
         }
         viewModel.finish.observe(viewLifecycleOwner){
             if (isResumed) {
-                binding.finishTime.setText(viewModel.finish.value?.take(10) ?: "to present")
+                binding.finishTime.text = viewModel.finish.value?.take(10) ?: "to present"
             }
         }
         binding.pickStartDate.setOnClickListener {
@@ -172,12 +130,12 @@ class NewOrEditJobFragment : Fragment() {
             val company = binding.companyName.text.toString()
             val position = binding.position.text.toString()
             val link = binding.link.text.toString()
-            if (company.isNullOrBlank()){
+            if (company.isBlank()){
                 dialogMsg = getString(R.string.company_name_must_not_be_empty)
                 errorDialog.show()
                 return@setOnClickListener
             }
-            if (position.isNullOrBlank()){
+            if (position.isBlank()){
                 dialogMsg = getString(R.string.position_name_must_not_be_empty)
                 errorDialog.show()
                 return@setOnClickListener
@@ -192,7 +150,7 @@ class NewOrEditJobFragment : Fragment() {
             viewModel.changeLink(link)
             viewModel.save()
         }
-        viewModel.JobCreated.observe(viewLifecycleOwner) {
+        viewModel.jobCreated.observe(viewLifecycleOwner) {
             AndroidUtils.hideKeyBoard(requireView())
             toast(getString(R.string.job_changed_was_saved))
             findNavController().navigateUp()
@@ -201,7 +159,7 @@ class NewOrEditJobFragment : Fragment() {
         binding.cancel.setOnClickListener {
             viewModel.cancelEdit()
         }
-        viewModel.JobCanceled.observe(viewLifecycleOwner) {
+        viewModel.jobCanceled.observe(viewLifecycleOwner) {
             AndroidUtils.hideKeyBoard(requireView())
             findNavController().navigateUp()
         }

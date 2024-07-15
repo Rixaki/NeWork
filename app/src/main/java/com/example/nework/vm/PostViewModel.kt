@@ -6,11 +6,9 @@ import androidx.core.net.toFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.filter
 import androidx.paging.map
 import com.example.nework.auth.AppAuth
 import com.example.nework.dao.PostRemoteKeyDao
@@ -20,22 +18,18 @@ import com.example.nework.dto.MediaUpload
 import com.example.nework.dto.Post
 import com.example.nework.model.FeedModelState
 import com.example.nework.model.PhotoModel
-import com.example.nework.model.ResponceState
 import com.example.nework.repo.PostRepo
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.transformLatest
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.util.SingleLiveEvent
+import com.example.nework.util.SingleLiveEvent
 
 private val empty = Post(
     id = 0,
@@ -148,20 +142,6 @@ class PostViewModel @AssistedInject constructor(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    /*
-    fun newerCount(): LiveData<Int> = viewModelScope.launch {
-        if (!isWallOption) {
-            repository.getNewerCount(remoteKeyDao.max()!!)
-        } else {
-            flowOf(0)
-        }
-            .asLiveData(Dispatchers.Default)
-        }
-        //!! getNewerCount catchable with flow(0)
-    //mutable for "Fresh posts" GONE after refresh/load
-     */
-
     private val _photo = MutableLiveData<PhotoModel>()
     val photo: LiveData<PhotoModel>
         get() = _photo
@@ -180,18 +160,11 @@ class PostViewModel @AssistedInject constructor(
     private fun load() = viewModelScope.launch(Dispatchers.Default) {
         try {
             _state.postValue(FeedModelState(loading = true))
-            //repository.stream.cachedIn(viewModelScope).
             _state.postValue(FeedModelState())
         } catch (e: Exception) {
             _state.postValue(FeedModelState(error = true))
         }
     }
-
-    /*
-    fun edit(post: Post) {
-        edited.value = post
-    }
-     */
 
     fun cancelEdit() {
         edited.postValue(empty)
@@ -227,7 +200,7 @@ class PostViewModel @AssistedInject constructor(
         if (oldPredicated) {
             return
         }
-        edited.postValue ( if (isPostModelEmpty)
+        edited.value = if (isPostModelEmpty)
             edited.value?.copy(content = content)
         else
             edited.value?.copy(
@@ -235,18 +208,15 @@ class PostViewModel @AssistedInject constructor(
                 coords = coords.value,
                 mentionIds = list.value ?: emptyList()
             )
-        )
         edited.value?.let { editedPost ->
             viewModelScope.launch(Dispatchers.Default) {
                 try {
                     when (_photo.value) {
                         noPhoto -> {
-                            //println("no file")
                             repository.save(editedPost)
                         }
 
                         else -> _photo.value?.file?.let { file ->
-                            //println("name: ${file.name}")
                             repository.save(editedPost, MediaUpload(file))
                         }
                     }
@@ -272,7 +242,6 @@ class PostViewModel @AssistedInject constructor(
     fun changeMentionList(list: List<Long>) = _list.postValue(list)
     fun clearCoords() = _coords.postValue(null)
     fun clearPhoto() = _photo.postValue(noPhoto)
-    fun clearMentionList() = _list.postValue(noList)
 
     fun likeById(id: Long) {
         viewModelScope.launch(Dispatchers.Default) {
@@ -310,20 +279,6 @@ class PostViewModel @AssistedInject constructor(
             }
         }
     }
-
-
-    /*
-    //refresh is NOT necessary due to paging
-    fun refresh() = viewModelScope.launch {
-        try {
-            _state.value = FeedModelState(refreshing = true)
-            //repository.getAll()
-            _state.value = FeedModelState()
-        } catch (e: Exception) {
-            _state.value = FeedModelState(error = true)
-        }
-    }
-     */
 }
 
 @AssistedFactory

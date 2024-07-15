@@ -7,7 +7,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.nework.BuildConfig.BASE_URL
 import com.example.nework.R
 import com.example.nework.databinding.ItemInFeedJobBinding
 import com.example.nework.dto.Job

@@ -43,10 +43,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.util.LongArg
-import ru.netology.nmedia.util.load
-import ru.netology.nmedia.util.loadAvatar
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.LongArg
+import com.example.nework.util.load
+import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class UserFragment : Fragment() {
@@ -66,14 +65,13 @@ class UserFragment : Fragment() {
     private val postModel: PostViewModel by activityViewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<PostViewModelFactory> { factory ->
-                @Suppress("DEPRECATION")
                 factory.create(true)//wall
             }
         }
     )
 
     //for wall list
-    val wallModel: PostByUserViewModel by viewModels(
+    private val wallModel: PostByUserViewModel by viewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<PostByUserViewModelFactory> { factory ->
                 @Suppress("DEPRECATION")
@@ -95,7 +93,6 @@ class UserFragment : Fragment() {
     private val userModel by viewModels<UsersViewModel>(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<UsersViewModelFactory> { factory ->
-                @Suppress("DEPRECATION")
                 factory.create(emptyList())
             }
         }
@@ -105,7 +102,7 @@ class UserFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val userId = requireArguments().USER_ID
 
         val binding = FragmentUserBinding.inflate(layoutInflater, container, false)
@@ -273,7 +270,6 @@ class UserFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        //jobModel.clearModels()
         postModel.clearModels()
         userModel.clearModel()
         super.onDestroy()

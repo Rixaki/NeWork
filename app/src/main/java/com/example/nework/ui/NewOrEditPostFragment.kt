@@ -26,13 +26,12 @@ import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
-import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import ru.netology.nmedia.util.AndroidUtils
-import ru.netology.nmedia.util.StringArg
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.AndroidUtils
+import com.example.nework.util.StringArg
+import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class NewOrEditPostFragment : Fragment() {
@@ -40,7 +39,6 @@ class NewOrEditPostFragment : Fragment() {
     private val viewModel: PostViewModel by activityViewModels(
         extrasProducer = {
             defaultViewModelCreationExtras.withCreationCallback<PostViewModelFactory> { factory ->
-                @Suppress("DEPRECATION")
                 factory.create(false)//no wall
             }
         }
@@ -51,21 +49,6 @@ class NewOrEditPostFragment : Fragment() {
     }
 
     private lateinit var mapView: MapView //for set lifecycle
-    /*
-    private lateinit var imageProvider: com.yandex.runtime.image.ImageProvider
-    private val inputListener = object : InputListener {
-        override fun onMapTap(p0: Map, p1: Point) {
-            p0.mapObjects.addPlacemark().apply {
-                geometry = p1
-                setIcon(imageProvider)
-            }
-        }
-
-        override fun onMapLongTap(p0: Map, p1: Point) {
-            onMapTap(p0, p1)
-        }
-    }
-     */
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,7 +57,6 @@ class NewOrEditPostFragment : Fragment() {
     ): View {
         val postEdited = viewModel.edited.value
         val startLocation: Coords? = postEdited?.coords
-        //val isEdited = postEdited?.id != 0
         val binding = FragmentNewOrEditPostOrEventBinding.inflate(
             layoutInflater,
             container,
@@ -85,15 +67,7 @@ class NewOrEditPostFragment : Fragment() {
         val imageProvider = DrawableImageProvider(requireContext(), R.drawable.baseline_location_pin_48)
         val inputListener = object : InputListener {
             override fun onMapTap(p0: Map, p1: Point) {
-                //println("MAP TAPPED (${p1.latitude}/${p1.longitude})")
                 viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
-                /*
-                p0.mapObjects.clear()
-                p0.mapObjects.addPlacemark().apply {
-                    geometry = p1
-                    setIcon(imageProvider)
-                }
-                 */
             }
 
             override fun onMapLongTap(p0: Map, p1: Point) {
@@ -102,25 +76,15 @@ class NewOrEditPostFragment : Fragment() {
         }
         mapView = binding.mapView
         val map = mapView.mapWindow?.map
-        /*
-        println("OPTIONS: " +
-                "${map?.isZoomGesturesEnabled}, " +
-                "${map?.isScrollGesturesEnabled}, " +
-                "${map?.isRotateGesturesEnabled}, " +
-                "${map?.isTiltGesturesEnabled}")
-        map?.addTapListener { false }//for inputlister working?
-         */
         map?.addInputListener(inputListener)
         if (postEdited?.coords != null) {
-            binding.position.setText(
-                getString(
-                    R.string.position,
-                    "%.4f".format(postEdited.coords.lat),
-                    "%.4f".format(postEdited.coords.long)
-                )
+            binding.position.text = getString(
+                R.string.position,
+                "%.4f".format(postEdited.coords.lat),
+                "%.4f".format(postEdited.coords.long)
             )
         } else {
-            binding.position.setText(getString(R.string.no_map_point))
+            binding.position.text = getString(R.string.no_map_point)
         }
         binding.clearLocation.setOnClickListener {
             viewModel.clearCoords()
@@ -168,29 +132,26 @@ class NewOrEditPostFragment : Fragment() {
             }
         }
 
-        //binding.eventGroup.visibility = View.GONE
         binding.eventBoardTime.visibility = View.GONE
         binding.pickEventDay.visibility = View.GONE
         binding.pickClock.visibility = View.GONE
         binding.list2Iv.visibility = View.GONE
         binding.eventType.visibility = View.GONE
 
-        binding.list1Iv.setText(getString(R.string.select_mentioned_users))
+        binding.list1Iv.text = getString(R.string.select_mentioned_users)
         binding.videoLink.setText(postEdited?.videoLink ?: "")
 
         viewModel.coords.observe(viewLifecycleOwner) { value ->
             val lat = value?.lat
             val long = value?.long
             if (value != null) {
-                binding.position.setText(
-                    getString(
-                        R.string.position,
-                        "%.4f".format(value.lat),
-                        "%.4f".format(value.long)
-                    )
+                binding.position.text = getString(
+                    R.string.position,
+                    "%.4f".format(value.lat),
+                    "%.4f".format(value.long)
                 )
             } else {
-                binding.position.setText(getString(R.string.no_map_point))
+                binding.position.text = getString(R.string.no_map_point)
             }
             if (map != null && lat != null && long != null) {
                 map.move(
@@ -204,7 +165,6 @@ class NewOrEditPostFragment : Fragment() {
                     setIcon(imageProvider)
                 }
             } else {
-                //map?.mapObjects?.addPlacemark()?.removeTapListener(placemarkTapListener)
                 if (map == null) {
                     toast(
                         getString(R.string.erroneous_absence_of_map_display),

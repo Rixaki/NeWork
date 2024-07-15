@@ -49,8 +49,6 @@ class EventRemoteMediator(
                 }
 
                 LoadType.PREPEND -> {
-                    //return MediatorResult.Success(endOfPaginationReached = true)
-
                     val lastId = eventRemoteKeyDao.max()
                         ?: return MediatorResult.Success(false)
                     service.getAfterEvent(
@@ -78,31 +76,22 @@ class EventRemoteMediator(
                 response.message(),
             )
             if (body.isEmpty()) {
-                //println("empty response body")
                 return MediatorResult.Success(endOfPaginationReached = true)
-            } else {
-                /*
-                println(
-                    "EVENT: response body id-s range: ${body.firstOrNull()?.id} and" +
-                            " ${body.lastOrNull()?.id}"
-                )
-                 */
             }
 
             eventDb.withTransaction {//all changes eventDao+keysDao or prev state
                 when (loadType) {
                     LoadType.REFRESH -> {
                         println("trans refresh")
-                        //eventDao.clear()//old version
                         eventRemoteKeyDao.insert(
                             listOf(
                                 EventRemoteKeyEntity(
                                     EventRemoteKeyEntity.KeyType.AFTER,
-                                    max(body.first().id, eventDao.max() ?: body.first().id)
+                                    body.first().id.coerceAtLeast(eventDao.max() ?: body.first().id)
                                 ),
                                 EventRemoteKeyEntity(
                                     EventRemoteKeyEntity.KeyType.BEFORE,
-                                    min(body.last().id, eventDao.min() ?: body.last().id)
+                                    body.last().id.coerceAtMost(eventDao.min() ?: body.last().id)
                                 )
                             )
                         )

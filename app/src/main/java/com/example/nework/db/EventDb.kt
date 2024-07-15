@@ -18,13 +18,4 @@ import com.example.nework.entity.EventRemoteKeyEntity
 abstract class EventDb : RoomDatabase() {
     abstract val eventDao: EventDao
     abstract val eventKeyDao: EventRemoteKeyDao
-
-    /*
-    companion object {
-        @Volatile
-        private var instance: EventDb? = null
-
-        //buildDatabase migrated to DI
-    }
-     */
 }

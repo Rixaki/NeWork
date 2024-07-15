@@ -16,11 +16,9 @@ import com.example.nework.dto.Event
 import com.example.nework.dto.FeedItem
 import com.example.nework.dto.Media
 import com.example.nework.dto.MediaUpload
-import com.example.nework.dto.Post
 import com.example.nework.dto.TimeHeader
 import com.example.nework.dto.TimeType
 import com.example.nework.entity.EventEntity
-import com.example.nework.entity.PostEntity
 import com.example.nework.error.ApiError
 import com.example.nework.error.NetworkError
 import com.example.nework.error.UnknownError
@@ -154,7 +152,7 @@ class EventRepoImpl @Inject constructor(
 
     override suspend fun removeById(id: Long) {
         try {
-            val response = appApi.deletePostById(id)//api delete
+            val response = appApi.deleteEventById(id)//api delete
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             } else {
@@ -176,7 +174,6 @@ class EventRepoImpl @Inject constructor(
     override suspend fun likeById(id: Long) {
         val eventEnt = eventDao.getEventById(id)
         try {
-            //eventDao.insert(eventEnt.copy(isLikeLoading = true))
             eventDao.changeLikeLoadingById(id)
             val response = if (eventEnt.likedByMe) {
                 appApi.unlikeEvent(id)//api unlike
@@ -186,7 +183,6 @@ class EventRepoImpl @Inject constructor(
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             } else {
-                //success api
                 eventDao.likeEventById(id)//local like & unlike
             }
         } catch (e: Exception) {

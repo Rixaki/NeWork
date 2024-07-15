@@ -5,7 +5,6 @@ import com.example.nework.dto.Event
 import com.example.nework.dto.FeedItem
 import com.example.nework.dto.Media
 import com.example.nework.dto.MediaUpload
-import com.example.nework.dto.Post
 import kotlinx.coroutines.flow.Flow
 
 interface EventRepo {

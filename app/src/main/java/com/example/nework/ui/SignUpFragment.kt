@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -15,7 +14,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.net.toFile
 import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
@@ -32,7 +30,7 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
@@ -70,9 +68,7 @@ class SignUpFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        //setMenuVisibility(false)
-
+    ): View {
         val binding = FragmentSignUpBinding
             .inflate(layoutInflater, container, false)
 
@@ -132,7 +128,7 @@ class SignUpFragment : Fragment() {
                 if (errorMsg != "Initial value") {
                     toast(getString(R.string.regi_toast_unsuccess, errorMsg))
                 }
-                binding.txtPassword.setText(null)
+                binding.txtPassword.text = null
             }
         }
 

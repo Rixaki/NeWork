@@ -23,7 +23,6 @@ import com.example.nework.dto.TimeHeader
 import com.example.nework.dto.TimeType
 import com.example.nework.entity.PostEntity
 import com.example.nework.error.*
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -42,8 +41,8 @@ const val WEEK_COUNT: Long = 48 * 60 * 60
 @Singleton
 class PostRepoImpl @Inject constructor(
     private val postDao: PostDao,
-    private val postRemoteKeyDao: PostRemoteKeyDao,
-    private val wallRemoteKeyDao: WallByUserRemoteKeyDao,
+    postRemoteKeyDao: PostRemoteKeyDao,
+    wallRemoteKeyDao: WallByUserRemoteKeyDao,
     private val appApi: AppApi,
     private val postDb: PostDb,
 ) : PostRepo {
@@ -80,7 +79,6 @@ class PostRepoImpl @Inject constructor(
                 try {
                     val firstTime = before!!.toEpoch()//NPE throwable
                     val secondTime = after.toEpoch()//NPE throwable
-                    //println("1st t: ${firstTime}, 2st t: ${secondTime},
                     // cur: " + "$curTime")
                     if ((curTime - firstTime < TODAY_COUNT)
                         &&
@@ -200,7 +198,6 @@ class PostRepoImpl @Inject constructor(
     override suspend fun likeById(id: Long) {
         val postEnt = postDao.getPostById(id)
         try {
-            //postDao.insert(postEnt.copy(isLikeLoading = true))
             postDao.changeLikeLoadingById(id)
             val response = if (postEnt.likedByMe) {
                 appApi.unlikePost(id)
@@ -224,7 +221,6 @@ class PostRepoImpl @Inject constructor(
                 }
             }
         } finally {
-            //postDao.insert(postEnt.copy(isLikeLoading = false))
             postDao.changeLikeLoadingById(id)
         }
     }
@@ -257,16 +253,4 @@ class PostRepoImpl @Inject constructor(
             }
         }
     }
-
-    /*
-        //old version
-        override suspend fun upload(upload: MediaUpload): Media =
-        appApi.upload(
-            MultipartBody.Part.createFormData(
-                "file",
-                upload.file.name,
-                upload.file.asRequestBody()
-            )
-        )
-        */
 }

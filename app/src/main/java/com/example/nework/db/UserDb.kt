@@ -16,13 +16,4 @@ import com.example.nework.entity.WallByUserRemoteKeyEntity
 @TypeConverters(BaseTypeConverter::class)
 abstract class UserDb : RoomDatabase() {
     abstract val userDao: UserDao
-
-    /*
-    companion object {
-        @Volatile
-        private var instance: UserDb? = null
-
-        //buildDatabase migrated to DI
-    }
-     */
 }

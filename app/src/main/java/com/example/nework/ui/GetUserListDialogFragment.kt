@@ -1,11 +1,9 @@
 package com.example.nework.ui
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
@@ -19,10 +17,9 @@ import com.example.nework.vm.UsersViewModel
 import com.example.nework.vm.UsersViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.toast
 import javax.inject.Inject
 
-@Suppress("UNCHECKED_CAST")
 @AndroidEntryPoint
 class GetUserListDialogFragment(
     private val listIds: List<Long>,
@@ -30,26 +27,9 @@ class GetUserListDialogFragment(
 ) : DialogFragment() {
     private var _listView: View? = null
 
-    /*
-    companion object {
-        private const val DATE_EXTRA = "DATE_EXTRA"
-
-        fun createArgs(ids: List<Int>): Bundle =
-            bundleOf(DATE_EXTRA to ids)
-    }
-     */
-
     //for DI in userListModel
     @Inject
     lateinit var appAuth: AppAuth
-    /*
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = Dialog(requireContext())
-        val inflater: LayoutInflater = this@GetUserListDialogFragment.getLayoutInflater()
-        dialog.setTitle(getString(titleId))
-        return dialog
-    }
-     */
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,7 +41,6 @@ class GetUserListDialogFragment(
         val userListModel by viewModels<UsersViewModel>(
             extrasProducer = {
                 defaultViewModelCreationExtras.withCreationCallback<UsersViewModelFactory> { factory ->
-                    @Suppress("DEPRECATION")
                     factory.create(listIds)
                 }
             }

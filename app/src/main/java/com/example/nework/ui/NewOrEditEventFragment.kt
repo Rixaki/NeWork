@@ -32,18 +32,16 @@ import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
-import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
-import ru.netology.nmedia.util.AndroidUtils
-import ru.netology.nmedia.util.StringArg
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.AndroidUtils
+import com.example.nework.util.StringArg
+import com.example.nework.util.toast
 import java.util.Date
 
 
 @AndroidEntryPoint
 class NewOrEditEventFragment : Fragment() {
-    //viewModel take event in edited after onEditLtn in feed or event page
     private val viewModel: EventViewModel by activityViewModels()
 
     companion object {
@@ -54,22 +52,6 @@ class NewOrEditEventFragment : Fragment() {
     private val imageProvider by lazy {
         DrawableImageProvider(requireContext(), R.drawable.baseline_location_pin_48)
     }
-    //private var geoposition: PlacemarkMapObject? = null
-    /*
-    private lateinit var imageProvider: com.yandex.runtime.image.ImageProvider
-    private val inputListener = object : InputListener {
-        override fun onMapTap(p0: Map, p1: Point) {
-            p0.mapObjects.addPlacemark().apply {
-                geometry = p1
-                setIcon(imageProvider)
-            }
-        }
-
-        override fun onMapLongTap(p0: Map, p1: Point) {
-            onMapTap(p0, p1)
-        }
-    }
-     */
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onCreateView(
@@ -101,20 +83,6 @@ class NewOrEditEventFragment : Fragment() {
         val inputListener = object : InputListener {
             override fun onMapTap(p0: Map, p1: Point) {
                 viewModel.changeCoords(Coords(p1.latitude, p1.longitude))
-                /*
-                if (geoposition == null) {
-                    geoposition = p0.mapObjects.addPlacemark().apply {
-                        geometry = p1
-                        setIcon(imageProvider)
-                    }
-                } else {
-                    p0.mapObjects.remove(geoposition!!)
-                    geoposition = p0.mapObjects.addPlacemark().apply {
-                        geometry = p1
-                        setIcon(imageProvider)
-                    }
-                }
-                 */
             }
 
             override fun onMapLongTap(p0: Map, p1: Point) {
@@ -125,26 +93,20 @@ class NewOrEditEventFragment : Fragment() {
         val map = mapView.mapWindow?.map
         map?.addInputListener(inputListener)
         if (eventEdited?.coords != null) {
-            binding.position.setText(
-                getString(
-                    R.string.position,
-                    "%.4f".format(eventEdited.coords.lat),
-                    "%.4f".format(eventEdited.coords.long)
-                )
+            binding.position.text = getString(
+                R.string.position,
+                "%.4f".format(eventEdited.coords.lat),
+                "%.4f".format(eventEdited.coords.long)
             )
         } else {
-            binding.position.setText(getString(R.string.no_map_point))
+            binding.position.text = getString(R.string.no_map_point)
         }
         binding.clearLocation.setOnClickListener {
             viewModel.clearCoords()
-            //map?.deselectGeoObject()
-            //geoposition = null
         }
         binding.prevLocation.setOnClickListener {
             viewModel.changeCoords(startLocation)
             if (startLocation == null) {
-                //map?.deselectGeoObject()
-                //geoposition = null
                 toast(
                     getString(R.string.there_was_not_previous_location),
                     period = Toast.LENGTH_SHORT
@@ -184,7 +146,6 @@ class NewOrEditEventFragment : Fragment() {
             }
         }
 
-        //binding.eventGroup.visibility = View.VISIBLE
         binding.eventBoardTime.visibility = View.VISIBLE
         binding.pickEventDay.visibility = View.VISIBLE
         binding.pickClock.visibility = View.VISIBLE
@@ -192,8 +153,8 @@ class NewOrEditEventFragment : Fragment() {
         binding.eventType.visibility = View.VISIBLE
 
         binding.videoLink.setText(eventEdited?.videoLink ?: "")
-        binding.list1Iv.setText((countToString(eventEdited?.participantsIds?.size ?: 0)))
-        binding.list2Iv.setText(getString(R.string.select_speakers))
+        binding.list1Iv.text = (countToString(eventEdited?.participantsIds?.size ?: 0))
+        binding.list2Iv.text = getString(R.string.select_speakers)
 
         binding.eventType.isSelected = viewModel.isOnline.value == true//select == online
         viewModel.isOnline.observe(viewLifecycleOwner) {
@@ -207,19 +168,10 @@ class NewOrEditEventFragment : Fragment() {
         }
 
         //TIME SETTING ZONE
-        //default listener in MaterialDatePicker, MaterialTimePicker = dismiss()
+        //maybe default listener in MaterialDatePicker, MaterialTimePicker = dismiss() ?
         val startDate = (DATE_FORMAT.parse(eventEdited!!.datetime))!!.time
-        //val hourFormat = SimpleDateFormat("HH")
-        //val minuteFormat = SimpleDateFormat("mm")
         var startHours = 0
         var startMinute = 0
-        /*
-        try {
-            startDate = (DATE_FORMAT.parse(eventEdited!!.datetime))!!.time
-        } catch (e: Exception) {
-            startDate = MaterialDatePicker.todayInUtcMilliseconds()
-        }
-         */
         try {
             val millisecsInDay = (Date(startDate).time % 86400000).toInt()
             startHours = millisecsInDay / (1000 * 60 * 60)
@@ -231,7 +183,6 @@ class NewOrEditEventFragment : Fragment() {
         val datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(getString(R.string.select_event_day))
-                //.setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .setSelection(startDate)
                 .build()
         datePicker.addOnPositiveButtonClickListener { selection ->
@@ -258,43 +209,24 @@ class NewOrEditEventFragment : Fragment() {
             timePicker.show(requireActivity().supportFragmentManager, "Time picker")
         }
         binding.eventBoardTime.isClickable = false
-        binding.eventBoardTime.setText( "Set day and time of the date." )
+        binding.eventBoardTime.text = "Set day and time of the date."
         val boardStartTxt = getString(R.string.date_time)
-        /*
-        lifecycleScope.launch {
-            viewModel.eventTimeBoardText.observe(viewLifecycleOwner) { boardText ->
-                binding.eventBoardTime.text = "$boardStartTxt $boardText"
-            }
-        }
-         */
         viewModel.eventTimeBoardText.observe(viewLifecycleOwner){ boardText ->
             binding.eventBoardTime.text = "$boardStartTxt $boardText"
         }
         //END TIME SETTING ZONE
-        /*
-        //"so called DEBUG"
-        viewModel.eventDate.observe(viewLifecycleOwner){ date->
-            println("DATE: $date")
-        }
-        viewModel.eventTime.observe(viewLifecycleOwner){ time->
-            println("TIME: $time")
-        }
-         */
-
 
         viewModel.coords.observe(viewLifecycleOwner) { value ->
             val lat = value?.lat
             val long = value?.long
             if (value != null) {
-                binding.position.setText(
-                    getString(
-                        R.string.position,
-                        "%.4f".format(value.lat),
-                        "%.4f".format(value.long)
-                    )
+                binding.position.text = getString(
+                    R.string.position,
+                    "%.4f".format(value.lat),
+                    "%.4f".format(value.long)
                 )
             } else {
-                binding.position.setText(getString(R.string.no_map_point))
+                binding.position.text = getString(R.string.no_map_point)
             }
             if (map != null && lat != null && long != null) {
                 map.move(
@@ -308,7 +240,6 @@ class NewOrEditEventFragment : Fragment() {
                     setIcon(imageProvider)
                 }
             } else {
-                //map?.mapObjects?.addPlacemark()?.removeTapListener(placemarkTapListener)
                 if (map == null) {
                     toast(
                         getString(R.string.erroneous_absence_of_map_display),
@@ -391,9 +322,9 @@ class NewOrEditEventFragment : Fragment() {
         }
 
         binding.list1Iv.setOnClickListener {
-            if ((eventEdited?.participantsIds ?: emptyList()).isEmpty()) {
+            if ((eventEdited.participantsIds ?: emptyList()).isEmpty()) {
                 val dialog = GetUserListDialogFragment(
-                    eventEdited!!.participantsIds,
+                    eventEdited.participantsIds,
                     R.string.list_of_participant_users
                 )
                 dialog.show(requireActivity().supportFragmentManager, "List participants dialog.")
@@ -403,7 +334,7 @@ class NewOrEditEventFragment : Fragment() {
         }
 
         binding.list2Iv.setOnClickListener {
-            viewModel.changeSpeakersList(eventEdited?.speakerIds ?: emptyList())
+            viewModel.changeSpeakersList(eventEdited.speakerIds)
             //TODO: POTENTIAL NAVIGATE TROUBLE
             this@NewOrEditEventFragment.findNavController()
                 .navigate(R.id.action_newOrEditEventFragment_to_selectUserListByEventFragment,
@@ -414,7 +345,7 @@ class NewOrEditEventFragment : Fragment() {
 
         binding.save.setOnClickListener {
             val text = binding.content.text.toString()
-            if (text.isNullOrBlank()) {
+            if (text.isBlank()) {
                 dialogMsg = getString(R.string.newAndEdit_toast_empty)
                 errorDialog.show()
                 return@setOnClickListener

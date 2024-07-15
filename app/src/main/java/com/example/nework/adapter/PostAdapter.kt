@@ -26,8 +26,8 @@ import com.example.nework.dto.TimeType
 import com.example.nework.util.countToString
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
-import ru.netology.nmedia.util.load
-import ru.netology.nmedia.util.loadAvatar
+import com.example.nework.util.load
+import com.example.nework.util.loadAvatar
 
 
 interface OnIterationPostListener {
@@ -121,7 +121,7 @@ class PostAdapter(
         fun bind(ad: Ad) {
             binding.apply {
                 image.load(
-                    url = "${BuildConfig.BASE_URL}/media/${ad.image}",
+                    url = "$BASE_URL/media/${ad.image}",
                     placeholderIndex = R.drawable.ad_placemarker_48,
                     errorIndex = R.drawable.ad_placemarker_48
                 )
@@ -165,29 +165,6 @@ class PostAdapter(
         }
         else -> error("unknown item type: $viewType")
     }
-
-
-    /*
-
-    override fun onBindViewHolder(
-        holder: PostViewHolder,
-        position: Int,
-        payloads: MutableList<Any>
-    ) {
-        if (payloads.isNullOrEmpty()){
-            onBindViewHolder(holder, position)
-        } else {
-            for (pl : payloads) {
-                if (pl.id == likeIv) {
-                //some set image/animation
-                }
-                if (pl.id == shareIv) {
-                //some set image/animation
-                }
-            }
-        }
-    }
-     */
 }
 
 class PostInFeedViewHolder(
@@ -305,20 +282,6 @@ class PostInFeedViewHolder(
             binding.cardContent.text = it
         }
     }
-
-    /*
-    likeIv.setOnClickListener {
-        onIterationListener.onLikeLtn(post)
-        if (!post.likedByMe) {
-            //likeCount.setTextColor(0xFF0000FF.toInt())
-            GlobalScope.launch {
-                delay(1500) // In ms
-                //Code after sleep
-                //likeCount.setTextColor(0xFF777777.toInt())
-            }
-        }
-    }
-    */
 }//postinfeedviewholder
 
 class PostInCardViewHolder(
@@ -332,14 +295,13 @@ class PostInCardViewHolder(
             avatar.loadAvatar(url = post.authorAvatar ?: "404")
 
             author.text = post.author
-            publishedTime.setText(post.published)
+            publishedTime.text = post.published
             cardContent.text = post.content
 
             likeIv.isChecked = post.likedByMe
             likeIv.text = countToString(post.likes)
 
             likeIv.setOnClickListener {
-                //likeIv.isChecked = !post.likedByMe
                 likeIv.text =
                     countToString(post.likes + (if (post.likedByMe) -1 else 1))
                 onIterationPostListener.onLikeLtn(post)

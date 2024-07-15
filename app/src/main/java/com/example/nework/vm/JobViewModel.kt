@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.util.SingleLiveEvent
+import com.example.nework.util.SingleLiveEvent
 
 private val empty = Job(
     id = 0,
@@ -26,7 +26,7 @@ private val empty = Job(
 )
 
 private val noState = ResponceState()
-private val noStr = ""
+private const val noStr = ""
 private val noList = emptyList<Job>()
 
 //FOR EDIT JOB
@@ -67,18 +67,18 @@ class JobViewModel @AssistedInject constructor(
         get() = _link
 
     private val privateJobCanceled = SingleLiveEvent<Unit>()
-    val JobCanceled: LiveData<Unit>
+    val jobCanceled: LiveData<Unit>
         get() = privateJobCanceled
 
     private val privateJobCreated = SingleLiveEvent<Unit>()
-    val JobCreated: LiveData<Unit>
+    val jobCreated: LiveData<Unit>
         get() = privateJobCreated
 
     init {
         loadJobsById(userId)
     }
 
-    fun loadJobsById(id: Long) {
+    private fun loadJobsById(id: Long) {
         _state.update {
             it.copy(loading = true)
         }
@@ -140,7 +140,6 @@ class JobViewModel @AssistedInject constructor(
                     link = if (link.value.isNullOrBlank()) null else link.value,
                 )
             )
-            //println("names - ${_job.value.name}, ${name.value}")
             _job.value.let { job ->
                 viewModelScope.launch {
                     try {

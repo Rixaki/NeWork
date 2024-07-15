@@ -20,15 +20,7 @@ import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-private const val BASE_URL = "http://94.228.125.136:8080/api/"
-
 interface AppApi {
-    /*
-    //POST COMMANDS
-    @GET("posts")
-    suspend fun getAllPosts(): Response<List<Post>>
-     */
-
     //POST COMMANDS
     @GET("posts/{id}/newer")
     suspend fun getNewerPost(@Path("id") id: Long): Response<List<Post>>
@@ -48,9 +40,6 @@ interface AppApi {
     @POST("posts")
     suspend fun savePost(@Body post: Post): Response<Post>
 
-    @GET("posts/{id}")
-    suspend fun getPostById(@Path("id") id: Long): Response<Post>
-
     @DELETE("posts/{id}")
     suspend fun deletePostById(@Path("id") id: Long): Response<Unit>
 
@@ -62,17 +51,6 @@ interface AppApi {
 
     @GET("posts/latest")
     suspend fun getLatestPost(@Query("count") count: Int): Response<List<Post>>
-
-    //MEDIA COMMAND
-    @Multipart
-    @POST("media")
-    suspend fun uploadAvatar(@Part media: MultipartBody.Part): Response<Media>
-
-    /*
-    //EVENT COMMAND
-    @GET("events")
-    suspend fun getAllEvents(): Response<List<Event>>
-     */
 
     //EVENT COMMANDS
     @GET("events/{id}/newer")
@@ -93,8 +71,6 @@ interface AppApi {
     @POST("events")
     suspend fun saveEvent(@Body event: Event): Response<Event>
 
-    @GET("events/{id}")
-    suspend fun getEventById(@Path("id") id: Long): Response<Event>
 
     @DELETE("events/{id}")
     suspend fun deleteEventById(@Path("id") id: Long): Response<Unit>
@@ -114,80 +90,7 @@ interface AppApi {
     @GET("events/latest")
     suspend fun getLatestEvent(@Query("count") count: Int): Response<List<Event>>
 
-    /*
-    //WALL COMMAND
-    @GET("{authorId}/wall")
-    suspend fun getWall(@Path("authorId") authorId: Long): Response<List<Post>>
-     */
-
-    //WALL COMMANDS
-    @GET("{authorId}/wall/{postId}/newer")
-    suspend fun getNewerWall(
-        @Path("authorId") authorId: Long,
-        @Path("postId") postId: Long,
-    ): Response<Post>
-
-    @GET("{authorId}/wall/{postId}/before")
-    suspend fun getBeforeWall(
-        @Path("authorId") authorId: Long,
-        @Path("postId") postId: Long,
-        @Query("count") count: Int
-    ): Response<List<Post>>
-
-    @GET("{authorId}/wall/{postId}/after")
-    suspend fun getAfterWall(
-        @Path("authorId") authorId: Long,
-        @Path("postId") postId: Long,
-        @Query("count") count: Int
-    ): Response<List<Post>>
-
-    @GET("{authorId}/wall/{postId}")
-    suspend fun getPostWallById(
-        @Path("authorId") authorId: Long,
-        @Path("postId") postId: Long
-    ): Response<Post>
-
-    @GET("{authorId}/wall/latest")
-    suspend fun getLatestWall(
-        @Path("authorId") authorId: Long,
-        @Query("count") count: Int
-    ): Response<List<Post>>
-
-    /*
-    //MY_WALL COMMAND
-    @GET("my/wall")
-    suspend fun getMyWall(): Response<List<Post>>
-     */
-
-    //MY_WALL COMMANDS
-    @GET("my/wall/{id}/newer")
-    suspend fun getNewerMyWall(
-        @Path("id") id: Long,
-    ): Response<Post>
-
-    @GET("my/wall/{id}/before")
-    suspend fun getBeforeMyWall(
-        @Path("id") id: Long,
-        @Query("count") count: Int
-    ): Response<List<Post>>
-
-    @GET("my/wall/{id}/after")
-    suspend fun getAfterMyWall(
-        @Path("id") id: Long,
-        @Query("count") count: Int
-    ): Response<List<Post>>
-
-    @GET("my/wall/{id}")
-    suspend fun getPostMyWallById(
-        @Path("id") id: Long,
-    ): Response<Post>
-
-    @GET("my/wall/latest")
-    suspend fun getLatestMyWall(@Query("count") count: Int): Response<List<Post>>
-
     //JOB COMMANDS
-    @GET("my/jobs")
-    suspend fun getMyJobs(): Response<List<Job>>
 
     @GET("{id}/jobs")
     suspend fun getJobsByUser(@Path("id") id: Long): Response<List<Job>>

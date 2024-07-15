@@ -17,8 +17,6 @@ import com.example.nework.error.ApiError
 import java.lang.Math.max
 import java.lang.Math.min
 
-const val STARTING_PAGE_INDEX = 1
-
 @OptIn(ExperimentalPagingApi::class)
 class PostRemoteMediator(
     private val service: AppApi,
@@ -91,33 +89,22 @@ class PostRemoteMediator(
                 response.message(),
             )
             if (body.isEmpty()) {
-                //println("empty response body")
                 return MediatorResult.Success(endOfPaginationReached = true)
-            } else {
-                /*
-                println(
-                    "POST: response body id-s range: ${body.firstOrNull()?.id} and" +
-                            " ${body.lastOrNull()?.id}"
-                )
-                 */
             }
 
             postDb.withTransaction { //all changes postdao+keysDao or prev state
                 when (loadType) {
                     LoadType.REFRESH -> {
                         println("trans refresh")
-                        //postDao.clear()//old version
                         keyDao.insert(
-                            //listOf(
-                                PostRemoteKeyEntity(
-                                    PostRemoteKeyEntity.KeyType.AFTER,
-                                    max(body.first().id, postDao.max() ?: body.first().id)
-                                ),
-                                PostRemoteKeyEntity(
-                                    PostRemoteKeyEntity.KeyType.BEFORE,
-                                    min(body.last().id, postDao.min() ?: body.last().id)
-                                )
-                            //)
+                            PostRemoteKeyEntity(
+                                PostRemoteKeyEntity.KeyType.AFTER,
+                                kotlin.math.max(body.first().id, postDao.max() ?: body.first().id)
+                            ),
+                            PostRemoteKeyEntity(
+                                PostRemoteKeyEntity.KeyType.BEFORE,
+                                kotlin.math.min(body.last().id, postDao.min() ?: body.last().id)
+                            )
                         )
                     }
 
@@ -146,7 +133,6 @@ class PostRemoteMediator(
                 postDao.insert(body.map(PostEntity::fromDto))
             }
 
-            //return MediatorResult.Success(endOfPaginationReached = body.isEmpty())
             //reachable with only non-empty body
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: Exception) {

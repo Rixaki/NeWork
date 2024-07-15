@@ -38,7 +38,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.util.toast
+import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class PostsFeedFragment : Fragment() {
@@ -51,17 +51,6 @@ class PostsFeedFragment : Fragment() {
         }
     )
     private val authModel: AuthViewModel by viewModels()
-
-    /*
-    @Inject
-    lateinit var appAuth: AppAuth
-     */
-
-    //private var _binding: FragmentFeedPostOrEventBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    //private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -224,10 +213,5 @@ class PostsFeedFragment : Fragment() {
 
 
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        //_binding = null
     }
 }

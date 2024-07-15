@@ -35,11 +35,7 @@ class SignViewModel @Inject constructor(
     val response: StateFlow<Result<AuthState>>
         get() = _response.asStateFlow()
 
-    fun clearResponse() {
-        _response.value = noResponse
-    }
-
-    fun changeAuth(authState: AuthState) {
+    private fun changeAuth(authState: AuthState) {
         _auth.value = authState
         appAuth.setAuth(
             id = authState.id,
@@ -48,17 +44,10 @@ class SignViewModel @Inject constructor(
         )
     }
 
-    /*
-    fun clearAuth() {
-        privateAuth.value = noAuth
-    }
-     */
-
-    fun login(login: String, pass: String): Unit {
+    fun login(login: String, pass: String) {
         viewModelScope.launch(SupervisorJob()) {
             _response.value = Login(appApi).login(login, pass)
             val newState = _response.value.getOrNull()
-            //println("newstate id ${newState?.id}")
             if (_response.value.isSuccess && newState != null) {
                 changeAuth(newState)
             }
@@ -70,7 +59,7 @@ class SignViewModel @Inject constructor(
         pass: String,
         name: String,
         uploadAvatar: MediaUpload?
-    ): Unit {
+    ) {
         viewModelScope.launch() {
             _response.value =
                 Registration(appApi).register(login, pass, name, uploadAvatar)
