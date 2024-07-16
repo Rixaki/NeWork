@@ -29,6 +29,8 @@ import com.example.nework.dto.Post
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.PostFragment.Companion.longArg
 import com.example.nework.ui.UserFragment.Companion.USER_ID
+import com.example.nework.util.loadAvatar
+import com.example.nework.util.toast
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.JobViewModel
 import com.example.nework.vm.JobViewModelFactory
@@ -45,8 +47,6 @@ import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.example.nework.util.loadAvatar
-import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class MyProfileFragment : Fragment() {
@@ -95,15 +95,17 @@ class MyProfileFragment : Fragment() {
             println("My ID: $myId")
             userModel.setUserById(myId)
 
-            userModel.state.asLiveData(Dispatchers.Default).observe(viewLifecycleOwner){ state ->
-                if(state.error){
+            userModel.state.asLiveData(Dispatchers.Default).observe(viewLifecycleOwner) { state ->
+                if (state.error) {
                     toast(
                         getString(
                             R.string.failure_with_users_info_error_code,
                             state.lastErrorAction
-                        ))
+                        )
+                    )
                     findNavController().navigate(R.id.action_global_to_postsFeedFragment)
-                    val bottomBarView = requireActivity().findViewById<NavigationBarView>(R.id.bottom_navigation)
+                    val bottomBarView =
+                        requireActivity().findViewById<NavigationBarView>(R.id.bottom_navigation)
                     bottomBarView.selectedItemId = R.id.posts
                 }
             }

@@ -27,6 +27,7 @@ import com.example.nework.dto.Event
 import com.example.nework.ui.EventFragment.Companion.longArg
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.util.countToString
+import com.example.nework.util.toast
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.EventViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -36,7 +37,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class EventsFeedFragment : Fragment() {
@@ -77,7 +77,8 @@ class EventsFeedFragment : Fragment() {
             override fun onParticipantLtn(event: Event) {
                 if (authModel.authenticated) {
                     if (event.participatedByMe) {
-                        toast( message = getString(
+                        toast(
+                            message = getString(
                                 R.string.trying_to_out_participating,
                                 event.author
                             ),
@@ -221,7 +222,7 @@ class EventsFeedFragment : Fragment() {
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
-            with (binding) {
+            with(binding) {
                 progress.isVisible = state.loading
                 statusText.isVisible = state.loading
                 errorGroup.isVisible = state.error
@@ -233,7 +234,10 @@ class EventsFeedFragment : Fragment() {
             adapter.retry()
             binding.errorGroup.isVisible = false
             if (viewModel.state.value?.error == true) {
-                toast(viewModel.state.value?.lastErrorAction ?: getString(R.string.something_went_wrong))
+                toast(
+                    viewModel.state.value?.lastErrorAction
+                        ?: getString(R.string.something_went_wrong)
+                )
             }
         }
 

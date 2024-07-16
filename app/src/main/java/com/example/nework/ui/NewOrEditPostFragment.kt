@@ -16,7 +16,10 @@ import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
 import com.example.nework.dto.Coords
 import com.example.nework.ui.SelectUserListByPostFragment.Companion.titleArg
+import com.example.nework.util.AndroidUtils
 import com.example.nework.util.DrawableImageProvider
+import com.example.nework.util.StringArg
+import com.example.nework.util.toast
 import com.example.nework.vm.PostViewModel
 import com.example.nework.vm.PostViewModelFactory
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -29,9 +32,6 @@ import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import com.example.nework.util.AndroidUtils
-import com.example.nework.util.StringArg
-import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class NewOrEditPostFragment : Fragment() {
@@ -64,7 +64,8 @@ class NewOrEditPostFragment : Fragment() {
         )
 
         //MAP_KIT BLOCK
-        val imageProvider = DrawableImageProvider(requireContext(), R.drawable.baseline_location_pin_48)
+        val imageProvider =
+            DrawableImageProvider(requireContext(), R.drawable.baseline_location_pin_48)
         val inputListener = object : InputListener {
             override fun onMapTap(p0: Map, p1: Point) {
                 viewModel.changeCoords(Coords(p1.latitude, p1.longitude))

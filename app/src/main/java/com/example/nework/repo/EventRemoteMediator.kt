@@ -12,8 +12,6 @@ import com.example.nework.db.EventDb
 import com.example.nework.entity.EventEntity
 import com.example.nework.entity.EventRemoteKeyEntity
 import com.example.nework.error.ApiError
-import java.lang.Math.max
-import java.lang.Math.min
 
 @OptIn(ExperimentalPagingApi::class)
 class EventRemoteMediator(
@@ -126,7 +124,9 @@ class EventRemoteMediator(
             //reachable with only non-empty body
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: Exception) {
-            if (!e.message.isNullOrBlank()) { println("ERROR MESSAGE: ${e.message}") }
+            if (!e.message.isNullOrBlank()) {
+                println("ERROR MESSAGE: ${e.message}")
+            }
             return MediatorResult.Error(e)
         }
     }

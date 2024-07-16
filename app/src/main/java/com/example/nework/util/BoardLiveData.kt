@@ -9,7 +9,7 @@ class BoardLiveData(
 ) : MediatorLiveData<String>() {
     private var day: String = "__.__.____"
     private var time: String = "__:__"
-    private fun combine (day: String, time: String) : String = "$day $time"
+    private fun combine(day: String, time: String): String = "$day $time"
 
     init {
         super.addSource(daySource) {

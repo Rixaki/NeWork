@@ -28,6 +28,9 @@ import com.example.nework.dto.Job
 import com.example.nework.dto.Post
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.PostFragment.Companion.longArg
+import com.example.nework.util.LongArg
+import com.example.nework.util.load
+import com.example.nework.util.toast
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.JobViewModel
 import com.example.nework.vm.JobViewModelFactory
@@ -43,9 +46,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.example.nework.util.LongArg
-import com.example.nework.util.load
-import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class UserFragment : Fragment() {

@@ -18,19 +18,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/publishedTime"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/publishedTime" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/avatarDimen"
             android:layout_height="@dimen/avatarDimen"
             android:contentDescription="@string/descriptionPostAuthorAvatar"
-            tools:src="@tools:sample/avatars"
             app:layout_constraintBottom_toTopOf="@id/mapView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/author"
@@ -71,32 +71,32 @@
 
         <com.yandex.mapkit.mapview.MapView
             android:id="@+id/mapView"
+            style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            style="@style/Widget.Material3.Button.IconButton"
             android:layout_marginVertical="@dimen/defaultMargin"
             android:backgroundTint="?colorPrimary"
-            app:iconTint="?colorOnPrimary"
+            app:icon="@drawable/baseline_location_pin_48"
             app:iconGravity="textStart"
-            app:layout_constraintTop_toBottomOf="@id/avatar"
+            app:iconTint="?colorOnPrimary"
             app:layout_constraintBottom_toBottomOf="@id/barrierPostHeadBottom"
-            app:icon="@drawable/baseline_location_pin_48" />
+            app:layout_constraintTop_toBottomOf="@id/avatar" />
 
         <TextView
             android:id="@+id/pointBoard"
             style="@style/Widget.AppTheme.LikeButton"
-            android:layout_marginTop="@dimen/defaultMargin"
-            android:layout_margin="@dimen/buttonDefaultMarginDim"
             android:layout_width="wrap_content"
             android:layout_height="32dp"
-            android:textSize="@dimen/defaultTextSize"
+            android:layout_margin="@dimen/buttonDefaultMarginDim"
+            android:layout_marginTop="@dimen/defaultMargin"
+            android:background="@color/white"
             android:clickable="false"
             android:focusable="false"
-            android:textColor="@color/black"
-            android:background="@color/white"
             android:text="point: 100.0000 / 200.0000"
-            app:layout_constraintTop_toTopOf="@id/mapView"
-            app:layout_constraintEnd_toEndOf="@id/mapView" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/defaultTextSize"
+            app:layout_constraintEnd_toEndOf="@id/mapView"
+            app:layout_constraintTop_toTopOf="@id/mapView" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrierPostHeadBottom"
@@ -108,19 +108,19 @@
             app:constraint_referenced_ids="menu, avatar, author, mapView" />
 
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppTheme.LikeButton"
             android:id="@+id/publishedTime"
+            style="@style/Widget.AppTheme.LikeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/defaultMargin"
+            android:clickable="false"
+            android:focusable="false"
             android:singleLine="true"
             android:textColor="@color/black"
             app:icon="@drawable/baseline_create_24"
             app:iconTint="@color/black"
-            android:focusable="false"
-            android:clickable="false"
-            app:layout_constraintTop_toTopOf="@id/barrierPostHeadBottom"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/barrierPostHeadBottom"
             tools:text="25.05.2024 15:00" />
 
         <Button
@@ -128,49 +128,49 @@
             style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/offline"
-            android:textColor="@color/white"
+            android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
             android:layout_marginEnd="@dimen/defaultMargin"
             android:backgroundTint="@color/black"
-            app:icon="@drawable/ic_event_type_selector"
-            app:iconTint="@color/white"
-            android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
             android:clickable="false"
             android:focusable="false"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/offline"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_event_type_selector"
+            app:iconTint="@color/white"
             app:layout_constraintEnd_toStartOf="@id/participantStatus"
-            app:layout_constraintTop_toBottomOf="@id/publishedTime"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/publishedTime" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/participantStatus"
             style="@style/Widget.AppTheme.ParticipantButton"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
-            app:icon="@drawable/ic_participant_selector"
-            android:singleLine="true"
             android:ellipsize="end"
+            android:singleLine="true"
             android:text="@string/you_participants_in_this_event"
             android:textColor="@color/black"
+            app:icon="@drawable/ic_participant_selector"
             app:iconTint="@color/black"
-            app:layout_constraintStart_toEndOf="@id/eventType"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/eventType"
             app:layout_constraintTop_toBottomOf="@id/publishedTime" />
 
         <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppTheme.LikeButton"
             android:id="@+id/eventTime"
+            style="@style/Widget.AppTheme.LikeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/defaultMargin"
+            android:clickable="false"
+            android:focusable="false"
             android:singleLine="true"
             android:textColor="@color/black"
-            android:layout_marginVertical="@dimen/defaultMargin"
             app:icon="@drawable/baseline_event_48"
             app:iconTint="@color/black"
-            android:focusable="false"
-            android:clickable="false"
-            app:layout_constraintTop_toTopOf="@id/barrierPostHeadBottom"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/barrierPostHeadBottom"
             tools:text="01.06.2024 10:00" />
 
         <androidx.constraintlayout.widget.Barrier
@@ -216,8 +216,8 @@
             android:clickable="false"
             android:insetTop="0dp"
             android:minHeight="0dp"
-            app:icon="@drawable/baseline_mic_48"
             android:text="7"
+            app:icon="@drawable/baseline_mic_48"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrierPostContentBottom" />
 
@@ -231,8 +231,8 @@
             android:clickable="false"
             android:insetTop="0dp"
             android:minHeight="0dp"
-            app:icon="@drawable/baseline_person_pin_48"
             android:text="20"
+            app:icon="@drawable/baseline_person_pin_48"
             app:layout_constraintEnd_toStartOf="@id/list2Iv"
             app:layout_constraintTop_toBottomOf="@id/barrierPostContentBottom" />
 

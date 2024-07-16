@@ -12,14 +12,14 @@ import com.example.nework.R
 import com.example.nework.databinding.FragmentNewOrEditJobBinding
 import com.example.nework.dto.DATE_FORMAT
 import com.example.nework.ui.UserFragment.Companion.USER_ID
+import com.example.nework.util.AndroidUtils
+import com.example.nework.util.toast
 import com.example.nework.vm.JobViewModel
 import com.example.nework.vm.JobViewModelFactory
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import com.example.nework.util.AndroidUtils
-import com.example.nework.util.toast
 import java.util.Date
 
 @AndroidEntryPoint
@@ -44,7 +44,7 @@ class NewOrEditJobFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        var dialogMsg : String = getString(R.string.require_value_s_in_job_was_were_not_defined)
+        var dialogMsg: String = getString(R.string.require_value_s_in_job_was_were_not_defined)
         val errorDialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.fix_is_needs))
             .setMessage(dialogMsg)
@@ -97,12 +97,12 @@ class NewOrEditJobFragment : Fragment() {
             viewModel.changeFinish(formattedStr)
             (jobEdited.finish ?: "to present")
         }
-        viewModel.start.observe(viewLifecycleOwner){
+        viewModel.start.observe(viewLifecycleOwner) {
             if (isResumed) {
                 binding.startTime.text = viewModel.start.value?.take(10)
             }
         }
-        viewModel.finish.observe(viewLifecycleOwner){
+        viewModel.finish.observe(viewLifecycleOwner) {
             if (isResumed) {
                 binding.finishTime.text = viewModel.finish.value?.take(10) ?: "to present"
             }
@@ -130,17 +130,17 @@ class NewOrEditJobFragment : Fragment() {
             val company = binding.companyName.text.toString()
             val position = binding.position.text.toString()
             val link = binding.link.text.toString()
-            if (company.isBlank()){
+            if (company.isBlank()) {
                 dialogMsg = getString(R.string.company_name_must_not_be_empty)
                 errorDialog.show()
                 return@setOnClickListener
             }
-            if (position.isBlank()){
+            if (position.isBlank()) {
                 dialogMsg = getString(R.string.position_name_must_not_be_empty)
                 errorDialog.show()
                 return@setOnClickListener
             }
-            if (binding.startTime.text == getString(R.string.set_day)){
+            if (binding.startTime.text == getString(R.string.set_day)) {
                 dialogMsg = getString(R.string.start_date_must_be_defined)
                 errorDialog.show()
                 return@setOnClickListener

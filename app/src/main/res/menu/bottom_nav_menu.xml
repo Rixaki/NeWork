@@ -16,8 +16,8 @@
         android:title="@string/users" />
     <item
         android:id="@+id/my_profile"
-        android:visible="false"
-        android:icon="@drawable/baseline_person_48"
         android:checked="false"
-        android:title="@string/my_profile" />
+        android:icon="@drawable/baseline_person_48"
+        android:title="@string/my_profile"
+        android:visible="false" />
 </menu>

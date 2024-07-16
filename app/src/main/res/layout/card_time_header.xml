@@ -5,9 +5,9 @@
 
     <com.google.android.material.chip.Chip
         android:id="@+id/title"
-        android:text="Test text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/defaultMargin"
-        android:backgroundTint="#fce5cd"/>
+        android:backgroundTint="#fce5cd"
+        android:text="Test text" />
 </FrameLayout>

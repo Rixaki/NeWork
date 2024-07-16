@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/defaultMargin"
     android:layout_margin="@dimen/buttonDefaultMarginDim"
-    android:background="#ccc">
+    android:background="#ccc"
+    android:padding="@dimen/defaultMargin">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,25 +15,25 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/list"
-            app:layout_constraintStart_toStartOf="@id/list"
-            app:layout_constraintEnd_toEndOf="@id/list"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="TITLE"
             android:gravity="center"
-            android:textSize="32sp" />
+            android:text="TITLE"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toTopOf="@id/list"
+            app:layout_constraintEnd_toEndOf="@id/list"
+            app:layout_constraintStart_toStartOf="@id/list"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_alignParentTop="true"
+            android:background="@color/white"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/white"
             tools:listitem="@layout/item_in_feed_user" />
 
         <com.google.android.material.button.MaterialButton
@@ -42,16 +42,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/defaultMargin"
+            android:backgroundTint="@color/white"
             android:clickable="true"
             android:focusable="true"
             android:singleLine="true"
             android:textColor="@color/black"
             app:icon="@drawable/baseline_check_circle_48"
-            android:backgroundTint="@color/white"
             app:iconTint="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/list"
-            app:layout_constraintEnd_toEndOf="@id/list"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/list"
+            app:layout_constraintTop_toBottomOf="@id/list"
             tools:text="OK" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

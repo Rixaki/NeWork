@@ -22,7 +22,9 @@ import com.example.nework.dto.Post
 import com.example.nework.dto.TimeHeader
 import com.example.nework.dto.TimeType
 import com.example.nework.entity.PostEntity
-import com.example.nework.error.*
+import com.example.nework.error.ApiError
+import com.example.nework.error.NetworkError
+import com.example.nework.error.UnknownError
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

@@ -1,6 +1,5 @@
 package com.example.nework.ui
 
-import com.example.nework.R
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +7,13 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
+import com.example.nework.R
 import com.example.nework.util.DrawableImageProvider
+import com.example.nework.util.toast
 import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.*
+import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.nework.util.toast
 
 //https://stackoverflow.com/questions/26586665/mapview-in-a-dialog
 //https://code.luasoftware.com/tutorials/android/android-google-maps-load-supportmapfragment-in-alertdialog-dialogfragment
@@ -84,7 +84,9 @@ class MapDialogFragment(
                 )
             } catch (e: Exception) {
                 errorDestroy()
-                if (!e.message.isNullOrBlank()) {println ("ERROR MESSAGE: ${e.message}")}
+                if (!e.message.isNullOrBlank()) {
+                    println("ERROR MESSAGE: ${e.message}")
+                }
             }
         } else {
             errorDestroy()

@@ -48,7 +48,8 @@ class BaseTypeConverter {
 
     @TypeConverter
     fun jsonToMapUser(json: String): Map<Long, UserPreviewEntity> =
-        Gson().fromJson(json, object : TypeToken<Map<Long, UserPreviewEntity>>() {}.type) ?: emptyMap()
+        Gson().fromJson(json, object : TypeToken<Map<Long, UserPreviewEntity>>() {}.type)
+            ?: emptyMap()
 
     //EVENT CONVERTERS
     @TypeConverter

@@ -24,13 +24,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.databinding.FragmentSignUpBinding
 import com.example.nework.dto.MediaUpload
+import com.example.nework.util.toast
 import com.example.nework.vm.PhotoViewModel
 import com.example.nework.vm.SignViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {

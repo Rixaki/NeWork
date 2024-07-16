@@ -1,6 +1,5 @@
 package com.example.nework.adapter
 
-import com.example.nework.dto.Post
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
-import com.example.nework.BuildConfig
 import com.example.nework.BuildConfig.BASE_URL
 import com.example.nework.R
 import com.example.nework.databinding.CardAdBinding
@@ -21,13 +19,14 @@ import com.example.nework.databinding.FragmentPostOrEventBinding
 import com.example.nework.databinding.ItemInFeedPostOrEventBinding
 import com.example.nework.dto.Ad
 import com.example.nework.dto.FeedItem
+import com.example.nework.dto.Post
 import com.example.nework.dto.TimeHeader
 import com.example.nework.dto.TimeType
 import com.example.nework.util.countToString
-import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.CameraPosition
 import com.example.nework.util.load
 import com.example.nework.util.loadAvatar
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
 
 
 interface OnIterationPostListener {
@@ -48,12 +47,15 @@ class PostAdapter(
             is Ad -> {
                 R.layout.card_ad
             }
+
             is TimeHeader -> {
                 R.layout.card_time_header
             }
+
             is Post -> {
                 R.layout.item_in_feed_post_or_event
             }
+
             else -> {
                 error("unknown item type")
             }
@@ -134,16 +136,19 @@ class PostAdapter(
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             AdViewHolder(view)
         }
+
         R.layout.card_time_header -> {
             val view = CardTimeHeaderBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             TimeHeaderViewHolder(view)
         }
+
         R.layout.item_in_feed_post_or_event -> {
             val view = ItemInFeedPostOrEventBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             PostInFeedViewHolder(view, onIterationPostListener)
         }
+
         else -> error("unknown item type: $viewType")
     }
 }

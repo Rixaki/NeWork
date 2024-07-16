@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nework.api.AppApi
 import com.example.nework.dto.Job
 import com.example.nework.model.ResponceState
+import com.example.nework.util.SingleLiveEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -15,7 +16,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.example.nework.util.SingleLiveEvent
 
 private val empty = Job(
     id = 0,
@@ -114,11 +114,25 @@ class JobViewModel @AssistedInject constructor(
         _job.value = newJob
     }
 
-    fun changeName(str: String) { _name.value = str }
-    fun changePosition(str: String) { _position.value = str }
-    fun changeStart(str: String) { _start.value = str }
-    fun changeFinish(str: String?) { _finish.value = str }
-    fun changeLink(str: String) { _link.value = str }
+    fun changeName(str: String) {
+        _name.value = str
+    }
+
+    fun changePosition(str: String) {
+        _position.value = str
+    }
+
+    fun changeStart(str: String) {
+        _start.value = str
+    }
+
+    fun changeFinish(str: String?) {
+        _finish.value = str
+    }
+
+    fun changeLink(str: String) {
+        _link.value = str
+    }
 
     fun save() {
         val isOld = ((job.value.name == name.value) &&

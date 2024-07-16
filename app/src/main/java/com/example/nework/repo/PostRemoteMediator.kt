@@ -14,8 +14,6 @@ import com.example.nework.entity.PostEntity
 import com.example.nework.entity.PostRemoteKeyEntity
 import com.example.nework.entity.WallByUserRemoteKeyEntity
 import com.example.nework.error.ApiError
-import java.lang.Math.max
-import java.lang.Math.min
 
 @OptIn(ExperimentalPagingApi::class)
 class PostRemoteMediator(
@@ -137,7 +135,9 @@ class PostRemoteMediator(
             return MediatorResult.Success(endOfPaginationReached = false)
         } catch (e: Exception) {
             //throw e
-            if (!e.message.isNullOrBlank()) { println("ERROR MESSAGE: ${e.message}") }
+            if (!e.message.isNullOrBlank()) {
+                println("ERROR MESSAGE: ${e.message}")
+            }
             return MediatorResult.Error(e)
         }
     }

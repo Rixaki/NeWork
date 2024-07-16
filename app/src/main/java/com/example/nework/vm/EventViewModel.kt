@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.filter
 import androidx.paging.map
 import com.example.nework.auth.AppAuth
 import com.example.nework.dao.EventRemoteKeyDao
@@ -22,6 +21,7 @@ import com.example.nework.model.FeedModelState
 import com.example.nework.model.PhotoModel
 import com.example.nework.repo.EventRepo
 import com.example.nework.util.BoardLiveData
+import com.example.nework.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import com.example.nework.util.SingleLiveEvent
 import javax.inject.Inject
 
 private val empty = Event(
@@ -151,7 +150,7 @@ class EventViewModel @Inject constructor(
                 val newerCount = repository.getNewerCount(max).firstOrNull() ?: return@launch
                 _newerCount.postValue(newerCount)
             } catch (e: Exception) {
-                _newerCount.postValue ( 0 )
+                _newerCount.postValue(0)
             }
         }
     }
@@ -177,10 +176,10 @@ class EventViewModel @Inject constructor(
 
     private fun load() = viewModelScope.launch(Dispatchers.Default) {
         try {
-            _state.postValue (FeedModelState(loading = true) )
-            _state.postValue (FeedModelState() )
+            _state.postValue(FeedModelState(loading = true))
+            _state.postValue(FeedModelState())
         } catch (e: Exception) {
-            _state.postValue (FeedModelState(error = true) )
+            _state.postValue(FeedModelState(error = true))
         }
     }
 
@@ -198,7 +197,7 @@ class EventViewModel @Inject constructor(
                         event = it,
                         upload = _photo.value?.uri?.let { MediaUpload(it.toFile()) }
                     )
-                    _eventCreated.postValue (Unit)
+                    _eventCreated.postValue(Unit)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -257,14 +256,16 @@ class EventViewModel @Inject constructor(
                     }
                     _eventCreated.postValue(Unit)
                 } catch (e: Exception) {
-                    _state.postValue( FeedModelState(
-                        error = true,
-                        lastErrorAction =
-                        if (editedEvent.id == 0L)
-                            "Error with add event."
-                        else
-                            "Error with edit event."
-                    ) )
+                    _state.postValue(
+                        FeedModelState(
+                            error = true,
+                            lastErrorAction =
+                            if (editedEvent.id == 0L)
+                                "Error with add event."
+                            else
+                                "Error with edit event."
+                        )
+                    )
                     _eventCancelled.postValue(Unit)
                 }
             }
@@ -281,6 +282,7 @@ class EventViewModel @Inject constructor(
         val prevStatus = isOnline.value ?: false
         _isOnline.postValue(!prevStatus)
     }
+
     fun clearCoords() = _coords.postValue(null)
     fun clearPhoto() = _photo.postValue(noPhoto)
 
@@ -292,16 +294,20 @@ class EventViewModel @Inject constructor(
                 try {
                     repository.likeById(id)//like and unlike in 1
                 } catch (e: Exception) {
-                    _state.postValue ( FeedModelState(
-                        error = true,
-                        lastErrorAction = "Error with like/unlike event."
-                    ) )
+                    _state.postValue(
+                        FeedModelState(
+                            error = true,
+                            lastErrorAction = "Error with like/unlike event."
+                        )
+                    )
                 }
             } else {
-                _state.postValue ( FeedModelState(
-                    error = true,
-                    lastErrorAction = "Still no response of like/unlike act."
-                ) )
+                _state.postValue(
+                    FeedModelState(
+                        error = true,
+                        lastErrorAction = "Still no response of like/unlike act."
+                    )
+                )
             }
         }
     }
@@ -314,16 +320,20 @@ class EventViewModel @Inject constructor(
                 try {
                     repository.participateById(id)//part and out in 1
                 } catch (e: Exception) {
-                    _state.postValue ( FeedModelState(
-                        error = true,
-                        lastErrorAction = "Error with taking/cancel to take part event."
-                    ) )
+                    _state.postValue(
+                        FeedModelState(
+                            error = true,
+                            lastErrorAction = "Error with taking/cancel to take part event."
+                        )
+                    )
                 }
             } else {
-                _state.postValue ( FeedModelState(
-                    error = true,
-                    lastErrorAction = "Still no response of taking/cancel to take part act."
-                ) )
+                _state.postValue(
+                    FeedModelState(
+                        error = true,
+                        lastErrorAction = "Still no response of taking/cancel to take part act."
+                    )
+                )
             }
         }
     }
@@ -331,14 +341,16 @@ class EventViewModel @Inject constructor(
     fun removeById(id: Long) {
         viewModelScope.launch(Dispatchers.Default) {
             try {
-                _state.postValue ( FeedModelState(loading = true) )
+                _state.postValue(FeedModelState(loading = true))
                 repository.removeById(id)
-                _state.postValue ( FeedModelState() )
+                _state.postValue(FeedModelState())
             } catch (e: Exception) {
-                _state.postValue ( FeedModelState(
-                    error = true,
-                    lastErrorAction = "Error with delete event."
-                ) )
+                _state.postValue(
+                    FeedModelState(
+                        error = true,
+                        lastErrorAction = "Error with delete event."
+                    )
+                )
             }
         }
     }

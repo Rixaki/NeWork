@@ -52,10 +52,14 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             com.yandex.runtime.Runtime.getApplicationContext().registerReceiver(
-                ConnectivitySubscription(), IntentFilter(), RECEIVER_EXPORTED/RECEIVER_NOT_EXPORTED)
+                ConnectivitySubscription(),
+                IntentFilter(),
+                RECEIVER_EXPORTED / RECEIVER_NOT_EXPORTED
+            )
         } else {
             com.yandex.runtime.Runtime.getApplicationContext().registerReceiver(
-                ConnectivitySubscription(), IntentFilter())
+                ConnectivitySubscription(), IntentFilter()
+            )
         }
 
         MapKitFactory.getInstance().onStart()

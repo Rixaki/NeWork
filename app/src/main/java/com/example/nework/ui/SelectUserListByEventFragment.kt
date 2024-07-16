@@ -12,11 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.adapter.UserSelectableAdapter
 import com.example.nework.databinding.FragmentListSelectorBinding
+import com.example.nework.util.StringArg
 import com.example.nework.vm.EventViewModel
 import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.nework.util.StringArg
 
 @AndroidEntryPoint
 class SelectUserListByEventFragment : Fragment() {

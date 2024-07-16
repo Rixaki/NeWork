@@ -18,8 +18,11 @@ import com.example.nework.databinding.FragmentNewOrEditPostOrEventBinding
 import com.example.nework.dto.Coords
 import com.example.nework.dto.DATE_FORMAT
 import com.example.nework.ui.SelectUserListByPostFragment.Companion.titleArg
+import com.example.nework.util.AndroidUtils
 import com.example.nework.util.DrawableImageProvider
+import com.example.nework.util.StringArg
 import com.example.nework.util.countToString
+import com.example.nework.util.toast
 import com.example.nework.vm.EventViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.github.dhaval2404.imagepicker.constant.ImageProvider
@@ -34,9 +37,6 @@ import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.mapview.MapView
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.nework.util.AndroidUtils
-import com.example.nework.util.StringArg
-import com.example.nework.util.toast
 import java.util.Date
 
 
@@ -59,7 +59,7 @@ class NewOrEditEventFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        var dialogMsg : String = getString(R.string.empty_message_or_event_time_is_not_defined)
+        var dialogMsg: String = getString(R.string.empty_message_or_event_time_is_not_defined)
         val errorDialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.fix_is_needs))
             .setMessage(dialogMsg)
@@ -200,7 +200,7 @@ class NewOrEditEventFragment : Fragment() {
         timePicker.addOnPositiveButtonClickListener {
             val hh = timePicker.hour
             val mm = timePicker.minute
-            viewModel.changeEventTime("${if (hh<10) "0$hh" else hh}:${if (mm<10) "0$mm" else mm}")
+            viewModel.changeEventTime("${if (hh < 10) "0$hh" else hh}:${if (mm < 10) "0$mm" else mm}")
         }
         binding.pickEventDay.setOnClickListener {
             datePicker.show(requireActivity().supportFragmentManager, "Date picker")
@@ -211,7 +211,7 @@ class NewOrEditEventFragment : Fragment() {
         binding.eventBoardTime.isClickable = false
         binding.eventBoardTime.text = "Set day and time of the date."
         val boardStartTxt = getString(R.string.date_time)
-        viewModel.eventTimeBoardText.observe(viewLifecycleOwner){ boardText ->
+        viewModel.eventTimeBoardText.observe(viewLifecycleOwner) { boardText ->
             binding.eventBoardTime.text = "$boardStartTxt $boardText"
         }
         //END TIME SETTING ZONE
@@ -350,7 +350,7 @@ class NewOrEditEventFragment : Fragment() {
                 errorDialog.show()
                 return@setOnClickListener
             }
-            with (viewModel.eventTimeBoardText.value) {
+            with(viewModel.eventTimeBoardText.value) {
                 if (this.isNullOrBlank() || this.contains(char = '_')) {
                     dialogMsg = getString(R.string.event_time_must_be_defined_fully)
                     errorDialog.show()

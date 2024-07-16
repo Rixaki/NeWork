@@ -20,140 +20,140 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/defaultMargin">
+                android:layout_marginTop="@dimen/defaultMargin"
+                android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
-                    style="@style/Widget.AppTheme.LikeButton"
                     android:id="@+id/eventBoardTime"
+                    style="@style/Widget.AppTheme.LikeButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/defaultMargin"
+                    android:clickable="false"
+                    android:focusable="false"
                     android:singleLine="true"
                     android:textColor="@color/black"
-                    android:layout_marginHorizontal="@dimen/defaultMargin"
                     app:icon="@drawable/baseline_event_48"
                     app:iconTint="@color/black"
-                    android:focusable="false"
-                    android:clickable="false"
                     tools:text="01.06.2024 10:00" />
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/eventType"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Offline"
-                android:textColor="@color/white"
-                android:layout_weight="2"
-                android:layout_marginStart="@dimen/defaultMargin"
-                android:backgroundTint="@color/black"
-                app:icon="@drawable/ic_event_type_selector"
-                app:iconTint="@color/white"
-                android:clickable="false"
-                android:focusable="false"/>
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/pickEventDay"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/eventType"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/defaultMargin"
+                    android:layout_weight="2"
+                    android:backgroundTint="@color/black"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:text="Offline"
+                    android:textColor="@color/white"
+                    app:icon="@drawable/ic_event_type_selector"
+                    app:iconTint="@color/white" />
+
+                <Button
+                    android:id="@+id/pickEventDay"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/defaultMargin"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:contentDescription="@string/take_date_for_event_time"
+                    app:icon="@drawable/baseline_edit_calendar_48"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/white" />
+
+                <Button
+                    android:id="@+id/pickClock"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/defaultMargin"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/black"
+                    android:contentDescription="@string/take_time_in_day_for_event"
+                    app:icon="@drawable/baseline_watch_later_48"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/white" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/position"
+                style="@style/Widget.AppTheme.LikeButton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="@dimen/defaultMargin"
-                android:backgroundTint="@color/black"
-                android:contentDescription="@string/take_date_for_event_time"
-                app:icon="@drawable/baseline_edit_calendar_48"
-                app:iconGravity="textStart"
-                app:iconTint="@color/white" />
+                android:clickable="false"
+                android:ellipsize="start"
+                android:focusable="false"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                app:icon="@drawable/baseline_location_pin_48"
+                app:iconTint="@color/black"
+                tools:text="Map point: 100.0000 / 200.0000" />
 
-            <Button
-                android:id="@+id/pickClock"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/defaultMargin"
-                android:backgroundTint="@color/black"
-                android:contentDescription="@string/take_time_in_day_for_event"
-                app:icon="@drawable/baseline_watch_later_48"
-                app:iconGravity="textStart"
-                app:iconTint="@color/white" />
-        </LinearLayout>
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/defaultMargin">
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.AppTheme.LikeButton"
-            android:id="@+id/position"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:ellipsize="start"
-            android:textColor="@color/black"
-            android:layout_marginHorizontal="@dimen/defaultMargin"
-            app:icon="@drawable/baseline_location_pin_48"
-            app:iconTint="@color/black"
-            android:focusable="false"
-            android:clickable="false"
-            tools:text="Map point: 100.0000 / 200.0000" />
+                <Button
+                    android:id="@+id/mapLocker"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/defaultMargin"
+                    android:layout_weight="1"
+                    android:backgroundTint="#ddd"
+                    android:contentDescription="@string/lock_or_unlock_map"
+                    app:icon="@drawable/ic_map_selector"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/black" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/defaultMargin"
-            android:gravity="center">
+                <Button
+                    android:id="@+id/clearLocation"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/defaultMargin"
+                    android:layout_weight="1"
+                    android:backgroundTint="#ddd"
+                    android:contentDescription="@string/lock_or_unlock_scrolling"
+                    app:icon="@drawable/baseline_location_disabled_48"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/black" />
 
-            <Button
-                android:id="@+id/mapLocker"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/defaultMargin"
-                android:backgroundTint="#ddd"
-                android:contentDescription="@string/lock_or_unlock_map"
-                app:icon="@drawable/ic_map_selector"
-                app:iconGravity="textStart"
-                android:layout_weight="1"
-                app:iconTint="@color/black" />
+                <Button
+                    android:id="@+id/prevLocation"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#ddd"
+                    android:contentDescription="@string/lock_or_unlock_scrolling"
+                    app:icon="@drawable/previous_location_24"
+                    app:iconGravity="textStart"
+                    app:iconTint="@color/black" />
 
-            <Button
-                android:id="@+id/clearLocation"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/defaultMargin"
-                android:backgroundTint="#ddd"
-                android:contentDescription="@string/lock_or_unlock_scrolling"
-                app:icon="@drawable/baseline_location_disabled_48"
-                app:iconGravity="textStart"
-                android:layout_weight="1"
-                app:iconTint="@color/black" />
-
-            <Button
-                android:id="@+id/prevLocation"
-                style="@style/Widget.Material3.Button.IconButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#ddd"
-                android:contentDescription="@string/lock_or_unlock_scrolling"
-                app:icon="@drawable/previous_location_24"
-                android:layout_weight="1"
-                app:iconGravity="textStart"
-                app:iconTint="@color/black" />
-
-        </LinearLayout>
+            </LinearLayout>
 
             <com.yandex.mapkit.mapview.MapView
                 android:id="@+id/mapView"
-                android:layout_marginTop="@dimen/defaultMargin"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_marginTop="@dimen/defaultMargin"
                 app:layout_constraintBottom_toTopOf="@id/videoLink" />
 
             <EditText
@@ -161,8 +161,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginVertical="@dimen/defaultMargin"
                 android:layout_marginHorizontal="@dimen/defaultMargin"
+                android:layout_marginVertical="@dimen/defaultMargin"
                 android:ems="10"
                 android:hint="@string/video_link_hint"
                 android:importantForAutofill="no"
@@ -172,21 +172,21 @@
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
+                android:layout_marginBottom="@dimen/defaultMargin"
                 android:gravity="top"
+                android:hint="@string/content_text_hint"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
-                android:scrollbars="vertical"
-                android:layout_marginBottom="@dimen/defaultMargin"
-                android:scrollbarSize="@dimen/buttonDefaultMarginDim"
                 android:isScrollContainer="true"
+                android:scrollbarSize="@dimen/buttonDefaultMarginDim"
                 android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
                 android:verticalScrollbarPosition="left"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@tools:sample/lorem[275]"
-                android:hint="@string/content_text_hint" />
+                tools:text="@tools:sample/lorem[275]" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -197,10 +197,10 @@
                     android:id="@+id/newAttachmentMedia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/defaultMargin"
                     android:adjustViewBounds="true"
                     android:importantForAccessibility="no"
                     android:visibility="visible"
-                    android:layout_marginBottom="@dimen/defaultMargin"
                     tools:srcCompat="@tools:sample/avatars[2]" />
 
                 <Button
@@ -220,21 +220,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_margin="@dimen/defaultMargin">
+                android:layout_margin="@dimen/defaultMargin"
+                android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/list2Iv"
                     style="@style/Widget.AppTheme.ViewCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:checkable="false"
                     android:clickable="false"
                     android:insetTop="0dp"
                     android:minHeight="0dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/baseline_mic_48"
-                    android:text="7" />
+                    android:text="7"
+                    app:icon="@drawable/baseline_mic_48" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/list1Iv"
@@ -242,13 +242,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/defaultMargin"
+                    android:layout_weight="1"
                     android:checkable="false"
                     android:clickable="false"
                     android:insetTop="0dp"
                     android:minHeight="0dp"
-                    android:layout_weight="1"
-                    app:icon="@drawable/baseline_person_pin_48"
-                    android:text="20" />
+                    android:text="20"
+                    app:icon="@drawable/baseline_person_pin_48" />
             </LinearLayout>
         </LinearLayout>
     </com.example.nework.util.LockableScrollView>
@@ -304,12 +304,12 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
             android:layout_weight="1"
+            android:backgroundTint="?colorOnPrimary"
+            android:contentDescription="@string/lock_or_unlock_scrolling"
             android:insetLeft="10dp"
             android:insetTop="10dp"
             android:insetRight="10dp"
             android:insetBottom="10dp"
-            android:backgroundTint="?colorOnPrimary"
-            android:contentDescription="@string/lock_or_unlock_scrolling"
             app:icon="@drawable/ic_scroll_selector"
             app:iconGravity="textStart"
             app:iconTint="?colorPrimary"

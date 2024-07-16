@@ -19,6 +19,7 @@ import com.example.nework.dto.Post
 import com.example.nework.model.FeedModelState
 import com.example.nework.model.PhotoModel
 import com.example.nework.repo.PostRepo
+import com.example.nework.util.SingleLiveEvent
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -29,7 +30,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import com.example.nework.util.SingleLiveEvent
 
 private val empty = Post(
     id = 0,
@@ -179,7 +179,7 @@ class PostViewModel @AssistedInject constructor(
                         post = it,
                         upload = _photo.value?.uri?.let { MediaUpload(it.toFile()) }
                     )
-                    _postCreated.postValue (Unit)
+                    _postCreated.postValue(Unit)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -222,14 +222,16 @@ class PostViewModel @AssistedInject constructor(
                     }
                     _postCreated.postValue(Unit)
                 } catch (e: Exception) {
-                    _state.postValue (FeedModelState(
-                        error = true,
-                        lastErrorAction =
-                        if (editedPost.id == 0L)
-                            "Error with add post."
-                        else
-                            "Error with edit post."
-                    ))
+                    _state.postValue(
+                        FeedModelState(
+                            error = true,
+                            lastErrorAction =
+                            if (editedPost.id == 0L)
+                                "Error with add post."
+                            else
+                                "Error with edit post."
+                        )
+                    )
                     _postCancelled.postValue(Unit)
                 }
             }
@@ -251,16 +253,20 @@ class PostViewModel @AssistedInject constructor(
                 try {
                     repository.likeById(id)//like and unlike in 1
                 } catch (e: Exception) {
-                    _state.postValue ( FeedModelState(
-                        error = true,
-                        lastErrorAction = "Error with like/unlike post."
-                    ))
+                    _state.postValue(
+                        FeedModelState(
+                            error = true,
+                            lastErrorAction = "Error with like/unlike post."
+                        )
+                    )
                 }
             } else {
-                _state.postValue ( FeedModelState(
-                    error = true,
-                    lastErrorAction = "Still no response of like/unlike act."
-                ))
+                _state.postValue(
+                    FeedModelState(
+                        error = true,
+                        lastErrorAction = "Still no response of like/unlike act."
+                    )
+                )
             }
         }
     }
@@ -268,14 +274,16 @@ class PostViewModel @AssistedInject constructor(
     fun removeById(id: Long) {
         viewModelScope.launch(Dispatchers.Default) {
             try {
-                _state.postValue ( FeedModelState(loading = true))
+                _state.postValue(FeedModelState(loading = true))
                 repository.removeById(id)
-                _state.postValue ( FeedModelState())
+                _state.postValue(FeedModelState())
             } catch (e: Exception) {
-                _state.postValue ( FeedModelState(
-                    error = true,
-                    lastErrorAction = "Error with delete post."
-                ))
+                _state.postValue(
+                    FeedModelState(
+                        error = true,
+                        lastErrorAction = "Error with delete post."
+                    )
+                )
             }
         }
     }

@@ -22,14 +22,14 @@ import com.example.nework.databinding.FragmentPostOrEventBinding
 import com.example.nework.dto.Event
 import com.example.nework.dto.EventType
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
+import com.example.nework.util.LongArg
+import com.example.nework.util.toast
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.EventViewModel
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.nework.util.LongArg
-import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class EventFragment : Fragment() {
@@ -128,7 +128,7 @@ class EventFragment : Fragment() {
             }
         })// val viewHolder
 
-        with (viewModel) {
+        with(viewModel) {
             getPostById(id)
             state.observe(viewLifecycleOwner) { state ->
                 binding.progress.isVisible = state.loading
@@ -160,6 +160,7 @@ class EventFragment : Fragment() {
 
                         binding.attachmentIv.setImageURI(fileUri)
                     }
+
                     ImagePicker.RESULT_ERROR -> {
                         Snackbar.make(
                             binding.root,
@@ -167,6 +168,7 @@ class EventFragment : Fragment() {
                             Snackbar.LENGTH_SHORT
                         ).show()
                     }
+
                     else -> {
                         Snackbar.make(
                             binding.root,

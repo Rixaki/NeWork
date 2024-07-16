@@ -13,10 +13,10 @@
         android:layout_height="50dp"
         android:layout_margin="@dimen/defaultMargin"
         android:contentDescription="@string/descriptionPostAuthorAvatar"
-        tools:src="@tools:sample/avatars"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/barrierUserBottom"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/barrierUserBottom" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/login"
@@ -24,12 +24,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/defaultMargin"
         android:layout_marginEnd="@dimen/defaultMargin"
-        android:textSize="@dimen/defaultTextSize"
         android:ellipsize="end"
         android:singleLine="true"
-        app:layout_constraintTop_toTopOf="@id/avatar"
-        app:layout_constraintStart_toEndOf="@id/avatar"
+        android:textSize="@dimen/defaultTextSize"
         app:layout_constraintBottom_toTopOf="@id/name"
+        app:layout_constraintStart_toEndOf="@id/avatar"
+        app:layout_constraintTop_toTopOf="@id/avatar"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Nickname" />
 
@@ -39,12 +39,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/defaultMargin"
         android:layout_marginEnd="@dimen/defaultMargin"
-        android:textSize="@dimen/defaultTextSize"
         android:ellipsize="end"
         android:singleLine="true"
+        android:textSize="@dimen/defaultTextSize"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toBottomOf="@id/login"
-        app:layout_constraintBottom_toBottomOf="@id/avatar"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="@tools:sample/full_names" />
 
@@ -53,9 +53,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/defaultMargin"
+        app:layout_constraintBottom_toBottomOf="@id/avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/avatar"
-        app:layout_constraintBottom_toBottomOf="@id/avatar" />
+        app:layout_constraintTop_toTopOf="@id/avatar" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrierUserBottom"

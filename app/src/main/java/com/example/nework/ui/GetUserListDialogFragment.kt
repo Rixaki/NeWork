@@ -13,11 +13,11 @@ import com.example.nework.adapter.UserAdapter
 import com.example.nework.auth.AppAuth
 import com.example.nework.databinding.DialogListUserBinding
 import com.example.nework.dto.User
+import com.example.nework.util.toast
 import com.example.nework.vm.UsersViewModel
 import com.example.nework.vm.UsersViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import com.example.nework.util.toast
 import javax.inject.Inject
 
 @AndroidEntryPoint

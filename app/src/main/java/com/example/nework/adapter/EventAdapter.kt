@@ -11,7 +11,6 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
-import com.example.nework.BuildConfig
 import com.example.nework.BuildConfig.BASE_URL
 import com.example.nework.R
 import com.example.nework.databinding.CardAdBinding
@@ -26,10 +25,10 @@ import com.example.nework.dto.TimeHeader
 import com.example.nework.dto.TimeType
 import com.example.nework.ui.MapDialogFragment
 import com.example.nework.util.countToString
-import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.CameraPosition
 import com.example.nework.util.load
 import com.example.nework.util.loadAvatar
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
 
 
 interface OnIterationEventListener {
@@ -134,16 +133,19 @@ class EventAdapter(
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             AdViewHolder(view)
         }
+
         R.layout.card_time_header -> {
             val view = CardTimeHeaderBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             TimeHeaderViewHolder(view)
         }
+
         R.layout.item_in_feed_post_or_event -> {
             val view = ItemInFeedPostOrEventBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
             EventInFeedViewHolder(view, onIterationEventListener)
         }
+
         else -> error("unknown item type: $viewType")
     }
 
@@ -157,7 +159,7 @@ class EventInFeedViewHolder(
         with(binding) {
             eventGroup.visibility = View.VISIBLE
 
-            val timeText : String = with (event.datetime) {
+            val timeText: String = with(event.datetime) {
                 this.take(10) + " " + this.take(16).drop(11) + " UTC"
             }
             eventTime.text = timeText
@@ -172,8 +174,10 @@ class EventInFeedViewHolder(
 
             val isOnline = event.type == EventType.ONLINE
             binding.eventType.isSelected = isOnline
-            binding.eventType.setText(if (isOnline)
-                R.string.online else R.string.offline)
+            binding.eventType.setText(
+                if (isOnline)
+                    R.string.online else R.string.offline
+            )
             binding.eventType.text = "  " + binding.eventType.text
 
             avatar.loadAvatar(url = event.authorAvatar ?: "404")

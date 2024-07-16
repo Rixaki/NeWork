@@ -27,7 +27,7 @@ class UserViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     private val _user = MutableLiveData(defUser)
-    val user : LiveData<User>
+    val user: LiveData<User>
         get() = _user
 
     fun setUserById(id: Long) {
@@ -36,7 +36,9 @@ class UserViewModel @Inject constructor(
                 val response = appApi.getUserById(id)
                 val user = response.body()
                 _user.postValue(user)
-                if (user != null) {userDao.insert(UserEntity.fromDto(user))}
+                if (user != null) {
+                    userDao.insert(UserEntity.fromDto(user))
+                }
             } catch (_: Exception) {
                 try {
                     _state.update {

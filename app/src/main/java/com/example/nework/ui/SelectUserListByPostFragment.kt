@@ -12,13 +12,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.nework.R
 import com.example.nework.adapter.UserSelectableAdapter
 import com.example.nework.databinding.FragmentListSelectorBinding
+import com.example.nework.util.StringArg
 import com.example.nework.vm.PostViewModel
 import com.example.nework.vm.PostViewModelFactory
 import com.example.nework.vm.UsersSelectorViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-import com.example.nework.util.StringArg
 
 @AndroidEntryPoint
 class SelectUserListByPostFragment : Fragment() {

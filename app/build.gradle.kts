@@ -29,7 +29,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        lint{
+        lint {
             ignoreWarnings = true
             //baseline = file("lint-baseline.xml")
         }

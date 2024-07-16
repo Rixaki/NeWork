@@ -11,8 +11,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/hedderTxt"
@@ -47,9 +47,9 @@
                 android:layout_marginTop="@dimen/defaultMargin"
                 android:ems="10"
                 android:hint="@string/name"
-                android:singleLine="true"
                 android:importantForAutofill="no"
-                android:inputType="none" />
+                android:inputType="none"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/txtLogin"
@@ -58,9 +58,9 @@
                 android:layout_gravity="center"
                 android:ems="10"
                 android:hint="@string/login"
-                android:singleLine="true"
                 android:importantForAutofill="no"
-                android:inputType="none" />
+                android:inputType="none"
+                android:singleLine="true" />
 
 
             <EditText
@@ -78,11 +78,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:singleLine="true"
                 android:ems="10"
                 android:hint="@string/confirm_password"
                 android:importantForAutofill="no"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:singleLine="true" />
 
             <LinearLayout
                 style="?android:attr/buttonBarStyle"
@@ -98,12 +98,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/defaultMargin"
+                    android:backgroundTint="@color/black"
                     android:lines="1"
                     android:maxWidth="200dp"
                     android:text="@string/clear_avatar"
                     android:textColor="@color/white"
                     android:visibility="visible"
-                    android:backgroundTint="@color/black"
                     app:layout_anchor="@id/newAttachmentMedia" />
 
                 <Button
@@ -139,11 +139,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/black"
-                    android:textColor="@color/white"
                     android:layout_marginEnd="@dimen/defaultMargin"
+                    android:backgroundTint="@color/black"
                     android:lines="1"
-                    android:text="@string/sign_up" />
+                    android:text="@string/sign_up"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <LinearLayout

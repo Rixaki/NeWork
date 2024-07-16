@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/buttonDefaultMarginDim">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/buttonDefaultMarginDim">
 
         <ImageView
             android:id="@+id/avatar"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:contentDescription="@string/descriptionPostAuthorAvatar"
-            tools:src="@tools:sample/avatars"/>
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/nameAndLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:textColor="@color/black"
-            android:textStyle="bold"
+            android:layout_gravity="bottom|center"
             android:layout_marginStart="@dimen/defaultMargin"
             android:layout_marginEnd="@dimen/defaultMargin"
-            android:textSize="24sp"
+            android:background="@color/white"
             android:ellipsize="end"
             android:singleLine="true"
-            android:layout_gravity="bottom|center"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
             tools:text="Name Surname / Nickname" />
-        </FrameLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center"
+        android:orientation="horizontal"
         android:paddingHorizontal="@dimen/defaultMargin">
 
         <Button
@@ -50,36 +49,36 @@
             android:backgroundTint="#dd0"
             android:contentDescription="@string/add_post"
             app:icon="@drawable/baseline_post_add_48"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/jobIv"
             app:iconGravity="textStart"
-            app:iconTint="@color/black" />
+            app:iconTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/jobIv" />
 
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/userGroupButton"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/avatarDimen"
-        android:paddingHorizontal="@dimen/defaultMargin"
-        app:selectionRequired="true"
-        app:singleSelection="true">
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/userGroupButton"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/avatarDimen"
+            android:paddingHorizontal="@dimen/defaultMargin"
+            app:selectionRequired="true"
+            app:singleSelection="true">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/wall"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/wall"
-            app:icon="@drawable/baseline_edit_note_48" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/wall"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/wall"
+                app:icon="@drawable/baseline_edit_note_48" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/jobs"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/jobs"
-            app:icon="@drawable/baseline_work_48" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/jobs"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/jobs"
+                app:icon="@drawable/baseline_work_48" />
 
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <Button
             android:id="@+id/addJob"
@@ -89,10 +88,10 @@
             android:backgroundTint="#dd0"
             android:contentDescription="@string/add_job"
             app:icon="@drawable/new_job_48"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/jobIv"
             app:iconGravity="textStart"
-            app:iconTint="@color/black" />
+            app:iconTint="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/jobIv" />
 
     </LinearLayout>
 
@@ -101,11 +100,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/defaultMargin"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/swiperefresh_job"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userGroupButton"
-        android:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@id/userGroupButton">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_post"
@@ -121,13 +120,13 @@
         android:id="@+id/swiperefresh_job"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
         android:layout_marginHorizontal="@dimen/defaultMargin"
+        android:layout_marginVertical="@dimen/buttonDefaultMarginDim"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/swiperefresh_post"
-        android:visibility="visible">
+        app:layout_constraintTop_toBottomOf="@id/swiperefresh_post">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_job"

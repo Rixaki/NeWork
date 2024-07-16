@@ -27,6 +27,7 @@ import com.example.nework.dto.Post
 import com.example.nework.ui.NewOrEditPostFragment.Companion.textArg
 import com.example.nework.ui.PostFragment.Companion.longArg
 import com.example.nework.util.countToString
+import com.example.nework.util.toast
 import com.example.nework.vm.AuthViewModel
 import com.example.nework.vm.PostViewModel
 import com.example.nework.vm.PostViewModelFactory
@@ -38,7 +39,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.example.nework.util.toast
 
 @AndroidEntryPoint
 class PostsFeedFragment : Fragment() {
@@ -170,7 +170,7 @@ class PostsFeedFragment : Fragment() {
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
-            with (binding) {
+            with(binding) {
                 progress.isVisible = state.loading
                 statusText.isVisible = state.loading
                 errorGroup.isVisible = state.error
@@ -182,7 +182,10 @@ class PostsFeedFragment : Fragment() {
             adapter.retry()
             binding.errorGroup.isVisible = false
             if (viewModel.state.value?.error == true) {
-                toast(viewModel.state.value?.lastErrorAction ?: getString(R.string.something_went_wrong))
+                toast(
+                    viewModel.state.value?.lastErrorAction
+                        ?: getString(R.string.something_went_wrong)
+                )
             }
         }
 
